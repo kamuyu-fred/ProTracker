@@ -45,13 +45,13 @@ jobs:
         run: |
           cd protracker-back
           bundle install
-      - name: Database setup and migration
-        run: |
-          cd protracker-back
-          bin/rails db:setup
-          if [ -f db/schema.rb ]; then
-            bin/rails db:migrate
-          fi
+#       - name: Database setup and migration
+#         run: |
+#           cd protracker-back
+#           bin/rails db:setup
+#           if [ -f db/schema.rb ]; then
+#             bin/rails db:migrate
+#           fi
       - name: Test
         run: |
           cd protracker-back
