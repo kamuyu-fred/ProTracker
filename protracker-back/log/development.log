@@ -60,3 +60,138 @@ puma (5.6.5) lib/puma/thread_pool.rb:340:in `with_force_shutdown'
 puma (5.6.5) lib/puma/request.rb:76:in `handle_request'
 puma (5.6.5) lib/puma/server.rb:443:in `process_client'
 puma (5.6.5) lib/puma/thread_pool.rb:147:in `block in spawn_thread'
+Started POST "/signup" for 127.0.0.1 at 2023-04-18 17:50:54 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#create as */*
+  Parameters: {"username"=>"kipkip", "email"=>"kip@gmail.com", "password"=>"[FILTERED]", "user"=>{"username"=>"kipkip", "email"=>"kip@gmail.com"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+Completed 500 Internal Server Error in 24ms (ActiveRecord: 6.5ms | Allocations: 3885)
+
+
+  
+NoMethodError (undefined method `+' for nil:NilClass):
+  
+app/controllers/users_controller.rb:7:in `create'
+Started POST "/signup" for 127.0.0.1 at 2023-04-18 17:53:49 +0300
+Processing by UsersController#create as */*
+  Parameters: {"username"=>"kipkip", "firstname"=>"kip", "lastname"=>"kips", "email"=>"kip@gmail.com", "password"=>"[FILTERED]", "user"=>{"username"=>"kipkip", "email"=>"kip@gmail.com"}}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.5ms | Allocations: 2283)
+
+
+  
+NoMethodError (undefined method `+' for nil:NilClass):
+  
+app/controllers/users_controller.rb:7:in `create'
+Started POST "/signup" for 127.0.0.1 at 2023-04-18 17:54:05 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by UsersController#create as */*
+  Parameters: {"username"=>"kipkip", "firstname"=>"kip", "lastname"=>"kips", "email"=>"kip@gmail.com", "password"=>"[FILTERED]", "user"=>{"username"=>"kipkip", "email"=>"kip@gmail.com"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+Completed 500 Internal Server Error in 17ms (ActiveRecord: 8.2ms | Allocations: 3886)
+
+
+  
+NoMethodError (undefined method `+' for nil:NilClass):
+  
+app/controllers/users_controller.rb:7:in `create'
+Started POST "/login" for 127.0.0.1 at 2023-04-18 17:54:35 +0300
+Processing by SessionController#login as */*
+  Parameters: {"username"=>"kipkip", "firstname"=>"kip", "lastname"=>"kips", "email"=>"kip@gmail.com", "password"=>"[FILTERED]", "session"=>{"username"=>"kipkip", "firstname"=>"kip", "lastname"=>"kips", "email"=>"kip@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "kip@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/session_controller.rb:4:in `login'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.45ms)
+Completed 401 Unauthorized in 28ms (Views: 15.2ms | ActiveRecord: 1.4ms | Allocations: 6033)
+
+
+Started POST "/signup" for 127.0.0.1 at 2023-04-18 17:55:05 +0300
+Processing by UsersController#create as */*
+  Parameters: {"username"=>"kipkip", "firstname"=>"kip", "lastname"=>"kips", "email"=>"kip@gmail.com", "password"=>"[FILTERED]", "user"=>{"username"=>"kipkip", "email"=>"kip@gmail.com"}}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+Completed 500 Internal Server Error in 9ms (ActiveRecord: 0.4ms | Allocations: 2276)
+
+
+  
+NoMethodError (undefined method `+' for nil:NilClass):
+  
+app/controllers/users_controller.rb:7:in `create'
+Started POST "/signup" for 127.0.0.1 at 2023-04-18 17:59:49 +0300
+Processing by UsersController#create as */*
+  Parameters: {"firstname"=>"kip", "lastname"=>"kips", "email"=>"kip@gmail.com", "password"=>"[FILTERED]", "user"=>{"email"=>"kip@gmail.com"}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+Completed 500 Internal Server Error in 10ms (ActiveRecord: 2.8ms | Allocations: 2392)
+
+
+  
+NoMethodError (undefined method `+' for nil:NilClass):
+  
+app/controllers/users_controller.rb:7:in `create'
+Started POST "/signup" for 127.0.0.1 at 2023-04-18 18:01:21 +0300
+Processing by UsersController#create as */*
+  Parameters: {"username"=>"kipkip", "first_name"=>"kip", "last_name"=>"kips", "email"=>"kip@gmail.com", "password"=>"[FILTERED]", "user"=>{"username"=>"kipkip", "email"=>"kip@gmail.com"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+[31mUnpermitted parameters: :first_name, :last_name, :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f4838017458>, params: {"username"=>"kipkip", "first_name"=>"kip", "last_name"=>"kips", "email"=>"kip@gmail.com", "password"=>"[FILTERED]", "controller"=>"users", "action"=>"create", "user"=>{"username"=>"kipkip", "email"=>"kip@gmail.com"}} }[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "kip@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Create (1.8ms)[0m  [1m[32mINSERT INTO "users" ("username", "email", "password_digest", "password_reset_token", "admin", "bio", "github_link", "avatar_url", "online_status", "last_seen_at", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"[0m  [["username", "kip kips"], ["email", "kip@gmail.com"], ["password_digest", "[FILTERED]"], ["password_reset_token", "[FILTERED]"], ["admin", nil], ["bio", nil], ["github_link", nil], ["avatar_url", nil], ["online_status", nil], ["last_seen_at", nil], ["created_at", "2023-04-18 15:01:22.382075"], ["updated_at", "2023-04-18 15:01:22.382075"]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mPublicActivity::Activity Create (2.3ms)[0m  [1m[32mINSERT INTO "activities" ("trackable_type", "trackable_id", "owner_type", "owner_id", "key", "parameters", "recipient_type", "recipient_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["trackable_type", "User"], ["trackable_id", 1], ["owner_type", nil], ["owner_id", nil], ["key", "user.create"], ["parameters", nil], ["recipient_type", nil], ["recipient_id", nil], ["created_at", "2023-04-18 15:01:22.473585"], ["updated_at", "2023-04-18 15:01:22.473585"]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+[active_model_serializers] Rendered UserSerializer with ActiveModelSerializers::Adapter::Attributes (0.46ms)
+Completed 201 Created in 837ms (Views: 25.7ms | ActiveRecord: 19.4ms | Allocations: 57925)
+
+
+Started POST "/signup" for 127.0.0.1 at 2023-04-18 18:08:04 +0300
+Processing by UsersController#create as */*
+  Parameters: {"first_name"=>"kipp", "last_name"=>"kipps", "email"=>"kips@gmail.com", "password"=>"[FILTERED]", "admin"=>"false", "bio"=>"home", "github_link"=>"https://github.com/kipchumba-ket", "user"=>{"email"=>"kips@gmail.com", "admin"=>"false", "bio"=>"home", "github_link"=>"https://github.com/kipchumba-ket"}}
+  [1m[36mUser Load (1.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+[31mUnpermitted parameters: :first_name, :last_name, :admin, :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f484cbb5620>, params: {"first_name"=>"kipp", "last_name"=>"kipps", "email"=>"kips@gmail.com", "password"=>"[FILTERED]", "admin"=>"false", "bio"=>"home", "github_link"=>"https://github.com/kipchumba-ket", "controller"=>"users", "action"=>"create", "user"=>{"email"=>"kips@gmail.com", "admin"=>"false", "bio"=>"home", "github_link"=>"https://github.com/kipchumba-ket"}} }[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "kips@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("username", "email", "password_digest", "password_reset_token", "admin", "bio", "github_link", "avatar_url", "online_status", "last_seen_at", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING "id"[0m  [["username", "kipp kipps"], ["email", "kips@gmail.com"], ["password_digest", "[FILTERED]"], ["password_reset_token", "[FILTERED]"], ["admin", nil], ["bio", "home"], ["github_link", "https://github.com/kipchumba-ket"], ["avatar_url", nil], ["online_status", nil], ["last_seen_at", nil], ["created_at", "2023-04-18 15:08:04.893232"], ["updated_at", "2023-04-18 15:08:04.893232"]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mPublicActivity::Activity Create (1.1ms)[0m  [1m[32mINSERT INTO "activities" ("trackable_type", "trackable_id", "owner_type", "owner_id", "key", "parameters", "recipient_type", "recipient_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["trackable_type", "User"], ["trackable_id", 2], ["owner_type", nil], ["owner_id", nil], ["key", "user.create"], ["parameters", nil], ["recipient_type", nil], ["recipient_id", nil], ["created_at", "2023-04-18 15:08:04.898959"], ["updated_at", "2023-04-18 15:08:04.898959"]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mTRANSACTION (7.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+[active_model_serializers] Rendered UserSerializer with ActiveModelSerializers::Adapter::Attributes (0.51ms)
+Completed 201 Created in 709ms (Views: 4.5ms | ActiveRecord: 26.1ms | Allocations: 9895)
+
+
