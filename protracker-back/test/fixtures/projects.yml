@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_name: MyString
+  project_description: MyString
+  github_link: MyString
+  category: MyString
+  user: one
+  cohort: one
+
+two:
+  project_name: MyString
+  project_description: MyString
+  github_link: MyString
+  category: MyString
+  user: two
+  cohort: two
