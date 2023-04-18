@@ -1,0 +1,3 @@
+class CohortEnrollmentMailer < ApplicationMailer
+    
+end
