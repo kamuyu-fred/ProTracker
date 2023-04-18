@@ -5,7 +5,7 @@ class CreateNotifications < ActiveRecord::Migration[7.0]
       t.integer :receiver_id
       t.string :message
       t.string :notification_type
-      t.boolean :read
+      t.boolean :read , default: false
 
       t.timestamps
     end
