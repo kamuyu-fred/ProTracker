@@ -52,7 +52,7 @@ class CohortsController < ApplicationController
         end
     end
 
-
+    # 
     # retrieving all corhots a user is part of;
     # * cleared
     def my_cohorts
