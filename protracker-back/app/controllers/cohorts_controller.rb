@@ -52,7 +52,6 @@ class CohortsController < ApplicationController
         end
     end
 
-    # 
     # retrieving all corhots a user is part of;
     # * cleared
     def my_cohorts
@@ -67,7 +66,6 @@ class CohortsController < ApplicationController
         cohorts = current_user.owned_cohorts
         render json: cohorts, include: :users
     end
-
 
 
     private
