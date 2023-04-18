@@ -9,16 +9,10 @@ gem "rails", "~> 7.0.4", ">= 7.0.4.3"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
-<<<<<<< HEAD
 # Use sqlite3 as the database for Active Record
 # gem "sqlite3", "~> 1.4"
 gem 'pg'
 
-=======
-gem 'pg'
-
-gem 'dotenv-rails'
->>>>>>> 330e94695e444a51d7f6baa0f373adca0d00d523
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
@@ -46,7 +40,7 @@ gem "bootsnap", require: false
 # Use Sass to process CSS
 # gem "sassc-rails"
 
-gem 'pundit'
+
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"

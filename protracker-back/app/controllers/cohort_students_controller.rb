@@ -1,0 +1,71 @@
+class CohortStudentsController < ApplicationController
+
+        # adding members to a cohort;
+    # * cleared;
+    def create
+        cohort = Cohort.find_by(id: params[:cohort_id])
+
+        authorize cohort, :owner?
+
+        student = User.find_by(email: params[:email])
+
+        if !student
+          render json: { message: "Student not found" } , status: :not_found
+          return
+        end
+
+        student_exists_in_the_cohort = cohort.cohort_members.exists?(user_id: student.id)
+
+        if student_exists_in_the_cohort
+          render json: { message: "Student exists in the cohort" } , status: :unprocessable_entity
+          return
+        end
+
+        @cohort_student = CohortStudent.new(user_id: student.id, cohort_id: params[:cohort_id])
+
+        authorize @cohort_student
+
+
+        if !@cohort_student.save
+            render json: {message: "Student was not added.",  errors: @cohort_student.errors.full_messages} , status: :unprocessable_entity
+            return
+        end
+
+        # CohortEnrollmentMailer.student_enrollment(student,current_user).deliver_later
+
+        render json: { message: "Student added successfully" } , status: :ok
+    end
+
+
+
+    # deleting members to a cohort;
+    # * cleared;
+    def delete
+      cohort = Cohort.find_by(id: params[:cohort_id])
+
+      authorize cohort, :owner?
+
+      student = User.find_by(email: params[:email])
+
+      if !student
+        render json: { message: "Student not found" } , status: :not_found
+        return
+      end
+
+      student_exists_in_the_cohort = cohort.cohort_members.exists?(user_id: student.id)
+
+      if !student_exists_in_the_cohort
+        render json: { message: "Student does not exist in the cohort" } , status: :unprocessable_entity
+        return
+      end
+
+      cohort.cohort_members.destroy(cohort.cohort_members.where(user_id: student.id))
+
+      # CohortEnrollmentMailer.student_dismissal(student,current_user).deliver_now
+
+      render json: { message: "Student dismissed successfully" } , status: :ok
+    end
+    
+  
+
+end
