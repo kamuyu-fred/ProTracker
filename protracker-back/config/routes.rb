@@ -88,4 +88,8 @@ Rails.application.routes.draw do
   get '/notifications', to: 'notifications#get_notifications'
   get '/unread_notifications', to: 'notifications#get_unread_notifications'
   put '/mark_as_read', to: 'notifications#mark_as_read'
+<<<<<<< HEAD
 end
+=======
+end
+>>>>>>> 330e94695e444a51d7f6baa0f373adca0d00d523

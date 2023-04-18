@@ -95,6 +95,10 @@ GEM
     debug (1.7.2)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
+    dotenv (2.8.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     erubi (1.12.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
@@ -135,11 +139,14 @@ GEM
     nokogiri (1.14.3-x86_64-linux)
       racc (~> 1.4)
     pg (1.4.6)
+<<<<<<< HEAD
     public_activity (2.0.2)
       actionpack (>= 5.0.0)
       activerecord (>= 5.0)
       i18n (>= 0.5.0)
       railties (>= 5.0.0)
+=======
+>>>>>>> 330e94695e444a51d7f6baa0f373adca0d00d523
     public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
@@ -224,13 +231,20 @@ DEPENDENCIES
   bootsnap
   capybara
   debug
+  dotenv-rails
   jbuilder
+<<<<<<< HEAD
   jwt
   pg
   public_activity (~> 2.0)
   puma (~> 5.0)
   pundit
   rack-cors
+=======
+  pg
+  puma (~> 5.0)
+  pundit
+>>>>>>> 330e94695e444a51d7f6baa0f373adca0d00d523
   rails (~> 7.0.4, >= 7.0.4.3)
   selenium-webdriver
   sprockets-rails
