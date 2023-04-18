@@ -39,7 +39,6 @@ class CohortsController < ApplicationController
     end
 
 
-
     # retrieve cohort admin;
     # * cleared
     def cohort_admin
@@ -59,15 +58,12 @@ class CohortsController < ApplicationController
         render json: cohorts, status: :ok
     end
 
-
     # retrieving all corhots a user is an admin;
     # * cleared
     def admin_cohorts           
         cohorts = current_user.owned_cohorts
         render json: cohorts, include: :users
     end
-
-
     private
 
     def cohort_params
