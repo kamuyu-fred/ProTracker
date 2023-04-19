@@ -19,43 +19,43 @@ Rails.application.routes.draw do
 
   # * COHORTS
 
-  post '/cohorts/create_cohort', to: 'cohorts#create' # *
-  post '/cohort/add_student', to: 'cohort_students#create' # *
-  delete '/cohort/remove_member', to: 'cohort_students#delete' # *
+  post '/cohorts/create_cohort', to: 'cohorts#create' 
+  post '/cohort/add_student', to: 'cohort_students#create' 
+  delete '/cohort/remove_member', to: 'cohort_students#delete' 
   put '/cohorts/update_cohort/:cohort_id', to: 'cohorts#update' 
 
   # getting the cohort_admin
-  get '/cohort/:cohort_id/cohort_admin', to: 'cohorts#cohort_admin' # *
+  get '/cohort/:cohort_id/cohort_admin', to: 'cohorts#cohort_admin' 
 
   # getting all members
-  get '/cohort/cohort_members', to: 'cohorts#all_members' # *
+  get '/cohort/cohort_members', to: 'cohorts#all_members' 
 
   # getting users cohorts
-  get '/cohort/my_cohorts', to: 'cohorts#my_cohorts' # *
+  get '/cohort/my_cohorts', to: 'cohorts#my_cohorts' 
 
   # getting cohorts where the user is an admin
-  get '/cohorts/admin_cohorts', to: 'cohorts#admin_cohorts' # *
-  get '/cohort/details', to: 'cohorts#cohort_details' # *
+  get '/cohorts/admin_cohorts', to: 'cohorts#admin_cohorts' 
+  get '/cohort/details', to: 'cohorts#cohort_details' 
 
 
 
   # * PROJECTS
 
-  get '/projects/:project_id/project_details', to: 'projects#project_details' # *
-  get '/cohort/:cohort_id/all_projects' , to: 'projects#all_projects' # *
-  get '/user/user_projects', to: 'projects#current_user_projects' # *
+  get '/projects/:project_id/project_details', to: 'projects#project_details' 
+  get '/cohort/:cohort_id/all_projects' , to: 'projects#all_projects' 
+  get '/user/user_projects', to: 'projects#current_user_projects' 
   put '/projects/:project_id', to: 'projects#update'
   # getting project members
-  get '/project/:project_id/project_members', to: 'project_members#project_members' # *
+  get '/project/:project_id/project_members', to: 'project_members#project_members' 
   # get projects a member belongs to;
-  get '/user/assigned_projects', to: 'projects#my_assigned_projects' # *
+  get '/user/assigned_projects', to: 'projects#my_assigned_projects' 
 
   #querying for a specific students projects
-  post '/projects/student_projects' , to: 'projects#student_projects' # *
-  post '/projects/add_project', to: 'projects#create' # *
+  post '/projects/student_projects' , to: 'projects#student_projects' 
+  post '/projects/add_project', to: 'projects#create' 
 
   # adding project members
-  post '/project/add_member', to: 'project_members#add_member' # *
+  post '/project/add_member', to: 'project_members#add_member' 
 
   # query projecs by their tags.
   get '/cohort/:cohort_id/project/:search_params', to: 'projects#get_project_by_input_value' 
@@ -68,8 +68,8 @@ Rails.application.routes.draw do
 
   # * PASSWORD RESET
 
-  post '/password_reset/new', to: 'password_reset#new' # *
-  put 'password_reset/create', to: 'password_reset#create' # *
+  post '/password_reset/new', to: 'password_reset#new' 
+  put 'password_reset/create', to: 'password_reset#create' 
 
 
 

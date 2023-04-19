@@ -6,7 +6,10 @@ class ApplicationController < ActionController::API
     before_action :current_user
 
     before_action :update_last_seen_at, if: -> { !current_user.nil? && (current_user.last_seen_at.nil? || current_user.last_seen_at <  2.minutes.ago) }
+
+
     rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
 
     def update_last_seen_at
         current_user.update_attribute(:last_seen_at, Time.current)
@@ -75,9 +78,9 @@ class ApplicationController < ActionController::API
           end
     end
       
-    def admin
-        current_user.admin?
-    end
+    # def admin
+    #     current_user.admin?
+    # end
     
     def user_not_authorized
         render json: { message: "You are not authorized to perform this action." }, status: :unauthorized
