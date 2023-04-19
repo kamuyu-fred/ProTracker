@@ -45,7 +45,7 @@ function Navbar() {
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
             
 
-                        <form class="flex items-center">   
+                        <form class="flex items-center mx-auto">   
                             <label for="simple-search" class="sr-only">Search Projects</label>
                             <div class="relative w-full">
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
