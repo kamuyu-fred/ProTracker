@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) [2023] [Fred Kamuyu, Elly Kipchumba, Jeff Maina and Paul Mihango]
+Copyright (c) [2023] [Fred Kamuyu, Abel Rutto, Elly Kipchumba, Jeff Maina and Paul Mihango]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
