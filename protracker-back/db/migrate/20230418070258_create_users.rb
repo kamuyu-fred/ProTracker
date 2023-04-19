@@ -5,7 +5,7 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :email
       t.string :password_digest
       t.string :password_reset_token
-      t.boolean :admin
+      t.boolean :admin, default: false
       t.text :bio
       t.string :github_link
       t.string :avatar_url

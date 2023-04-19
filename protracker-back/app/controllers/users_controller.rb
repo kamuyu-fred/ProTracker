@@ -23,13 +23,28 @@ class UsersController < ApplicationController
     def make_admin
       student = User.find_by(email: params[:email])
 
+      if !student.present?
+        render json: { message: 'Student not found' }, status: :not_found
+        return
+      end
+
       if current_user.admin?
         if student
           student.admin = true
           student.save
+
+          new_notification_params = {
+            actor_id: current_user.id,
+            receiver_id: student.id,
+            message: "#{current_user.username} gave you administrative rights.",
+            notification_type: "Granted administrative rights." 
+        }
+
+        new_notification  = Notification.create(new_notification_params)
+
           render json: { message: "Successful", data: student } , status: :ok
         else
-          render json: { error: user.errors.full_messages }, status: :unprocessable_entity
+          render json: { error: student.errors.full_messages }, status: :unprocessable_entity
         end
       else
         render json: { error: "You are not an admin" }, status: :unauthorized
@@ -42,13 +57,13 @@ class UsersController < ApplicationController
 
     def remove_admin
       student = User.find_by(email: params[:email])
-      if current_user.role == 'admin'
+      if current_user.admin?
         if student
-          student.role = 'user'
+          student.admin = false
           student.save
           render json: { message: "Successful", data: student } , status: :ok
         else
-          render json: { error: user.errors.full_messages }, status: :unprocessable_entity
+          render json: { error: student.errors.full_messages }, status: :unprocessable_entity
         end
       else
         render json: { error: "You are not an admin" }, status: :unauthorized

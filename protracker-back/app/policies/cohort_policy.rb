@@ -7,7 +7,7 @@ class CohortPolicy < ApplicationPolicy
     end
 
     def create?
-        Admin.all.exists?(user)
+        user.admin?
     end
 
     def add_member

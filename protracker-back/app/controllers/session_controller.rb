@@ -22,7 +22,7 @@ class SessionController < ApplicationController
   
   
       def destroy 
-         remove_user
+          remove_user
       end
 
 end

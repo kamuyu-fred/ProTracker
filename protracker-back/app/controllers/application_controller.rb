@@ -5,15 +5,10 @@ class ApplicationController < ActionController::API
 
     before_action :current_user
 
-    before_action :update_last_seen_at, if: -> { !current_user.nil? && (current_user.last_seen_at.nil? || current_user.last_seen_at <  2.minutes.ago) }
-
+    before_action :update_last_seen_at, if: -> { !current_user.nil? && (current_user.last_seen_at.nil? || current_user.last_seen_at < 2.minutes.ago) }, except: [:remove_user]
 
     rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
-
-    def update_last_seen_at
-        current_user.update_attribute(:last_seen_at, Time.current)
-    end
 
     def online_users
         users = User.all
@@ -60,6 +55,7 @@ class ApplicationController < ActionController::API
 
     # delete user id in session
     def remove_user
+        set_user_offline
         session.delete(:user_id)
         render json: { message: "Logged out successfully"}
     end
@@ -78,12 +74,26 @@ class ApplicationController < ActionController::API
           end
     end
       
-    # def admin
-    #     current_user.admin?
-    # end
+    def admin
+        current_user.admin?
+    end
     
     def user_not_authorized
         render json: { message: "You are not authorized to perform this action." }, status: :unauthorized
+    end
+
+
+    def update_last_seen_at
+      if current_user.last_seen_at.nil? || current_user.last_seen_at < 2.minutes.ago
+        current_user.update(online_status: 'online', last_seen_at: Time.current)
+      else
+        current_user.touch(:last_seen_at)
+      end
+    end
+  
+
+    def set_user_offline
+      current_user.update(online_status: 'offline', last_seen_at: Time.current) 
     end
 
 end

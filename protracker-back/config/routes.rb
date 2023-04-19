@@ -11,15 +11,15 @@ Rails.application.routes.draw do
 
   # granting and revoking admin rights
 
-  post '/make_admin', to: 'users#make_admin'
-  delete '/remove_admin', to: 'users#remove_admin'
+  post '/make_admin', to: 'users#make_admin' # *
+  delete '/remove_admin', to: 'users#remove_admin'  
 
 
 
 
   # * COHORTS
 
-  post '/cohorts/create_cohort', to: 'cohorts#create' 
+  post '/cohorts/create_cohort', to: 'cohorts#create' # *
   post '/cohort/add_student', to: 'cohort_students#create' 
   delete '/cohort/remove_member', to: 'cohort_students#delete' 
   put '/cohorts/update_cohort/:cohort_id', to: 'cohorts#update' 
@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   get '/cohort/my_cohorts', to: 'cohorts#my_cohorts' 
 
   # getting cohorts where the user is an admin
-  get '/cohorts/admin_cohorts', to: 'cohorts#admin_cohorts' 
+  get '/cohorts/admin_cohorts', to: 'cohorts#admin_cohorts' # *
   get '/cohort/details', to: 'cohorts#cohort_details' 
 
 
@@ -75,7 +75,7 @@ Rails.application.routes.draw do
 
   # * ACTIVITIES
 
-  get '/activities', to: 'activities#get_activities'
+  get '/activities', to: 'activities#get_activities' # *
 
 
   # * COMMENTS
@@ -85,7 +85,13 @@ Rails.application.routes.draw do
 
   # * NOTIFICATIONS
 
-  get '/notifications', to: 'notifications#get_notifications'
-  get '/unread_notifications', to: 'notifications#get_unread_notifications'
-  put '/mark_as_read', to: 'notifications#mark_as_read'
+  get '/notifications', to: 'notifications#get_notifications' # *
+  get '/unread_notifications', to: 'notifications#get_unread_notifications' # *
+  put '/mark_as_read', to: 'notifications#mark_as_read' # *
+
+  #* ONLINE STATUS
+
+  get '/online', to: 'heartbeat#index'
+  put '/set_status', to: 'heartbeat#update'
+
 end
