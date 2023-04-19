@@ -12,6 +12,7 @@ function App() {
     <Navbar />
     <Sidebar />
     <Projectdetails />
+    <Login />
   
     <div className="App">
 
