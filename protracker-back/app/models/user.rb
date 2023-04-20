@@ -11,6 +11,8 @@ class User < ApplicationRecord
     has_many :project_members, dependent: :destroy
     has_many :likes
     has_many :comments
+    has_many :user_achievements, dependent: :destroy
+    has_many :achievements , through: :user_achievements, source: :achievement
     # has_many :u, through: :project_members
 
     # Validations;

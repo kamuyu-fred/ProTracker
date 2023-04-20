@@ -6,13 +6,13 @@ Rails.application.routes.draw do
   delete '/logout', to: 'session#destroy' # *
   post '/signup', to: 'users#create' # *
   get '/checkout', to: 'session#check_out' # *
-  put '/update', to: 'users#update' # *
+  put '/update_profile', to: 'users#update' # *
   get '/my_profile', to: 'users#my_profile' # *
 
   # granting and revoking admin rights
 
-  post '/make_admin', to: 'users#make_admin' # *
-  delete '/remove_admin', to: 'users#remove_admin'  
+  put '/make_admin', to: 'users#make_admin' # *
+  put '/remove_admin', to: 'users#remove_admin'  
 
 
 

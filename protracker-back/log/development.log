@@ -5043,3 +5043,226 @@ Migrating to AddBannedColumnToUsers (20230420112135)
   [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(5449242693539818635)[0m
   [1m[36mActiveRecord::SchemaMigration Pluck (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
   [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+Started DELETE "/logout" for 127.0.0.1 at 2023-04-20 20:07:25 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (2.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by SessionController#destroy as */*
+  Parameters: {"first_name"=>"Moringa", "last_name"=>"Admin", "email"=>"jeffmaina@gmail.com", "password"=>"[FILTERED]", "session"=>{"first_name"=>"Moringa", "last_name"=>"Admin", "email"=>"jeffmaina@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+Completed 500 Internal Server Error in 262ms (ActiveRecord: 14.5ms | Allocations: 23145)
+
+
+  
+NoMethodError (undefined method `update' for nil:NilClass):
+  
+app/controllers/application_controller.rb:96:in `set_user_offline'
+app/controllers/application_controller.rb:58:in `remove_user'
+app/controllers/session_controller.rb:25:in `destroy'
+Started DELETE "/checkout" for 127.0.0.1 at 2023-04-20 20:07:42 +0300
+  
+ActionController::RoutingError (No route matches [DELETE] "/checkout"):
+  
+Started GET "/checkout" for 127.0.0.1 at 2023-04-20 20:07:45 +0300
+Processing by SessionController#check_out as */*
+  Parameters: {"first_name"=>"Moringa", "last_name"=>"Admin", "email"=>"jeffmaina@gmail.com", "password"=>"[FILTERED]", "session"=>{"first_name"=>"Moringa", "last_name"=>"Admin", "email"=>"jeffmaina@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.31ms)
+Completed 200 OK in 32ms (Views: 17.8ms | ActiveRecord: 0.7ms | Allocations: 4864)
+
+
+Started POST "/signup" for 127.0.0.1 at 2023-04-20 20:08:05 +0300
+Processing by UsersController#create as */*
+  Parameters: {"first_name"=>"", "last_name"=>"Admin", "email"=>"jeffmainamail.com", "password"=>"[FILTERED]", "user"=>{"email"=>"jeffmainamail.com"}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+[31mUnpermitted parameters: :first_name, :last_name, :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f3b94027070>, params: {"first_name"=>"", "last_name"=>"Admin", "email"=>"jeffmainamail.com", "password"=>"[FILTERED]", "controller"=>"users", "action"=>"create", "user"=>{"email"=>"jeffmainamail.com"}} }[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Exists? (2.0ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "jeffmainamail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.51ms)
+Completed 422 Unprocessable Entity in 1277ms (Views: 5.9ms | ActiveRecord: 19.1ms | Allocations: 26060)
+
+
+Started POST "/signup" for 127.0.0.1 at 2023-04-20 20:08:19 +0300
+Processing by UsersController#create as */*
+  Parameters: {"first_name"=>"", "last_name"=>"Admin", "email"=>"jeffmainamail.com", "password"=>"[FILTERED]", "user"=>{"email"=>"jeffmainamail.com"}}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+[31mUnpermitted parameters: :first_name, :last_name, :user. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00007f3b8c01a3a0>, params: {"first_name"=>"", "last_name"=>"Admin", "email"=>"jeffmainamail.com", "password"=>"[FILTERED]", "controller"=>"users", "action"=>"create", "user"=>{"email"=>"jeffmainamail.com"}} }[0m
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Exists? (2.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "jeffmainamail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:12:in `create'
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.39ms)
+Completed 422 Unprocessable Entity in 60ms (Views: 9.0ms | ActiveRecord: 6.0ms | Allocations: 5242)
+
+
+Started POST "/login" for 127.0.0.1 at 2023-04-20 20:16:02 +0300
+Processing by SessionController#login as */*
+  Parameters: {"first_name"=>"", "last_name"=>"Admin", "email"=>"jeffmainamail.com", "password"=>"[FILTERED]", "session"=>{"first_name"=>"", "last_name"=>"Admin", "email"=>"jeffmainamail.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (1.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "jeffmainamail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/session_controller.rb:4:in `login'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.33ms)
+Completed 401 Unauthorized in 93ms (Views: 7.0ms | ActiveRecord: 34.7ms | Allocations: 5280)
+
+
+Started POST "/login" for 127.0.0.1 at 2023-04-20 20:17:55 +0300
+Processing by SessionController#login as */*
+  Parameters: {"first_name"=>"", "last_name"=>"Admin", "email"=>"jeffmaina@gmail.com", "password"=>"[FILTERED]", "session"=>{"first_name"=>"", "last_name"=>"Admin", "email"=>"jeffmaina@gmail.com", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (2.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "jeffmaina@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/session_controller.rb:4:in `login'
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (1.22ms)
+Completed 200 OK in 661ms (Views: 6.8ms | ActiveRecord: 3.3ms | Allocations: 3311)
+
+
+Started POST "/achievements" for 127.0.0.1 at 2023-04-20 20:18:02 +0300
+  
+ActionController::RoutingError (No route matches [POST] "/achievements"):
+  
+Started GET "/achievements" for 127.0.0.1 at 2023-04-20 20:18:06 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/achievements"):
+  
+Started GET "/my_profile" for 127.0.0.1 at 2023-04-20 20:24:57 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+NoMethodError (undefined method `has_may' for #<Class:0x00007f4e0cd825a0>
+Did you mean?  has_many):
+  
+app/models/user.rb:14:in `<class:User>'
+app/models/user.rb:1:in `<main>'
+Started GET "/my_profile" for 127.0.0.1 at 2023-04-20 20:25:13 +0300
+Processing by UsersController#my_profile as */*
+  Parameters: {"first_name"=>"", "last_name"=>"Admin", "email"=>"jeffmaina@gmail.com", "password"=>"[FILTERED]", "user"=>{"email"=>"jeffmaina@gmail.com"}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/application_controller.rb:88:in `update_last_seen_at'
+  [1m[36mUser Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "jeffmaina@gmail.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:88:in `update_last_seen_at'
+  [1m[36mUser Update (3.7ms)[0m  [1m[33mUPDATE "users" SET "online_status" = $1, "last_seen_at" = $2, "updated_at" = $3 WHERE "users"."id" = $4[0m  [["online_status", "online"], ["last_seen_at", "2023-04-20 17:25:13.377488"], ["updated_at", "2023-04-20 17:25:13.387652"], ["id", 1]]
+  ↳ app/controllers/application_controller.rb:88:in `update_last_seen_at'
+  [1m[36mPublicActivity::Activity Create (5.5ms)[0m  [1m[32mINSERT INTO "activities" ("trackable_type", "trackable_id", "owner_type", "owner_id", "key", "parameters", "recipient_type", "recipient_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["trackable_type", "User"], ["trackable_id", 1], ["owner_type", nil], ["owner_id", nil], ["key", "user.update"], ["parameters", nil], ["recipient_type", nil], ["recipient_id", nil], ["created_at", "2023-04-20 17:25:13.476103"], ["updated_at", "2023-04-20 17:25:13.476103"]]
+  ↳ app/controllers/application_controller.rb:88:in `update_last_seen_at'
+  [1m[36mTRANSACTION (2.6ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/application_controller.rb:88:in `update_last_seen_at'
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with User (1.25ms)
+Completed 200 OK in 247ms (Views: 10.4ms | ActiveRecord: 28.0ms | Allocations: 55588)
+
+
+Started GET "/my_profile" for 127.0.0.1 at 2023-04-20 20:25:49 +0300
+Processing by UsersController#my_profile as */*
+  Parameters: {"first_name"=>"", "last_name"=>"Admin", "email"=>"jeffmaina@gmail.com", "password"=>"[FILTERED]", "user"=>{"email"=>"jeffmaina@gmail.com"}}
+  [1m[36mUser Load (2.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+[active_model_serializers]   [1m[36mAchievement Load (6.7ms)[0m  [1m[34mSELECT "achievements".* FROM "achievements" INNER JOIN "user_achievements" ON "achievements"."id" = "user_achievements"."achievement_id" WHERE "user_achievements"."user_id" = $1[0m  [["user_id", 1]]
+[active_model_serializers]   ↳ app/controllers/users_controller.rb:93:in `my_profile'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with User (108.11ms)
+Completed 200 OK in 186ms (Views: 102.4ms | ActiveRecord: 48.9ms | Allocations: 19586)
+
+
+  [1m[36mUser Load (2.5ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mAchievement Load (0.8ms)[0m  [1m[34mSELECT "achievements".* FROM "achievements" INNER JOIN "user_achievements" ON "achievements"."id" = "user_achievements"."achievement_id" WHERE "user_achievements"."user_id" = $1[0m  [["user_id", 1]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mAchievement Create (2.9ms)[0m  [1m[32mINSERT INTO "achievements" ("name", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "Stellar Project"], ["description", "Project liked a lot"], ["created_at", "2023-04-20 17:31:04.903188"], ["updated_at", "2023-04-20 17:31:04.903188"]]
+  [1m[36mUserAchievement Create (1.7ms)[0m  [1m[32mINSERT INTO "user_achievements" ("user_id", "achievement_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 1], ["achievement_id", 1], ["created_at", "2023-04-20 17:31:04.976307"], ["updated_at", "2023-04-20 17:31:04.976307"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/my_profile" for 127.0.0.1 at 2023-04-20 20:31:17 +0300
+Processing by UsersController#my_profile as */*
+  Parameters: {"first_name"=>"", "last_name"=>"Admin", "email"=>"jeffmaina@gmail.com", "password"=>"[FILTERED]", "user"=>{"email"=>"jeffmaina@gmail.com"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/application_controller.rb:88:in `update_last_seen_at'
+  [1m[36mUser Exists? (1.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "jeffmaina@gmail.com"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:88:in `update_last_seen_at'
+  [1m[36mUser Update (1.2ms)[0m  [1m[33mUPDATE "users" SET "last_seen_at" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["last_seen_at", "2023-04-20 17:31:17.583182"], ["updated_at", "2023-04-20 17:31:17.593077"], ["id", 1]]
+  ↳ app/controllers/application_controller.rb:88:in `update_last_seen_at'
+  [1m[36mPublicActivity::Activity Create (2.2ms)[0m  [1m[32mINSERT INTO "activities" ("trackable_type", "trackable_id", "owner_type", "owner_id", "key", "parameters", "recipient_type", "recipient_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["trackable_type", "User"], ["trackable_id", 1], ["owner_type", nil], ["owner_id", nil], ["key", "user.update"], ["parameters", nil], ["recipient_type", nil], ["recipient_id", nil], ["created_at", "2023-04-20 17:31:17.603287"], ["updated_at", "2023-04-20 17:31:17.603287"]]
+  ↳ app/controllers/application_controller.rb:88:in `update_last_seen_at'
+  [1m[36mTRANSACTION (2.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/application_controller.rb:88:in `update_last_seen_at'
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:65:in `current_user'
+[active_model_serializers]   [1m[36mAchievement Load (1.7ms)[0m  [1m[34mSELECT "achievements".* FROM "achievements" INNER JOIN "user_achievements" ON "achievements"."id" = "user_achievements"."achievement_id" WHERE "user_achievements"."user_id" = $1[0m  [["user_id", 1]]
+[active_model_serializers]   ↳ app/controllers/users_controller.rb:93:in `my_profile'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with User (50.64ms)
+Completed 200 OK in 148ms (Views: 55.0ms | ActiveRecord: 24.5ms | Allocations: 26194)
+
+

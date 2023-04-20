@@ -90,7 +90,7 @@ class UsersController < ApplicationController
     # check users profile
     # * cleared
     def my_profile 
-      render json: current_user
+      render json: current_user, include: :achievements
     end
 
     private
