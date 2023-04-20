@@ -25,11 +25,19 @@ class CohortStudentsController < ApplicationController
 
         authorize @cohort_student
 
-
         if !@cohort_student.save
             render json: {message: "Student was not added.",  errors: @cohort_student.errors.full_messages} , status: :unprocessable_entity
             return
         end
+
+        new_notification_params = {
+          actor_id: current_user.id,
+          receiver_id: @cohort_student.id,
+          message: "#{current_user.username} aded you to cohort #{cohort.name}",
+          notification_type: "Added to cohort" 
+        }
+
+      new_notification  = Notification.create(new_notification_params)
 
         # CohortEnrollmentMailer.student_enrollment(student,current_user).deliver_later
 
