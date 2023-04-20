@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_19_065305) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_20_112135) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -141,6 +141,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_19_065305) do
     t.datetime "last_seen_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "banned", default: false
   end
 
   add_foreign_key "cohort_students", "cohorts"
