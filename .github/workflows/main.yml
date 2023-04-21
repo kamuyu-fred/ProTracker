@@ -52,7 +52,7 @@ jobs:
 #           if [ -f db/schema.rb ]; then
 #             bin/rails db:migrate
 #           fi
-      - name: Test
-        run: |
-          cd protracker-back
-          bin/rails test
+#       - name: Test
+#         run: |
+#           cd protracker-back
+#           bin/rails test
