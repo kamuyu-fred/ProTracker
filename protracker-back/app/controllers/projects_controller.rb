@@ -185,20 +185,19 @@ class ProjectsController < ApplicationController
                 params << "#{key.split('_').last}"
         end
 
-
         last_value = params.pop
         if params.empty?
             result = last_value
         else
             result = "#{params.join(', ')} and #{last_value}"
         end
+
         # it workkkkssssssss!!!!!!!!!!!!!!
         if update_project.update(project_params)
-            update_project.create_activity(key: 'project.like',parameters:{
-                user: "#{current_user.username}",
-                task: "updated the #{result} of '#{update_project.project_name}'",
-                created_at: "at #{Time.now.strftime('%H:%M')}"
-            }, owner: current_user)
+
+            task = "updated the #{result} of '#{update_project.project_name}'"
+
+            create_user_activity(update_project, "project.update", current_user.username, task, current_user)
             render json: {message: "Project updated successfully", data: update_project}, status: :ok
         else
             render json: { errors: update_project.errors.full_messages }, status: :unprocessable_entity
