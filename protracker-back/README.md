@@ -285,3 +285,143 @@
 ### Validations
 
 - The project name, description, category and github link must be provided.
+
+### Project endpoints
+
+#### Creating a new project
+
+    post '/projects/add_project'
+
+- This request requires a body in the format below:
+
+```json
+{
+  "project_name": "ProTracker",
+  "project_description": "A project bank for various cohorts",
+  "category" : "android", // Android or Fullstack;
+  "cohort_id" : "1", // The cohort the project is being added to;
+  "github_link" : "https://protracker.github.com/",
+  "tags" : ["React", "Sass", "Rails", "Tailwind"] // optional
+}
+```
+
+#### Updating a project
+
+    put '/projects/:project_id'
+
+- The request takes in a body in a format similar to the one above :
+- Any updated values will be updated in the backend.
+
+
+#### Adding group members
+
+    post '/project/add_member
+
+- The request the requires the following parameters:
+
+```json
+{
+  "email": "groupmember@example.com", // the email address of the group member to be added
+  "cohort_id": "1", // the id of the cohort the project belongs to;
+  "project_id":"2" // the id of the project the member is being added to;
+}
+```
+
+#### Retrieving all projects belonging to a cohort
+
+    get '/cohort/:cohort_id/all_projects'
+
+#### Retrieving all projects belonging to the current user
+
+    get '/user/user_projects'
+
+#### Retrieving all projects a user is part of
+
+    get '/user/assigned_projects'
+
+#### Retriving all the members of a given project.
+
+    get '/project/:project_id/project_members'
+
+#### Querying for a given project
+
+    get '/cohort/:cohort_id/project/:search_params'
+
+- The search params may either be by tags or by name.
+
+#### Querying for a specific student's projects
+
+    post '/projects/student_projects' 
+
+- The post request takes in a valid student email.
+
+
+
+## LIKES
+
+### Endpoints
+
+#### Liking a project
+
+    post '/projects/:project_id/like'
+
+#### Unliking a project
+
+    post '/projects/:project_id/dislike'
+
+#### Retrieving all users who have liked a certain project.
+
+    get  '/projects/:project_id/liked_by'
+
+## ACTIVITIES
+
+
+#### Retrieving all user activity
+
+    get '/activities'
+
+
+## COMMENTS
+
+#### Posting a comment
+
+    post '/comments/comment'
+
+- This request expects a body in the format below;
+
+```json
+  {
+    "project_id" : "1", // id of the project being commented on;
+    "message" : "Great work", // the content of the comment;
+  }
+```
+
+#### Replying to a comment
+
+- This request expects a body in the format below:
+
+```json
+  {
+    "comment_id" : "1", // id of the comment being replied to;
+    "message" : "Great work", // the content of the comment;
+  }
+```
+
+#### Retrieving a thread
+
+    get '/comments/:comment_id/thread'
+
+
+## NOTIFICATIONS
+
+#### Retrieving a logged in user's notifications
+
+    get '/notifications'
+
+#### Retrieving all a user's unread notifications
+
+    get '/unread_notifications'
+
+#### Marking a notification as read
+
+    put '/:notif_id/mark_as_read'put '/mark_as_read'
