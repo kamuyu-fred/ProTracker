@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar";
 import CommentBox from "./components/CommentBox";
 import ReplyBox from "./components/ReplyBox";
 import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 
 
 
@@ -14,8 +15,9 @@ function App() {
 
     {/* <Navbar />
      <Sidebar /> */}
-
-     <Login />
+ {/* <Login /> */}
+    
+     <SignUp />
     
   
   
