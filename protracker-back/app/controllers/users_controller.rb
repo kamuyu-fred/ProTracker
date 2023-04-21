@@ -4,16 +4,19 @@ class UsersController < ApplicationController
 
 
     def create
-        username = params[:first_name] + ' ' + params[:last_name];
-        user = User.new(user_params)
-        user.username = username
-        user.password = params[:password]
-        user.password_reset_token= SecureRandom.urlsafe_base64
-        if user.save
-          render json: user, status: :created
-        else
-          render json: { error: user.errors.full_messages }, status: :unprocessable_entity
-        end
+
+      user = User.new(user_params) do |u|
+        u.username = "#{params[:first_name]} #{params[:last_name]}"
+        u.password = params[:password]
+        u.password_reset_token = SecureRandom.urlsafe_base64
+      end
+    
+      if user.save
+        render json: user, status: :created
+      else
+        render json: { error: user.errors.full_messages }, status: :unprocessable_entity
+      end
+      
     end
 
 

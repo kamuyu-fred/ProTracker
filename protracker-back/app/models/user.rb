@@ -13,7 +13,8 @@ class User < ApplicationRecord
     has_many :comments
     has_many :user_achievements, dependent: :destroy
     has_many :achievements , through: :user_achievements, source: :achievement
-    # has_many :u, through: :project_members
+    has_many :enrolled_projects , through: :project_members, source: :project
+    has_many :participating_projects, class_name: "ProjectMember", foreign_key: "user_id"
 
     # Validations;
     validates :username, presence: true

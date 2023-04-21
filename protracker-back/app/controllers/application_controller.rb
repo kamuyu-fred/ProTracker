@@ -66,7 +66,7 @@ class ApplicationController < ActionController::API
     end
 
       
-        private
+    private
       
     def authenticate_user!
           if !current_user
@@ -94,6 +94,41 @@ class ApplicationController < ActionController::API
 
     def set_user_offline
       current_user.update(online_status: 'offline', last_seen_at: Time.current) 
+    end
+
+
+    # notification handler
+
+    def create_notification(actor, receiver, message, type)
+        new_notification_params = {
+          actor_id: actor.id,
+          receiver_id: receiver.id,
+          message: message,
+          notification_type: type
+        }
+    
+        Notification.create!(new_notification_params)
+    end
+
+    # activity handler
+
+    def create_user_activity(entity, key, username, task, owner)
+        entity.create_activity(
+          key: key,
+          parameters: {
+            user: "#{username}",
+            task: task,
+            created_at: "at #{Time.now.strftime('%H:%M')}"
+          },
+          owner: owner
+        )
+    end
+
+    # Unlockin achievements
+
+    def unlock_achievement(name, recipient)
+        achievement = Achievement.where(name: name).first
+        recipient.user_achievements.create!(achievement: achievement)
     end
 
 end

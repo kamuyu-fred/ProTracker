@@ -20,14 +20,8 @@ class ProjectsController < ApplicationController
             created_at: "at #{Time.now.strftime('%H:%M')}"
         }, owner: current_user)
 
-        new_notification_params = {
-            actor_id: current_user.id,
-            receiver_id: @project.user.id,
-            message: "#{current_user.username} liked your project #{@project.project_name}",
-            notification_type: "Your project was Liked" 
-        }
-
-        new_notification  = Notification.create(new_notification_params)
+        # create a new notification for the activity;
+        create_notification(current_user, @project.user, "#{current_user.username} liked your project #{@project.project_name}", "Your project was Liked")
 
         current_user.likes.create(project: @project)
 
@@ -103,22 +97,18 @@ class ProjectsController < ApplicationController
             return
         end
 
-        new_project = Project.new(project_params)
-        new_project.user_id = current_user.id
-        new_project.cohort_id = current_cohort.id
+        new_project = current_user.projects.build(project_params)
+        new_project.cohort = current_cohort
 
         if !new_project.save
             render json: { errors: new_project.errors.full_messages } , status: :unprocessable_entity
             return
         end
   
-
         tags = params[:tags]
 
         if tags
-            tags.each do |tag|
-                new_project.tags.build(name: tag)
-            end
+            new_project.tags.build(tags.map { |tag| { name: tag } })
         end
 
         new_project.project_members.build(user: current_user)
@@ -128,42 +118,19 @@ class ProjectsController < ApplicationController
         user_projects_count = current_user.projects.count.to_i
 
         if (user_projects_count == 10)
-         user_achievement = Achievement.where(name: "Work Horse").first
-         current_user.user_achievements.create!(achievement: user_achievement)
-
-        new_notification_params = {
-            actor_id: current_user.id,
-            receiver_id: current_user.id,
-            message: "You have unlocked the Work Horse for creating ten projects!",
-            notification_type: "Achievement unlocked" 
-        }
-
-        new_notification  = Notification.create!(new_notification_params)
-
-        elsif (user_projects_count == 5)
-
-         user_achievement = Achievement.where(name: "Prolific Creator").first
-         current_user.user_achievements.create!(achievement: user_achievement)
-
-         new_notification_params = {
-            actor_id: current_user.id,
-            receiver_id: current_user.id,
-            message: "You have unlocked the Prolific Creator achievement for creating five projects!",
-            notification_type: "Achievement unlocked" 
-        }
-
-        new_notification  = Notification.create!(new_notification_params)
-
+            unlock_achievement("Work Horse", current_user)
+            create_notification(current_user, current_user, "You have unlocked the Work Horse achievement for creating five projects!", "Achievement unlocked!")
+        elsif (user_projects_count == 7)
+            unlock_achievement("Prolific Creator", current_user)
+            create_notification(current_user, current_user, "You have unlocked the Prolific Creator achievement for creating five projects!", "Achievements unlocked")
         end
-
 
         render json: { message: 'Project created successfully',  data: new_project} , status: :ok
 
-        new_project.create_activity(key: 'project.create',parameters:{
-            user: "#{current_user.username}",
-            task: "created a project titled '#{new_project.project_name}'",
-            created_at: "at #{Time.now.strftime('%H:%M')}"
-        }, owner: current_user)
+        task = "created a project titled '#{new_project.project_name}'"
+
+        create_user_activity(new_project, "project.create", current_user.username, new_project.project_name, task, current_user)
+
     end
 
 
@@ -270,15 +237,25 @@ class ProjectsController < ApplicationController
     # * cleared
     def current_user_projects
         projects = current_user.projects.all
+
+        if projects.empty?
+            render json: { message: 'You do not have any projects yet' }, status: :not_found
+            return
+        end
+
         render json: projects, include: :members , status: :ok
     end
 
     # check what projects a user is assigned to;
     # * cleared
     def my_assigned_projects
-        assigned_projects = current_user.project_members.where(user_id: current_user.id).where(user_id: current_user.id).map do |project|
-            Project.where(id: project.project_id).first
+        assigned_projects = current_user.enrolled_projects
+        
+        if assigned_projects.empty?
+            render json: { message: "You are not enrolled in any project yet"}, status: :not_found
+            return
         end
+
         render json: assigned_projects
     end
 

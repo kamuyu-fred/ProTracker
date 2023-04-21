@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # * USERS
 
   post '/login', to: 'session#login' # *
-  delete '/logout', to: 'session#destroy' # *
+  post '/logout', to: 'session#destroy' # *
   post '/signup', to: 'users#create' # *
   get '/checkout', to: 'session#check_out' # *
   put '/update_profile', to: 'users#update' # *

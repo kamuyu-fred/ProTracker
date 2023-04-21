@@ -33,87 +33,43 @@ class ProjectMembersController < ApplicationController
 
         if !member
             current_project.project_members.create(user: student)
+            task = "added #{student.username} to a project titled '#{current_project.project_name}'"
 
-            current_project.create_activity(key: 'projectmember.create',parameters:{
-                user: "#{current_user.username}",
-                task: "added #{student.username} to a project titled '#{current_project.project_name}'",
-                created_at: "at #{Time.now.strftime('%H:%M')}"
-            }, owner: current_user)
-
-            new_notification_params = {
-                actor_id: current_user.id,
-                receiver_id: student.id,
-                message: "You have been added to #{current_project.project_name} by #{current_user.username}",
-                notification_type: "Added to project"
-            }
-
-            new_notification  = Notification.create(new_notification_params)
+            create_user_activity(current_project, "projectmember.create", current_user.username, task, current_user)
+            create_notification(current_user, student, "You have been added to #{current_project.project_name} by #{current_user.username}", "Added to project")
 
             enrolled_projects = student.enrolled_projects.count.to_i
 
-
             if(enrolled_projects == 10)
-
-                user_achievement = Achievement.where(name: "Team Player").first
-                student.user_achievements.create!(achievement: user_achievement)
-                new_notification_params = {
-                    actor_id: student.id,
-                    receiver_id: student.id,
-                    message: "You have unlocked the Team Player achievement being added to 10 groups!",
-                    notification_type: "Achievement unlocked" 
-                }
-        
-                new_notification  = Notification.create!(new_notification_params)
-                
+                unlock_achievement("Team Player", student)
+                create_notification(student, student, "You have unlocked the Team Player achievement being added to 10 groups!", "Unlocked new achievement")
             end
 
-            render json: { message: 'Project member added successfully', data:user_achievement }, status: :ok
+            render json: { message: 'Project member added successfully' }, status: :ok
 
         else
             if member.project_id != current_project.id
-
                 current_project.project_members.create(user: student)
-
-                current_project.create_activity(key: 'projectmember.create',parameters:{
-                    user: "#{current_user.username}",
-                    task: "added #{member.username} to a project titled '#{current_project.project_name}'",
-                    created_at: "at #{Time.now.strftime('%H:%M')}"
-                }, owner: current_user)
-
-
-                new_notification_params = {
-                    actor_id: current_user.id,
-                    receiver_id: student.id,
-                    message: "You have been added to #{current_project.project_name} by #{current_user.username}",
-                    notification_type: "Added to project"
-                }
-    
-                new_notification  = Notification.create(new_notification_params)
-
-               enrolled_projects = student.enrolled_projects.count.to_i
+                task = "added #{member.username} to a project titled '#{current_project.project_name}'"
+                create_user_activity(current_project, "projectmember.create", current_user.username, task, current_user)
+                create_notification(current_user, student, "You have been added to #{current_project.project_name} by #{current_user.username}", "Added to project")
+                enrolled_projects = student.enrolled_projects.count.to_i
 
               if(enrolled_projects == 10)
 
-                user_achievement = Achievement.where(name: "Team Player").first
-                student.user_achievements.create!(achievement: user_achievement)
-                new_notification_params = {
-                    actor_id: student.id,
-                    receiver_id: student.id,
-                    message: "You have unlocked the Team Player achievement being added to 10 groups!",
-                    notification_type: "Achievement unlocked" 
-                }
-        
-                new_notification  = Notification.create!(new_notification_params)
-
+                unlock_achievement("Team Player", student)
+                create_notification(student, student, "You have unlocked the Team Player achievement being added to 10 groups!","Achievement unlocked")
             end
 
-                render json: { message: 'Project member added successfully', data: new_notification }, status: :ok
+                render json: { message: 'Project member added successfully' }, status: :ok
 
             else
                 render json: { message: 'User already exists' }, status: :unprocessable_entity
             end
         end
     end
+
+
 
     # retrieving all members of a project;
     # *cleared
