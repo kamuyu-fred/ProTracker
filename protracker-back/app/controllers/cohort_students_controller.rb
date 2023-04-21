@@ -46,7 +46,7 @@ class CohortStudentsController < ApplicationController
 
 
 
-    # deleting members to a cohort;
+    # deleting members from a cohort;
     # * cleared;
     def delete
       cohort = Cohort.find_by(id: params[:cohort_id])

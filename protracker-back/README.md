@@ -173,7 +173,255 @@
     "notification_type": "Comment reply",
     "read": false
   }
+]
 ```
 
+## COHORTS
+
+### Columns
+
+- name :string
+- start_date :datetime
+- end_date :datetime
+
+### Validations
+
+- All the fields above must be present for the request to be successful.
+- The end date must be after the start date.
+
+### Cohort end points
+
+##### Creating a cohort
+
+    post '/create_cohort'
+
+- The POST request is expected to include a body in the following format:
+
+```json
+  {
+    "name": "Cohort Name",
+    "start_date": "2015-3-01",
+    "end_date": "2015-3-01"
+  }
+```
+- If any of the validations above fail an error message with the relevant information will be returned.
+
+#### Updating the details of an existing cohort
+
+    put '/cohorts/update_cohort/:cohort_id'
+
+- The POST request is expected to include a body in the following format:
+
+```json
+  {
+    "cohort_id" : "1", //The id of the cohort to be updated.
+    "name": "Cohort Name",
+    "start_date": "2015-3-01",
+    "end_date": "2015-3-01"
+  }
+```
+- Any new values will hence be updated.
+
+#### Adding members to a cohort
+
+    post '/cohort/add_student'
+
+- This request will add a new member to the cohort. ( The member should have already signed up)
+- The request requires a body in the format below:
+
+```json
+{
+  "cohort_id" : "1", // The cohort the user is being added to.
+  "email" : "user@example.com", // The email address of the student being added
+}
+```
+
+#### Removing a user from a cohort.
+
+    delete '/cohort/remove_member'
+
+- This request will remove a member from the cohort. ( The member should have already signed up)
+- The request requires a body in the format below:
+
+```json
+{
+  "cohort_id" : "1", // The cohort the user is being added to.
+  "email" : "user@example.com", // The email address of the student being added
+}
+```
+
+#### Getting a cohort admin
+
+    get '/cohort/:cohort_id/cohort_admin'
+
+#### Getting all members of a cohort
+
+    get '/cohort/cohort_members'
+
+#### Geeting all cohorts a member is enrolled into
+
+    get '/cohort/my_cohorts'
+
+#### Getting all cohorts where a user is an admin
+
+    get '/cohorts/admin_cohorts'
+
+#### Getting the details of a specific cohort
+
+    get '/cohort/details'
 
 
+## PROJECTS
+
+### Columns
+
+- project_name :string
+- project_description :string
+- github_link :string
+- user_id :string 
+- cohort_id :string
+- category :string
+
+### Validations
+
+- The project name, description, category and github link must be provided.
+
+### Project endpoints
+
+#### Creating a new project
+
+    post '/projects/add_project'
+
+- This request requires a body in the format below:
+
+```json
+{
+  "project_name": "ProTracker",
+  "project_description": "A project bank for various cohorts",
+  "category" : "android", // Android or Fullstack;
+  "cohort_id" : "1", // The cohort the project is being added to;
+  "github_link" : "https://protracker.github.com/",
+  "tags" : ["React", "Sass", "Rails", "Tailwind"] // optional
+}
+```
+
+#### Updating a project
+
+    put '/projects/:project_id'
+
+- The request takes in a body in a format similar to the one above :
+- Any updated values will be updated in the backend.
+
+
+#### Adding group members
+
+    post '/project/add_member
+
+- The request the requires the following parameters:
+
+```json
+{
+  "email": "groupmember@example.com", // the email address of the group member to be added
+  "cohort_id": "1", // the id of the cohort the project belongs to;
+  "project_id":"2" // the id of the project the member is being added to;
+}
+```
+
+#### Retrieving all projects belonging to a cohort
+
+    get '/cohort/:cohort_id/all_projects'
+
+#### Retrieving all projects belonging to the current user
+
+    get '/user/user_projects'
+
+#### Retrieving all projects a user is part of
+
+    get '/user/assigned_projects'
+
+#### Retriving all the members of a given project.
+
+    get '/project/:project_id/project_members'
+
+#### Querying for a given project
+
+    get '/cohort/:cohort_id/project/:search_params'
+
+- The search params may either be by tags or by name.
+
+#### Querying for a specific student's projects
+
+    post '/projects/student_projects' 
+
+- The post request takes in a valid student email.
+
+
+
+## LIKES
+
+### Endpoints
+
+#### Liking a project
+
+    post '/projects/:project_id/like'
+
+#### Unliking a project
+
+    post '/projects/:project_id/dislike'
+
+#### Retrieving all users who have liked a certain project.
+
+    get  '/projects/:project_id/liked_by'
+
+## ACTIVITIES
+
+
+#### Retrieving all user activity
+
+    get '/activities'
+
+
+## COMMENTS
+
+#### Posting a comment
+
+    post '/comments/comment'
+
+- This request expects a body in the format below;
+
+```json
+  {
+    "project_id" : "1", // id of the project being commented on;
+    "message" : "Great work", // the content of the comment;
+  }
+```
+
+#### Replying to a comment
+
+- This request expects a body in the format below:
+
+```json
+  {
+    "comment_id" : "1", // id of the comment being replied to;
+    "message" : "Great work", // the content of the comment;
+  }
+```
+
+#### Retrieving a thread
+
+    get '/comments/:comment_id/thread'
+
+
+## NOTIFICATIONS
+
+#### Retrieving a logged in user's notifications
+
+    get '/notifications'
+
+#### Retrieving all a user's unread notifications
+
+    get '/unread_notifications'
+
+#### Marking a notification as read
+
+    put '/:notif_id/mark_as_read'put '/mark_as_read'
