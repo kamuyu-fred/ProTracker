@@ -6,14 +6,15 @@ import CommentBox from "./components/CommentBox";
 import ReplyBox from "./components/ReplyBox";
 
 
+
 function App() {
   return (
   <>
 
     <Navbar />
-    {/* <Sidebar /> */}
-    <CommentBox />
-    <ReplyBox />
+     <Sidebar />
+    
+  
   
  
 
