@@ -173,7 +173,115 @@
     "notification_type": "Comment reply",
     "read": false
   }
+]
 ```
 
+## COHORTS
+
+### Columns
+
+- name :string
+- start_date :datetime
+- end_date :datetime
+
+### Validations
+
+- All the fields above must be present for the request to be successful.
+- The end date must be after the start date.
+
+### Cohort end points
+
+##### Creating a cohort
+
+    post '/create_cohort'
+
+- The POST request is expected to include a body in the following format:
+
+```json
+  {
+    "name": "Cohort Name",
+    "start_date": "2015-3-01",
+    "end_date": "2015-3-01"
+  }
+```
+- If any of the validations above fail an error message with the relevant information will be returned.
+
+#### Updating the details of an existing cohort
+
+    put '/cohorts/update_cohort/:cohort_id'
+
+- The POST request is expected to include a body in the following format:
+
+```json
+  {
+    "cohort_id" : "1", //The id of the cohort to be updated.
+    "name": "Cohort Name",
+    "start_date": "2015-3-01",
+    "end_date": "2015-3-01"
+  }
+```
+- Any new values will hence be updated.
+
+#### Adding members to a cohort
+
+    post '/cohort/add_student'
+
+- This request will add a new member to the cohort. ( The member should have already signed up)
+- The request requires a body in the format below:
+
+```json
+{
+  "cohort_id" : "1", // The cohort the user is being added to.
+  "email" : "user@example.com", // The email address of the student being added
+}
+```
+
+#### Removing a user from a cohort.
+
+    delete '/cohort/remove_member'
+
+- This request will remove a member from the cohort. ( The member should have already signed up)
+- The request requires a body in the format below:
+
+```json
+{
+  "cohort_id" : "1", // The cohort the user is being added to.
+  "email" : "user@example.com", // The email address of the student being added
+}
+```
+
+#### Getting a cohort admin
+
+    get '/cohort/:cohort_id/cohort_admin'
+
+#### Getting all members of a cohort
+
+    get '/cohort/cohort_members'
+
+#### Geeting all cohorts a member is enrolled into
+
+    get '/cohort/my_cohorts'
+
+#### Getting all cohorts where a user is an admin
+
+    get '/cohorts/admin_cohorts'
+
+#### Getting the details of a specific cohort
+
+    get '/cohort/details'
 
 
+## PROJECTS
+
+### Columns
+
+- project_name :string
+- project_description :string
+- github_link :string
+- user_id :string 
+- cohort_id :string
+- category :string
+
+### Validations
+
+- The project name, description, category and github link must be provided.

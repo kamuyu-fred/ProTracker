@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   get '/cohort/:cohort_id/cohort_admin', to: 'cohorts#cohort_admin' 
 
   # getting all members
-  get '/cohort/cohort_members', to: 'cohorts#all_members' 
+  get '/cohort/:cohort_id/cohort_members', to: 'cohorts#all_members' 
 
   # getting users cohorts
   get '/cohort/my_cohorts', to: 'cohorts#my_cohorts' 
