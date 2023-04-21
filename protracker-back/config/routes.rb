@@ -82,6 +82,7 @@ Rails.application.routes.draw do
   post '/comments/comment', to: 'comments#post_comment'
   post '/comments/reply', to: 'comments#reply_comment'
   get '/comments/:comment_id/thread', to: 'comments#show_thread'
+  get '/comments/project_comments/:project_id', to: 'comments#all_comments'
 
   # * NOTIFICATIONS
 

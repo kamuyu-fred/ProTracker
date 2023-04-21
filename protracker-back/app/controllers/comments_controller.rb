@@ -67,6 +67,14 @@ class CommentsController < ApplicationController
         render json: parent_comment
     end
 
+    def all_comments
+        
+        project = Project.find_by(id: params[:project_id])
+        comments = project.comments.all
+
+        render json: comments
+    end
+
     private
 
     def comment_params

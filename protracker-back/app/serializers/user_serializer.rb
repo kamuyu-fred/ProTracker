@@ -1,4 +1,4 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :username, :email, :admin, :bio, :github_link, :achievements
+  attributes :id, :username, :email, :admin, :bio, :github_link, :achievements, :avatar_url
   has_many :achievements
 end
