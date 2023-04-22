@@ -9,13 +9,14 @@ import SignUp from "./components/SignUp";
 import CohortForm from "./pages/Cohort";
 
 
+
 function App() {
   return (
   <>
 
-    <Navbar />
-     <Sidebar /> 
-    
+     {/* <Navbar /> */}
+     {/* <Sidebar />  */}
+     <CohortForm/>
  {/* <Login /> */}
     
      {/* <SignUp /> */}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function CohortForm() {
   const [cohortData, setCohortData] = useState({
@@ -7,6 +7,16 @@ function CohortForm() {
     end_date: '',
     user_id: ''
   });
+  const [members, setMembers] = useState([]);
+  const [selectedMember, setSelectedMember] = useState('');
+
+  useEffect(() => {
+    // Fetch members for the dropdown
+    fetch('/api/members')
+      .then(response => response.json())
+      .then(data => setMembers(data))
+      .catch(error => console.log(error));
+  }, []);
 
   const handleInputChange = event => {
     const { name, value } = event.target;
@@ -25,9 +35,31 @@ function CohortForm() {
       .catch(error => console.log(error));
   };
 
+  const handleMemberAdd = event => {
+    event.preventDefault();
+    fetch(`/api/cohorts/${cohortData.id}/members`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: selectedMember })
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.log(error));
+  };
+
+  const handleMemberDismiss = memberId => {
+    fetch(`/api/cohorts/${cohortData.id}/members/${memberId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.log(error));
+  };
+
   return (
     <div>
-      <h1>Create Cohort</h1>
+      <h1>{cohortData.id ? 'Update' : 'Create'} Cohort</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name:</label>
@@ -60,7 +92,7 @@ function CohortForm() {
           />
         </div>
         <div>
-          <label htmlFor="user_id">User ID:</label>
+          <label htmlFor="user_id">Admin User ID:</label>
           <input
             type="number"
             id="user_id"
@@ -69,8 +101,32 @@ function CohortForm() {
             onChange={handleInputChange}
           />
         </div>
-        <button type="submit">Create Cohort</button>
+        <button type="submit">{cohortData.id ? 'Update' : 'Create'} Cohort</button>
       </form>
+      {cohortData.id && (
+        <>
+          <h2>Add Member</h2>
+          <form onSubmit={handleMemberAdd}>
+            <label htmlFor="members">Select a Member:</label>
+            <select id="members" name="members" onChange={(event) => setSelectedMember(event.target.value)}>
+              <option value="">Select a Member</option>
+              {members.map(member => (
+                <option key={member.id} value={member.id}>{member.name}</option>
+              ))}
+            </select>
+            <button type="submit">Add Member</button>
+          </form>
+          <h2>Current Members</h2>
+          <ul>
+            {cohortData.members.map(member => (
+              <li key={member.id}>
+                {member.name}
+                <button onClick={() => handleMemberDismiss(member.id)}>Dismiss</button>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }
