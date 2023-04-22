@@ -13,11 +13,11 @@ function App() {
   return (
   <>
 
-    {/* <Navbar />
-     <Sidebar /> */}
+     <Navbar />
+     <Sidebar /> 
  {/* <Login /> */}
     
-     <SignUp />
+     {/* <SignUp /> */}
     
   
   
