@@ -13,7 +13,7 @@ function App() {
       {/* <Navbar />
       <Sidebar /> */}
     </>
-  );
+  )
 }
 
 export default App;
