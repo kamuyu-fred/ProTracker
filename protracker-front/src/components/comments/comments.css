@@ -19,6 +19,7 @@
     max-height: 32.5em;
     overflow-y: scroll;
     padding: 0px .7rem;
+    padding-bottom: 1em;
 }
 
 #comments-box::-webkit-scrollbar{
@@ -242,6 +243,7 @@ textarea:focus{
     cursor: pointer;
     align-items: center;
     justify-content: center;
+    color : #777;
 }
 
 

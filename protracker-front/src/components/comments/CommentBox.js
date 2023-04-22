@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./comments.css";
+import ReactDOM from 'react-dom';
+
 
 // function CommentBox() {
 //   return (
@@ -91,12 +93,15 @@ import "./comments.css";
 
 const CommentReply = ({ reply, formatTimestamp }) => {
   let fomartedTimestamp = formatTimestamp(reply.created_at);
+  // let avatarUrl = reply.user.avatar_url == null ? "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg" : reply.user.avatar_url
+
+  // console.log(avatarUrl)
 
   return (
     <div id="custom-comment">
       <div id="profile-image-container">
         <img
-          src="https://i.pinimg.com/564x/e4/5f/40/e45f401e2d083048c3d6e725704d0619.jpg"
+          src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg"
           alt="profile_img"
         />
       </div>
@@ -110,12 +115,52 @@ const CommentReply = ({ reply, formatTimestamp }) => {
   );
 };
 
+
 const Comment = ({ comment, replies, formatTimestamp }) => {
+
+  const [replyContent, setReplyContent] = useState("")
+
   let commentReplies = replies.filter(
     (rep) => rep.parent_comment_id === comment.id
   );
 
-  let commentRepliesList = commentReplies.map((reply) => {
+  const [filteredReplies, setFilteredReplies] = useState(commentReplies)
+
+ 
+  const handleReplyingToComment = (value)=>{
+    let replyObj = {
+      comment_id : comment.id,
+      user_id : 11,  
+      message : replyContent,
+      created_at: new Date()
+    }
+
+    setFilteredReplies([...filteredReplies, replyObj]);
+
+    
+    commentReplies.push(replyObj)
+    console.log(commentReplies)
+
+    let obj = {
+      comment_id : comment.id,
+      user_id : 11,  
+      message : replyContent
+    }
+
+    fetch("http://localhost:3000/comments/reply", {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj)
+    })
+    .then(response => {
+      console.log(response.json());
+    });
+
+    setReplyContent('');
+
+  };
+
+  let commentRepliesList = filteredReplies.map((reply) => {
     return (
       <CommentReply
         formatTimestamp={formatTimestamp}
@@ -153,6 +198,10 @@ const Comment = ({ comment, replies, formatTimestamp }) => {
     setIsReplying(!isReplying)
   }
 
+
+  let replyWord = commentRepliesList.length === 1 ? "reply" : "replies";
+  // let avatarUrl = comment.user.avatar_url === null ? "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg" : comment.user.avatar_url
+
   return (
     <div id="custom-comment">
       <div id="profile-image-container">
@@ -169,10 +218,10 @@ const Comment = ({ comment, replies, formatTimestamp }) => {
             <div>
               <i className="material-symbols-outlined">favorite</i>
               &nbsp;
-              <h6>1.1k</h6>
+              <h6>0</h6>
             </div>
             <div>
-              <h6>{replies.length} replies</h6>
+              <h6>{commentRepliesList.length} {replyWord}</h6>
               &nbsp;&nbsp;
               <i className="material-symbols-outlined">chat</i>
             </div>
@@ -187,12 +236,16 @@ const Comment = ({ comment, replies, formatTimestamp }) => {
         {
           isReplying &&
           <div id="reply-input-box">
-            <textarea placeholder="what are your thoughts?"></textarea>
+            <textarea onChange={(e)=>{
+              setReplyContent(e.target.value)
+            }} placeholder="what are your thoughts?" value={replyContent}></textarea>
             <div id="reply-controls">
               <button onClick={()=>{toggleReplyForm()}} id="cancel-btn">
                 <i className="material-symbols-outlined">close</i>
               </button>
-              <button id="reply-btn">
+              <button onClick={()=>{
+                handleReplyingToComment()
+              }}id="reply-btn">
                 <i className="material-symbols-outlined">send</i>
               </button>
             </div>
@@ -219,16 +272,76 @@ const Comment = ({ comment, replies, formatTimestamp }) => {
   );
 };
 
-const CommentForm = () => {
+
+const CommentForm = ({formatTimestamp}) => {
+
+  const [message, setMessage] = useState("")
+
+  let handleCommenting = (message) => {
+    setMessage(message)
+    console.log(message)
+  }
+
+  let handlePosting = () => {
+    let commentBox = document.getElementById("comments-box");
+
+    let comment = {
+      message: message,
+      created_at : new Date()
+    }
+
+    let comment_obj = {
+      message: message,
+      project_id: 1,
+      user_id: 11
+    }
+
+    fetch("http://localhost:3000/comments/comment",{
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(comment_obj)
+    })
+    .then(response => {
+      console.log(response.json());
+    })
+
+    const newComment = (
+      <Comment
+        comment={comment}
+        formatTimestamp={formatTimestamp}
+        replies={[]}
+      />
+    );
+
+    const newCommentContainer = document.createElement("div");
+    newCommentContainer.classList.add("custom-comment");
+    ReactDOM.render(newComment, newCommentContainer);
+
+    commentBox.appendChild(newCommentContainer);
+
+    setMessage("")
+  };
+
+
+
   return (
     <div id="custom-comment-form">
-      <input type="text" placeholder="Start typing..."></input>
-      <button>
+      <input onChange={(e)=>{
+        handleCommenting(e.target.value);
+      }} type="text" placeholder="Start typing..." value={message}></input>
+      <button 
+      onClick={()=>{
+        handlePosting()
+      }}
+      >
         <i className="material-icons">rocket_launch</i>
       </button>
     </div>
   );
 };
+
+
+
 
 function CommentBox() {
   let formatTimestamp = (timestamp) => {
@@ -257,8 +370,11 @@ function CommentBox() {
     interval = Math.floor(seconds / 60);
     if (interval >= 60) {
       return "1 hour ago";
-    } else {
-      return interval + " minutes ago";
+    } else if(interval === 0){
+      return "just now";
+    }
+    else {
+      return interval + " mins ago";
     }
 
     return Math.floor(seconds) + " s ago";
@@ -291,7 +407,7 @@ function CommentBox() {
   return (
     <section id="comment-section">
       <div id="comments-box">{rootCommentsList}</div>
-      <CommentForm />
+      <CommentForm formatTimestamp={formatTimestamp}/>
     </section>
   );
 }
