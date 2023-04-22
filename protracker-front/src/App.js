@@ -6,6 +6,7 @@ import CommentBox from "./components/CommentBox";
 import ReplyBox from "./components/ReplyBox";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import AdminDashUsers from "./components/AdminDashUsers";
 
 
 
@@ -15,6 +16,7 @@ function App() {
 
      <Navbar />
      <Sidebar /> 
+     <AdminDashUsers />
  {/* <Login /> */}
     
      {/* <SignUp /> */}
