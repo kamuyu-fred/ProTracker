@@ -35,7 +35,7 @@ function Projectdetails() {
                 </div>
                 <dl>
                     <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Project Details</dt>
-                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Standard glass ,3.8GHz 8-core 10th-generation Intel Core i7 processor, Turbo Boost up to 5.0GHz, 16GB 2666MHz DDR4 memory, Radeon Pro 5500 XT with 8GB of GDDR6 memory, 256GB SSD storage, Gigabit Ethernet, Magic Mouse 2, Magic Keyboard - US.</dd>
+                    <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">A system that keeps track of the projects done over time in order to have a project bank for future reference.</dd>
                     <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Project Category</dt>
                     <dd class="mb-4 font-light text-gray-500 sm:mb-5 dark:text-gray-400">Fullstack</dd>
                 </dl>
