@@ -11,11 +11,12 @@ import SignUp from "./components/SignUp";
 function App() {
   return (
     <>
+    <Projectdetails/>
     {/* <CommentBox/> */}
     {/* <Login/> */}
     {/* <SignUp/> */}
     {/* <ReplyBox/> */}
-    <Navbar/>
+    {/* <Navbar/> */}
     { /* <Sidebar /> */}
     </>
   )
