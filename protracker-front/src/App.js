@@ -5,12 +5,14 @@ import Sidebar from "./components/Sidebar";
 import CommentBox from "./components/comments/CommentBox";
 import ReplyBox from "./components/comments/ReplyBox";
 import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 
 function App() {
   return (
     <>
     {/* <CommentBox/> */}
-    <Login/>
+    {/* <Login/> */}
+    <SignUp/>
     {/* <ReplyBox/> */}
       {/* <Navbar />
       <Sidebar /> */}
