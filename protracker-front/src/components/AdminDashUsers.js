@@ -73,7 +73,7 @@ function AdminDashUsers() {
                     </div>
                 </td>
                 <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Jese image"/>
+                    <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-1.jpg" alt="Jese image"/>
                     <div class="pl-3">
                         <div class="text-base font-semibold">Elly Kipchumba</div>
                         <div class="font-normal text-gray-500">elly.kipchumba@moringaschool.com</div>
@@ -99,7 +99,7 @@ function AdminDashUsers() {
                     </div>
                 </td>
                 <th scope="row" class="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="Jese image"/>
+                    <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Jese image"/>
                     <div class="pl-3">
                         <div class="text-base font-semibold">Jeff Maina</div>
                         <div class="font-normal text-gray-500">jeff.maina@moringaschool.com</div>
@@ -125,7 +125,7 @@ function AdminDashUsers() {
                     </div>
                 </td>
                 <th scope="row" class="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-2.jpg" alt="Jese image"/>
+                    <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="Jese image"/>
                     <div class="pl-3">
                         <div class="text-base font-semibold">Paul Kihango</div>
                         <div class="font-normal text-gray-500">paul.kihango@moringaschool.com</div>
@@ -151,7 +151,7 @@ function AdminDashUsers() {
                     </div>
                 </td>
                 <th scope="row" class="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="Jese image"/>
+                    <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Jese image"/>
                     <div class="pl-3">
                         <div class="text-base font-semibold">Fred Kamuyu</div>
                         <div class="font-normal text-gray-500">fred.kamuyu@moringaschool.com</div>
@@ -177,7 +177,7 @@ function AdminDashUsers() {
                     </div>
                 </td>
                 <th scope="row" class="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-4.jpg" alt="Jese image"/>
+                    <img class="w-10 h-10 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="Jese image"/>
                     <div class="pl-3">
                         <div class="text-base font-semibold">Jamil Saleh</div>
                         <div class="font-normal text-gray-500">jamil.saleh@moringaschool.com</div>
