@@ -12,10 +12,10 @@ function App() {
     <>
     {/* <CommentBox/> */}
     {/* <Login/> */}
-    <SignUp/>
+    {/* <SignUp/> */}
     {/* <ReplyBox/> */}
-      {/* <Navbar />
-      <Sidebar /> */}
+    <Navbar/>
+    { /* <Sidebar /> */}
     </>
   )
 }

@@ -1,5 +1,6 @@
 class NotificationsController < ApplicationController
     def get_notifications
+        current_user = User.find(11)
         notifications = Notification.where(receiver_id: current_user.id)
         render json: notifications
     end

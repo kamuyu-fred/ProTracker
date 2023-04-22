@@ -1,14 +1,119 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function Navbar() {
+  let [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/notifications")
+      .then((response) => response.json())
+      .then((data) => {
+        setNotifications(data);
+      });
+  }, []);
+
+  console.log(notifications);
+
+  let formatTimestamp = (timestamp) => {
+    const seconds = Math.floor((new Date() - new Date(timestamp)) / 1000);
+
+    let interval = Math.floor(seconds / 31536000);
+    if (interval > 1) {
+      return interval + " yrs ago";
+    }
+
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+      return interval + " months ago";
+    }
+
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+      return interval + " days ago";
+    }
+
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+      return interval + " hrs ago";
+    }
+
+    interval = Math.floor(seconds / 60);
+    if (interval >= 60) {
+      return "1 hour ago";
+    } else if(interval === 0){
+      return "just now";
+    }
+    else {
+      return interval + " mins ago";
+    }
+
+    return Math.floor(seconds) + " s ago";
+  };
+
+
+  let notificationsList = notifications.map((notification) => {
+
+    let timestamp = formatTimestamp(notification.created_at);
+
+    return (
+      <>
+        <a
+          href="#"
+          class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          <div class="flex-shrink-0">
+            <img
+              class="rounded-full w-11 h-11"
+              src="https://flowbite.com//docs/images/people/profile-picture-1.jpg"
+              alt="Jese image"
+            />
+            <div class="absolute flex items-center justify-center w-5 h-5 ml-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
+              <svg
+                class="w-3 h-3 text-white"
+                aria-hidden="true"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path>
+                <path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="w-full pl-3">
+            <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400">
+              <span class="font-semibold text-gray-900 dark:text-white">
+                {notification.notification_type}
+              </span>
+
+                &nbsp;
+
+                {notification.message}
+            </div>
+            <div class="text-xs text-blue-600 dark:text-blue-500">
+              {timestamp}
+            </div>
+          </div>
+        </a>
+      </>
+    );
+  });
+
+  
+
   return (
     <>
       <nav class="bg-white border-gray-200 dark:bg-gray-900">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          {/* <a href="https://flowbite.com/" class="flex items-center">
-            <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="Flowbite Logo" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ProTracker</span>
-        </a> */}
+          <a href="https://flowbite.com/" class="flex items-center">
+            <img
+              src="https://flowbite.com/docs/images/logo.svg"
+              class="h-8 mr-3"
+              alt="Flowbite Logo"
+            />
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+              ProTracker
+            </span>
+          </a>
           <div class="flex items-center md:order-2">
             <button
               type="button"
@@ -50,14 +155,14 @@ function Navbar() {
 
             <div
               id="dropdownNotification"
-              class="z-20 hidden w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700"
+              class="z-20 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700 absolute -top-2"
               aria-labelledby="dropdownNotificationButton"
             >
               <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
                 Notifications
               </div>
               <div class="divide-y divide-gray-100 dark:divide-gray-700">
-                <a
+                {/* <a
                   href="#"
                   class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
@@ -249,7 +354,8 @@ function Navbar() {
                       3 hours ago
                     </div>
                   </div>
-                </a>
+                </a> */}
+                {notificationsList}
               </div>
               <a
                 href="#"
