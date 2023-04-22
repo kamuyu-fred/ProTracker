@@ -6,18 +6,19 @@ import CommentBox from "./components/CommentBox";
 import ReplyBox from "./components/ReplyBox";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
-
+import CohortForm from "./pages/Cohort";
 
 
 function App() {
   return (
   <>
 
-    {/* <Navbar />
-     <Sidebar /> */}
+    <Navbar />
+     <Sidebar /> 
+    
  {/* <Login /> */}
     
-     <SignUp />
+     {/* <SignUp /> */}
     
   
   
