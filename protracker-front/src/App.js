@@ -7,6 +7,9 @@ import CommentBox from "./components/comments/CommentBox";
 import ReplyBox from "./components/comments/ReplyBox";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import AdminDashUsers from "./components/AdminDashUsers";
+import AdminDashProjects from "./components/AdminDashProjects";
+import ProjectsList from "./components/ProjectsList";
 
 import { Provider } from 'react-redux';
 import store from './store.js';
@@ -15,9 +18,7 @@ function App() {
   return (
     <>
     <Provider store={store}>
-
       <Projectdetails/>
-
     </Provider>
     {/* <CommentBox/> */}
     {/* <Login/> */}
