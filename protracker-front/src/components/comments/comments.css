@@ -2,15 +2,12 @@
     width: 32em;
     height: 40em;
     background-color: #fff;
-    margin: auto;
     position: relative;
     border-radius: 10px;
-    margin-top: 10em;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 3em;
-
 }
 
 #comments-box{
