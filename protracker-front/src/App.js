@@ -8,10 +8,17 @@ import ReplyBox from "./components/comments/ReplyBox";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 
+import { Provider } from 'react-redux';
+import store from './store.js';
+
 function App() {
   return (
     <>
-    <Projectdetails/>
+    <Provider store={store}>
+
+      <Projectdetails/>
+
+    </Provider>
     {/* <CommentBox/> */}
     {/* <Login/> */}
     {/* <SignUp/> */}

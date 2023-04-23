@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./comments.css";
 import ReactDOM from 'react-dom';
+import { useSelector } from 'react-redux'
 
 
 // function CommentBox() {
@@ -275,6 +276,8 @@ const Comment = ({ comment, replies, formatTimestamp }) => {
 
 const CommentForm = ({formatTimestamp}) => {
 
+  const project_id = useSelector(state => state.project.id);
+
   const [message, setMessage] = useState("")
 
   let handleCommenting = (message) => {
@@ -292,7 +295,7 @@ const CommentForm = ({formatTimestamp}) => {
 
     let comment_obj = {
       message: message,
-      project_id: 1,
+      project_id: project_id,
       user_id: 11
     }
 
@@ -343,7 +346,10 @@ const CommentForm = ({formatTimestamp}) => {
 
 
 
-function CommentBox() {
+function CommentBox({project_id}) {
+
+  console.log(project_id);
+  
   let formatTimestamp = (timestamp) => {
     const seconds = Math.floor((new Date() - new Date(timestamp)) / 1000);
 
@@ -383,12 +389,14 @@ function CommentBox() {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/comments/project_comments/1")
+    fetch(`http://localhost:3000/comments/project_comments/${project_id}`)
       .then((response) => response.json())
       .then((data) => {
         setComments(data);
       });
-  }, []);
+  }, [project_id]);
+
+  console.log(comments)
 
   let rootComments = comments.filter(
     (comment) => comment.parent_comment_id === null
@@ -407,7 +415,8 @@ function CommentBox() {
   return (
     <section id="comment-section">
       <div id="comments-box">{rootCommentsList}</div>
-      <CommentForm formatTimestamp={formatTimestamp}/>
+      <CommentForm         project_id = {project_id}
+ formatTimestamp={formatTimestamp}/>
     </section>
   );
 }

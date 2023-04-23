@@ -79,10 +79,8 @@ class ProjectsController < ApplicationController
     # retrieve a projects details;
     # *cleared
     def project_details
-        assigned_projects = current_user.project_members.where(user_id: current_user.id).map do |project|
-            Project.where(id: project.project_id).first
-        end
-        render json: assigned_projects.find{|item| item.id = params[:project_id]}, include: [:user, :members]
+        project = Project.find_by(id: params[:project_id])
+        render json: project, include: :user
     end
 
 
