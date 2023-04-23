@@ -14,7 +14,7 @@ function CohortForm() {
 
   useEffect(() => {
     // Fetch members for the dropdown
-    fetch("http://localhost:3000/members")
+    fetch("http://localhost:3000/cohort/:cohort_id/cohort_members")
       .then(response => response.json())
       .then(data => setMembers(data))
       .catch(error => console.log(error));
