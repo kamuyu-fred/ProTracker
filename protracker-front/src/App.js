@@ -8,6 +8,7 @@ import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import AdminDashUsers from "./components/AdminDashUsers";
 import AdminDashProjects from "./components/AdminDashProjects";
+import ProjectsList from "./components/ProjectsList";
 
 
 
@@ -16,9 +17,13 @@ function App() {
   <>
 
      <Navbar />
-    {/* <Sidebar />  */}
-     {/* <AdminDashUsers /> */}
-     <AdminDashProjects />
+    <Sidebar /> 
+
+    {/* <AdminDashProjects /> */}
+
+    <ProjectsList />
+     {/* <AdminDashUsers />
+     
     {/* <Login /> */}
     
     {/* <SignUp /> */}

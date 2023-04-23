@@ -1,8 +1,10 @@
 import React from 'react'
 
-function AdminDashProjects() {
+function ProjectsList() {
   return (
     <div>
+
+<div>
       
       <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
     <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
@@ -397,7 +399,8 @@ function AdminDashProjects() {
       </div>
     </section>
     </div>
+    </div>
   )
 }
 
-export default AdminDashProjects
+export default ProjectsList
