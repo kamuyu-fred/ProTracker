@@ -1,5 +1,6 @@
 import { Route, RouterProvider, Routes } from "react-router-dom";
 import './App.css';
+import './Variables.js';
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import CommentBox from "./components/CommentBox";
