@@ -11,6 +11,7 @@ function ProjectsList() {
   function handleProjectId(newId) {
     console.log(newId)
     dispatch({ type: "SET_PROJECT_ID", payload: newId });
+    localStorage.setItem('projectId', newId);
   }
 
     const [projects, setProjects] = useState([])

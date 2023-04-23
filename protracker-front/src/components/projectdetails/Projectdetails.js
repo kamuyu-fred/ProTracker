@@ -13,6 +13,9 @@ import { useSelector } from 'react-redux'
 
 
 function Projectdetails() {
+
+
+
   const dispatch = useDispatch();
 
   // updating redux state;
@@ -21,6 +24,18 @@ function Projectdetails() {
   }
 
   const project_id = useSelector(state => state.project.id);
+
+  const[id, setId] = useState('')
+
+  // useEffect(() => {
+  //   if (storedProjectId) {
+  //     setId(storedProjectId);
+  //     console.log(storedProjectId)
+  //   }
+  // }, []);
+
+  const storedProjectId = localStorage.getItem('projectId');
+
 
   // states for conditional rendering;
   const [isAddingMember, setIsAddingMember] = useState(false);
@@ -33,14 +48,16 @@ function Projectdetails() {
     e.stopPropagation();
   };
 
+
+
   const [projectData, setProjectData] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:3000/projects/${project_id}/project_details`)
+    fetch(`http://localhost:3000/projects/${storedProjectId}/project_details`)
       .then((response) => response.json())
       .then((data) => {
         // console.log("data");
-        handleProjectId(data.id);
+        // handleProjectId(data.id);
         setGroupMembers(data.members);
         setProjectData(data);
       });
