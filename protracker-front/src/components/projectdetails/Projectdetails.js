@@ -9,6 +9,8 @@ import mongo from "./assets/mongodb.png";
 import firebase from "./assets/postgresql.png";
 import redux from "./assets/tailwind-css.png";
 import { useDispatch } from "react-redux";
+import { useSelector } from 'react-redux'
+
 
 function Projectdetails() {
   const dispatch = useDispatch();
@@ -17,6 +19,8 @@ function Projectdetails() {
   function handleProjectId(newId) {
     dispatch({ type: "SET_PROJECT_ID", payload: newId });
   }
+
+  const project_id = useSelector(state => state.project.id);
 
   // states for conditional rendering;
   const [isAddingMember, setIsAddingMember] = useState(false);
@@ -32,7 +36,7 @@ function Projectdetails() {
   const [projectData, setProjectData] = useState({});
 
   useEffect(() => {
-    fetch("http://localhost:3000/projects/1/project_details")
+    fetch(`http://localhost:3000/projects/${project_id}/project_details`)
       .then((response) => response.json())
       .then((data) => {
         // console.log("data");

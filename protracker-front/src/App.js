@@ -13,12 +13,21 @@ import ProjectsList from "./components/ProjectsList";
 
 import { Provider } from 'react-redux';
 import store from './store.js';
+import { Switch } from "react-router-dom/cjs/react-router-dom.min";
 
 function App() {
   return (
     <>
     <Provider store={store}>
-      <Projectdetails/>
+      {/* <Projectdetails/> */}
+      <Switch>
+        <Route path="/projectlist">
+          <ProjectsList/>
+        </Route>
+        <Route path="/projectdetails">
+          <Projectdetails/>
+        </Route>
+      </Switch>
     </Provider>
     {/* <CommentBox/> */}
     {/* <Login/> */}
