@@ -3,6 +3,8 @@ import './App.css';
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import Projectdetails from "./components/Projectdetails";
+import Login from "./components/Login";
+import Projectslist from "./components/Projectslist";
 
 
 function App() {
@@ -11,7 +13,9 @@ function App() {
 
     {/* <Navbar />
     <Sidebar /> */}
-    <Projectdetails /> 
+    {/* <Projectdetails /> */}
+    {/* <Login /> */}
+    <Projectslist />
     
   
     <div className="App">
