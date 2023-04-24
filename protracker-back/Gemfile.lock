@@ -198,7 +198,6 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    sqlite3 (1.6.2-x86_64-linux)
     thor (1.2.1)
     timeout (0.3.2)
     tzinfo (2.0.6)
@@ -240,13 +239,12 @@ DEPENDENCIES
   rails (~> 7.0.4, >= 7.0.4.3)
   selenium-webdriver
   sprockets-rails
-  sqlite3 (~> 1.4)
   tzinfo-data
   web-console
   webdrivers
 
 RUBY VERSION
-   ruby 2.7.4p191
+   ruby 3.0.2p107
 
 BUNDLED WITH
    2.4.9
