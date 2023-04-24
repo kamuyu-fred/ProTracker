@@ -1,63 +1,75 @@
 import React, { useState, useEffect } from 'react';
 
-
-
 function CohortForm() {
   const [cohortData, setCohortData] = useState({
     name: '',
     start_date: '',
-    end_date: '',
-    user_id: ''
+    end_date: ''
   });
   const [members, setMembers] = useState([]);
   const [selectedMember, setSelectedMember] = useState('');
 
   useEffect(() => {
     // Fetch members for the dropdown
-    fetch("http://localhost:3000/cohort/:cohort_id/cohort_members")
+    fetch(`http://localhost:3000/cohort/cohort_members`, {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+    })
       .then(response => response.json())
       .then(data => setMembers(data))
       .catch(error => console.log(error));
   }, []);
 
-  const handleInputChange = event => {
+  function handleInputChange(event) {
     const { name, value } = event.target;
     setCohortData({ ...cohortData, [name]: value });
-  };
-
-  const handleSubmit = event => {
+  }
+  
+  function handleSubmit(event) {
     event.preventDefault();
-    fetch("http://localhost:3000/cohorts/create_cohort", {
+    fetch(`http://localhost:3000/cohorts/create_cohort`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
       body: JSON.stringify(cohortData)
     })
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => console.log(error));
-  };
-
-  const handleMemberAdd = event => {
+  }
+  
+  function handleMemberAdd(event) {
     event.preventDefault();
-    fetch("http://localhost:3000/members", {
+    fetch(`http://localhost:3000/cohort/members`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
       body: JSON.stringify({ user_id: selectedMember })
     })
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => console.log(error));
-  };
-
-  const handleMemberDismiss = memberId => {
-    fetch("http://localhost:3000/members", {
+  }
+  
+  function handleMemberDismiss(memberId) {
+    fetch(`http://localhost:3000/members/${memberId}`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
     })
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => console.log(error));
-  };
+  }
+//   function selected_cohort() {
+//     return { id: 1 }; // replace this with your own implementation to get the selected cohort
+//   }
+  
 
   
   return (
