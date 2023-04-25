@@ -9,4 +9,3 @@ The back end is hosted within protracker-back.
 In depth related documentation is hosted within their respective folders.
 
 This is a placeholder.
-welcome
