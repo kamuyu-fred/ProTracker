@@ -1,6 +1,10 @@
 class CohortsController < ApplicationController
     before_action :verify_auth
 
+    def all_cohorts
+        cohorts = Cohort.all
+        render json: cohorts
+    end
         # create a new cohort;
     # * cleared
     def create

@@ -36,11 +36,12 @@ Rails.application.routes.draw do
   # getting cohorts where the user is an admin
   get '/cohorts/admin_cohorts', to: 'cohorts#admin_cohorts' # *
   get '/cohort/details', to: 'cohorts#cohort_details' 
-
+  get '/all_cohorts', to: 'cohorts#all_cohorts'
 
 
   # * PROJECTS
 
+  get '/all_projects', to: "projects#db_projects"
   get '/projects/:project_id/project_details', to: 'projects#project_details' 
   get '/cohort/:cohort_id/all_projects' , to: 'projects#all_projects' 
   get '/user/user_projects', to: 'projects#current_user_projects' 

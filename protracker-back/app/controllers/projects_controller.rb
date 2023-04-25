@@ -2,6 +2,10 @@ class ProjectsController < ApplicationController
 
     before_action :verify_auth
 
+    def db_projects
+        projects = Project.all
+        render json: projects
+    end
 
     # like a project
     def like

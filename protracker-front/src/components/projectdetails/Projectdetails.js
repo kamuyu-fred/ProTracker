@@ -194,6 +194,7 @@ function Projectdetails() {
         setCohortMembers(data);
       });
   },[]);
+  
 
   let handleAddingMember = (id) => {
     console.log(id)
@@ -222,6 +223,7 @@ function Projectdetails() {
     .then((data) => {console.log(data)});
 
   };
+
 
   let cohortMembersList = cohortMembers.map(member => {
 
