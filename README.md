@@ -1,4 +1,7 @@
 Moringa ProTracker
+ To start you first need to install 
+ `npm install styled-components`
+
 
 This is the repository holding Moringa ProTracker.
 
