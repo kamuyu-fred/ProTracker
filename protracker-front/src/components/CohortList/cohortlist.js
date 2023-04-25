@@ -105,10 +105,75 @@ function CohortList() {
     );
   });
 
+  // creating a cohort
+
   // loading status
 
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
+  const [isStillLoading, setStillLoading] = useState(false);
+  const [successText, setSuccessText] = useState("");
+  const [errorsArray, setErrorsArray] = useState([]);
 
+  const [cohortData, setCohortData] = useState({
+    name: "",
+    start_date: "",
+    end_date: "",
+  });
+
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+    setCohortData({ ...cohortData, [name]: value });
+  }
+
+  function handleSubmit() {
+    setLoading(true);
+    console.log(cohortData);
+    fetch(`http://localhost:3000/cohorts/create_cohort`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify(cohortData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          setStillLoading(true);
+          setTimeout(() => {
+            setStillLoading(false);
+            setSuccessText("Success!");
+          }, 2000);
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+          return response.json();
+        } else {
+          setStillLoading(true);
+          setTimeout(() => {
+            setStillLoading(false);
+            setSuccessText("Failed!");
+          }, 2000);
+          return response.json();
+        }
+      })
+      .then((data) => {
+        if(data.errors.length > 0){
+          setErrorsArray(data.errors);
+        }else{
+          setErrorsArray([]);
+        }
+      })
+      .catch((error) => {});
+  }
+
+  let errorsList;
+  if (errorsArray) {
+    errorsList = errorsArray.map((error) => {
+      return <li>{error}</li>;
+    });
+  }
+
+  
   return (
     <section>
       <div id="cohort-header">
@@ -156,15 +221,36 @@ function CohortList() {
           >
             {isLoading && (
               <div id="loader-container">
-                <div id="loader-icon">
-                </div>
-                <h1 id="result-text">Success</h1>
+                {isStillLoading ? (
+                  <div id="loader-icon"></div>
+                ) : (
+                  <>
+                    <i
+                      onClick={() => {
+                        setLoading(false);
+                        setSuccessText("");
+                        setErrorsArray([]);
+                      }}
+                      id="error-back"
+                      className="material-icons"
+                    >
+                      arrow_backwords
+                    </i>
 
+                    <h1 id="result-text">{successText}</h1>
+                    <ul id="errors-container">{errorsList}</ul>
+                  </>
+                )}
               </div>
             )}
 
             {isCreatingCohort ? (
-              <CohortForm />
+              <CohortForm
+                handleSubmit={handleSubmit}
+                handleInputChange={handleInputChange}
+                cohortData={cohortData}
+                setCohortData={setCohortData}
+              />
             ) : (
               <div id="add-cohort-form">
                 <div className="add-cohort-header">

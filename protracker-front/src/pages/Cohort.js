@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-function CohortForm() {
-  const [cohortData, setCohortData] = useState({
-    name: '',
-    start_date: '',
-    end_date: ''
-  });
+function CohortForm({cohortData,setCohortData,handleSubmit,handleInputChange}) {
+
   const [members, setMembers] = useState([]);
   const [selectedMember, setSelectedMember] = useState('');
 
@@ -19,25 +15,25 @@ function CohortForm() {
       .catch(error => console.log(error));
   },[]);
 
-  function handleInputChange(event) {
-    const { name, value } = event.target;
-    setCohortData({ ...cohortData, [name]: value });
-  }
+  // function handleInputChange(event) {
+  //   const { name, value } = event.target;
+  //   setCohortData({ ...cohortData, [name]: value });
+  // }
   
-  function handleSubmit() {
-    console.log(cohortData)
-    fetch(`http://localhost:3000/cohorts/create_cohort`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('jwt')
-      },
-      body: JSON.stringify(cohortData)
-    })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
-  }
+  // function handleSubmit() {
+  //   console.log(cohortData)
+  //   fetch(`http://localhost:3000/cohorts/create_cohort`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+  //     },
+  //     body: JSON.stringify(cohortData)
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => console.log(data))
+  //     .catch(error => console.error(error));
+  // }
   
   function handleMemberAdd(event) {
     event.preventDefault();

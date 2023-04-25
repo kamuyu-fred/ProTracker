@@ -10,6 +10,7 @@ class Cohort < ApplicationRecord
 
   validates :name, presence: true
   validates :start_date, presence: true
+  validates :end_date, presence: true
   validate :end_date_cannot_be_earlier_than_start_date
 
   
