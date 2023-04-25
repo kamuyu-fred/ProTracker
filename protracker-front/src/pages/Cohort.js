@@ -17,26 +17,26 @@ function CohortForm() {
       .then(response => response.json())
       .then(data => setMembers(data))
       .catch(error => console.log(error));
-  }, []);
+  },[]);
 
   function handleInputChange(event) {
     const { name, value } = event.target;
     setCohortData({ ...cohortData, [name]: value });
   }
   
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit() {
+    console.log(cohortData)
     fetch(`http://localhost:3000/cohorts/create_cohort`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
+        'Authorization': 'Bearer ' + localStorage.getItem('jwt')
       },
       body: JSON.stringify(cohortData)
     })
       .then(response => response.json())
       .then(data => console.log(data))
-      .catch(error => console.log(error));
+      .catch(error => console.error(error));
   }
   
   function handleMemberAdd(event) {
@@ -75,7 +75,9 @@ function CohortForm() {
   return (
     <div className="max-w-lg mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">{cohortData.id ? 'Update' : 'Create'} Cohort</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e)=>{
+        e.preventDefault()
+        handleSubmit()}}>
         <div className="mb-4">
           <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
             Name:
@@ -111,19 +113,6 @@ function CohortForm() {
             id="end_date"
             name="end_date"
             value={cohortData.end_date}
-            onChange={handleInputChange}
-            className="w-full border border-gray-400 p-2 rounded-lg"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="user_id" className="block text-gray-700 font-bold mb-2">
-            Admin User ID:
-          </label>
-          <input
-            type="number"
-            id="user_id"
-            name="user_id"
-            value={cohortData.user_id}
             onChange={handleInputChange}
             className="w-full border border-gray-400 p-2 rounded-lg"
           />

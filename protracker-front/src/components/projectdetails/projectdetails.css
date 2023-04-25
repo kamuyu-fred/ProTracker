@@ -1,16 +1,20 @@
 #project-details-container {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  height: 92vh;
-  width: 87%;
-  border-top: 1px solid #d3d3d3;
-  border-left: 1px solid #d3d3d3;
+  background-color: #000;
+  height: auto;
+  width: 100%;
   box-sizing: border-box;
   padding-left: 2em;
+  position: relative;
   background-color: #fff;
-  /* background-color: #E8E8E8; */
 }
+
+#backward-btn{
+  position: relative;
+  top: 20px;
+  cursor: pointer;
+  left: -20px;
+}
+
 
 #project-details-header {
   height: 7em;
@@ -273,6 +277,7 @@
     rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
     rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
+
 
 .members-modal-header {
   height: 5em;

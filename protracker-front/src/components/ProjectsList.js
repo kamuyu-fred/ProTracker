@@ -5,6 +5,9 @@ import { useDispatch } from "react-redux";
 
 function ProjectsList() {
 
+    const token = localStorage.getItem("jwt");  //store token in localStorage
+
+    console.log(token)
     const dispatch = useDispatch();
 
   // updating redux state;
@@ -17,12 +20,18 @@ function ProjectsList() {
     const [projects, setProjects] = useState([])
 
     useEffect(()=>{
-        fetch("http://localhost:3000/cohort/1/all_projects")
+        fetch("http://localhost:3000/cohort/1/all_projects",{
+            headers: {
+                "Content-Type": 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        })
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             setProjects(data)
         })
-    })
+    },[])
 
 
 

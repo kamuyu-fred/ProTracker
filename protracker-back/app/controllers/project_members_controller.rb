@@ -1,9 +1,11 @@
 class ProjectMembersController < ApplicationController
 
+    before_action :verify_auth
+
     # A member can only be added once to a project;
     # *cleared
     def add_member
-        student = User.find_by(email: params[:email])
+        student = User.find_by(id: params[:id])
 
         if !student
             render json: { message: 'Student not found' }, status: :not_found

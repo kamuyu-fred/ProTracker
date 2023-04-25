@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 function Login() {
 
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
+    const[isLoggedIn, setIsLoggedIn] = useState(false);
 
 
     let handleLogin =  () => {
@@ -19,10 +21,30 @@ function Login() {
             body: JSON.stringify(obj)
         })
         .then(response => {
-            console.log(response);
+          if (response.ok) {
+            setIsLoggedIn(true)
+            return response.json().then((data) => {
+              console.log(data);
+              let token = data.token;
+              localStorage.setItem('jwt', token.toString());
+            });
+          } else if (!response.ok) {
+            setIsLoggedIn(true)
+            return response.json().then((error) => {
+              let notFound = error["message"];
+              let invalidCredentials = error["error"];
+              let errorMessage = error["message"] === undefined ? invalidCredentials : notFound;
+              alert(errorMessage)
+            });
+          }
         })
 
     };
+
+    if(isLoggedIn){
+      return ( <Redirect to="/projectlist"/>)
+    }
+
 
   return (
     <div>

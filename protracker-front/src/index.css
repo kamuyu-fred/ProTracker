@@ -3,7 +3,8 @@ body {
   font-family: 'Gotham Rounded', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #eaeef2;
+  padding: 0;
+  background-color: #fff;
 }
 
 code {

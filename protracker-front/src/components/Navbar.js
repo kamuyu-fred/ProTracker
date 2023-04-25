@@ -9,7 +9,7 @@ function Navbar() {
       .then((data) => {
         setNotifications(data);
       });
-  }, []);
+  },[]);
 
   console.log(notifications);
 
@@ -59,7 +59,7 @@ function Navbar() {
 
     return (
       <>
-        <a
+        {/* <a
           href="#"
           class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
         >
@@ -94,7 +94,7 @@ function Navbar() {
                 </div>
             </div>
           </div>
-        </a>
+        </a> */}
       </>
     );
   });

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get '/checkout', to: 'session#check_out' # *
   put '/update_profile', to: 'users#update' # *
   get '/my_profile', to: 'users#my_profile' # *
-
+  get '/all_users', to: 'users#all_users' # *
   # granting and revoking admin rights
 
   put '/make_admin', to: 'users#make_admin' # *
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   get '/cohort/:cohort_id/cohort_members', to: 'cohorts#all_members' 
 
   # getting users cohorts
-  get '/cohort/my_cohorts', to: 'cohorts#my_cohorts' 
+  get '/cohorts/my_cohorts', to: 'cohorts#my_cohorts' 
 
   # getting cohorts where the user is an admin
   get '/cohorts/admin_cohorts', to: 'cohorts#admin_cohorts' # *
@@ -55,7 +55,7 @@ Rails.application.routes.draw do
   post '/projects/add_project', to: 'projects#create' 
 
   # adding project members
-  post '/project/add_member', to: 'project_members#add_member' 
+  post '/cohort/:cohort_id/project/add_member', to: 'project_members#add_member' 
 
   # query projecs by their tags.
   get '/cohort/:cohort_id/project/:search_params', to: 'projects#get_project_by_input_value' 

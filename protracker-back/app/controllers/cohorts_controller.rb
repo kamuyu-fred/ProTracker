@@ -1,4 +1,5 @@
 class CohortsController < ApplicationController
+    before_action :verify_auth
 
         # create a new cohort;
     # * cleared

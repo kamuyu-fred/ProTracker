@@ -1,5 +1,8 @@
 class ProjectsController < ApplicationController
 
+    before_action :verify_auth
+
+
     # like a project
     def like
         @project = Project.find(params[:project_id])
@@ -213,7 +216,7 @@ class ProjectsController < ApplicationController
             return
         end
         projects = current_cohort.projects
-        authorize projects, :admin?
+        # authorize projects, :admin?
         render json: projects, include: :user
     end
 
