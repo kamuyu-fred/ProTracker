@@ -273,3 +273,12 @@ font-weight: 350;
     width: 50px;
     cursor: pointer;
 }
+
+#msg-alert{
+  color: #b9b8b8;
+  font-size: 2.2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-30%, 0%);
+}

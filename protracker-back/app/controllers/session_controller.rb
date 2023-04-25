@@ -1,5 +1,8 @@
 class SessionController < ApplicationController
 
+  before_action :verify_auth, only: [:destroy]
+
+
     def login
         user = User.find_by(email: params[:email])
 

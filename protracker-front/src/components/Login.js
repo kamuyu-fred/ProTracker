@@ -26,10 +26,15 @@ function Login() {
             return response.json().then((data) => {
               console.log(data);
               let token = data.token;
+              let role = data.user.admin;
+              let userId = data.user.id
               localStorage.setItem('jwt', token.toString());
+              localStorage.setItem('admin', role.toString());
+              localStorage.setItem('userId', userId.toString());
+
+              console.log(role)
             });
           } else if (!response.ok) {
-            setIsLoggedIn(true)
             return response.json().then((error) => {
               let notFound = error["message"];
               let invalidCredentials = error["error"];
@@ -42,12 +47,12 @@ function Login() {
     };
 
     if(isLoggedIn){
-      return ( <Redirect to="/projectlist"/>)
+      return ( <Redirect to="/cohortlist"/>)
     }
 
 
   return (
-    <div>
+    <div id="login-form-container">
       <section class="bg-gray-50 dark:bg-gray-900">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <a

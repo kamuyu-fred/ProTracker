@@ -10,6 +10,7 @@ class ApplicationController < ActionController::API
     rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
 
+
     def online_users
         users = User.all
         online_users = users.where("last_seen_at < ?", 5.minutes.ago)

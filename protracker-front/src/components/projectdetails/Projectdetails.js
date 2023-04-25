@@ -6,7 +6,7 @@ import html from "./assets/html.png";
 import javascript from "./assets/javascript.png";
 import angular from "./assets/angular.png";
 import mongo from "./assets/mongodb.png";
-import firebase from "./assets/postgresql.png";
+import postgres from "./assets/postgresql.png";
 import redux from "./assets/tailwind-css.png";
 import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux'
@@ -85,8 +85,9 @@ function Projectdetails() {
     html: html,
     javascript: javascript,
     angular: angular,
+    mongo : mongo,
     redux: redux,
-    firebase: firebase,
+    postgres: postgres,
   };
 
   let imageArray;
@@ -179,6 +180,7 @@ function Projectdetails() {
     setGroupMembers(results);
   };
 
+  console.log(projectData)
 
   const[cohortMembers,setCohortMembers] = useState([])
 
@@ -196,6 +198,8 @@ function Projectdetails() {
   },[]);
   
 
+  let cohort_id = localStorage.getItem('cohort_id');
+
   let handleAddingMember = (id) => {
     console.log(id)
 
@@ -203,7 +207,7 @@ function Projectdetails() {
     project_id: storedProjectId
     }
 
-      fetch("http://localhost:3000/cohort/1/project/add_member",{
+      fetch(`http://localhost:3000/cohort/${cohort_id}/project/add_member`,{
         method: 'POST',
         headers: {
           "Content-Type": 'application/json',

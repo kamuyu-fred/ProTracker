@@ -19,45 +19,116 @@ import AdminDashUsers from "./components/AdminDashUsers";
 import CohortList from "./components/CohortList/cohortlist";
 import Activities from "./components/Activities";
 import AdminDashCohorts from "./components/AdminDashCohorts";
+import { Router } from "react-router-dom/cjs/react-router-dom";
 
 function App() {
+
+  let role = localStorage.getItem("admin")
+
+  console.log(role);
+
   return (
     // <Login/>
     <Provider store={store}>
       <div className="app">
-        <div id="sidebar">
-          <Sidebar />
-        </div>
-        <div id="main-body">
-          <div id="nav-row">
-            <Navbar />
-          </div>
-          <div id="body-row">
-            <Switch>
-              <Route path="/projectList">
+        <Switch>
+          <Route exact path="/">
+            <div id="login-page">
+              <Login />
+            </div>
+          </Route>
+          <Route path="/projectList">
+            <div id="sidebar">
+              <Sidebar />
+            </div>
+            <div id="main-body">
+              <div id="nav-row">
+                <Navbar />
+              </div>
+              <div id="body-row">
                 <UserProjectList />
-              </Route>
-              <Route path="/projectdetails">
+              </div>
+            </div>
+          </Route>
+          <Route path="/projectdetails">
+            <div id="sidebar">
+              <Sidebar />
+            </div>
+            <div id="main-body">
+              <div id="nav-row">
+                <Navbar />
+              </div>
+              <div id="body-row">
                 <Projectdetails />
-              </Route>
-              <Route path="/adminprojects">
+              </div>
+            </div>
+          </Route>
+          <Route path="/adminprojects">
+            <div id="sidebar">
+              <Sidebar />
+            </div>
+            <div id="main-body">
+              <div id="nav-row">
+                <Navbar />
+              </div>
+              <div id="body-row">
                 <AdminDashProjects />
-              </Route>
-              <Route path="/adminusers">
+              </div>
+            </div>
+          </Route>
+          <Route path="/adminusers">
+            <div id="sidebar">
+              <Sidebar />
+            </div>
+            <div id="main-body">
+              <div id="nav-row">
+                <Navbar />
+              </div>
+              <div id="body-row">
                 <AdminDashUsers />
-              </Route>
-              <Route exact path="/">
+              </div>
+            </div>
+          </Route>
+          <Route exact path="/cohortlist">
+            <div id="sidebar">
+              <Sidebar />
+            </div>
+            <div id="main-body">
+              <div id="nav-row">
+                <Navbar />
+              </div>
+              <div id="body-row">
                 <CohortList />
-              </Route>
-              <Route exact path="/activities">
+              </div>
+            </div>
+          </Route>
+          <Route exact path="/activities">
+            <div id="sidebar">
+              <Sidebar />
+            </div>
+            <div id="main-body">
+              <div id="nav-row">
+                <Navbar />
+              </div>
+              <div id="body-row">
                 <Activities />
-              </Route>
-              <Route path="/admincohorts">
-                  <AdminDashCohorts/>
-              </Route>
-            </Switch>
-          </div>
-        </div>
+              </div>
+            </div>
+          </Route>
+          <Route path="/admincohorts">
+            <div id="sidebar">
+              <Sidebar />
+            </div>
+            <div id="main-body">
+              <div id="nav-row">
+                <Navbar />
+              </div>
+              <div id="body-row">
+                <AdminDashCohorts />
+              </div>
+            </div>
+          </Route>
+        </Switch>
       </div>
     </Provider>
   );

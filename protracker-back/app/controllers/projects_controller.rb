@@ -134,7 +134,7 @@ class ProjectsController < ApplicationController
 
         task = "created a project titled '#{new_project.project_name}'"
 
-        create_user_activity(new_project, "project.create", current_user.username, new_project.project_name, task, current_user)
+        create_user_activity(new_project, "project.create", current_user.username, task, current_user)
 
     end
 

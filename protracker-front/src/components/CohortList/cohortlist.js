@@ -3,6 +3,9 @@ import CohortForm from "../../pages/Cohort";
 import "./cohortlist.css";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 function CohortList() {
+
+  let role = localStorage.getItem("admin");
+
   // toggle create cohort form
 
   const [isCohortFormActive, setCohortFormActive] = useState();
@@ -157,9 +160,9 @@ function CohortList() {
         }
       })
       .then((data) => {
-        if(data.errors.length > 0){
+        if (data.errors.length > 0) {
           setErrorsArray(data.errors);
-        }else{
+        } else {
           setErrorsArray([]);
         }
       })
@@ -173,17 +176,17 @@ function CohortList() {
     });
   }
 
-  
+
   return (
     <section>
       <div id="cohort-header">
         <div id="coohort-path">
           <div id="path-col">
-            <h6>Cohort ></h6>
+            <h6>Cohort > </h6>
             <h2>My Cohorts</h2>
           </div>
         </div>
-        <div id="project-list-options-col">
+       {role === 'true' && <div id="project-list-options-col">
           <button
             onClick={() => {
               handleCohortForm();
@@ -200,10 +203,20 @@ function CohortList() {
           >
             Add Member
           </button>
-        </div>
+        </div>}
       </div>
       <div id="cohort-body">
-        <div id="cohorts-box">{cohortlist}</div>
+        <div id="cohorts-box">
+          {cohorts.length > 0 ? (
+            cohortlist
+          ) : (
+            <div>
+              <h6 id="msg-alert">
+                You have not been enrolled in any cohorts yet :(
+              </h6>
+            </div>
+          )}
+        </div>
       </div>
       {isCohortFormActive && (
         <div
