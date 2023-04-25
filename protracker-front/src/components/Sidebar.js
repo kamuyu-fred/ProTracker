@@ -1,82 +1,123 @@
 import React from "react";
+import styled from "styled-components";
+import logo from "../asserts/logo.png";
+import Input from "./Input";
 
-function Sidebar() {
-    return (
-<>
+const Sidebar = () => {
+  return (
+    <Container>
+      <LogoWrapper>
+        <img src={logo} alt="" />
+        <h3>
+          Abel <span>Codes</span>
+        </h3>
+      </LogoWrapper>
+      <Form>
+        <h3>Sign Up</h3>
+        <Input placeholder="Full Name" />
+        <Input type="email" placeholder="Email" />
+        <Input type="password" placeholder="Password" />
+        <Input type="password" placeholder="Confrim Password" />
+        <button>Sign Up</button>
+      </Form>
+      <div>
+        <Terms>
+          By signing up, I agree to the Privacy Policy <br /> and Terms of
+          Service
+        </Terms>
+        <h4>
+          Already have an account? <span>Sign In</span>
+        </h4>
+      </div>
+    </Container>
+  );
+};
 
-<button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-   <span class="sr-only">Open sidebar</span>
-   <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-   </svg>
-</button>
+const Terms = styled.p`
+  padding: 0 1rem;
+  text-align: center;
+  font-size: 10px;
+  color: #808080;
+  font-weight: 300;
+`;
 
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-   <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-      <a href="https://moringaschool.com/" class="flex items-center pl-2.5 mb-5">
-         <img src="https://moringaschool.com/wp-content/themes/moringa/public/images/logo.png" class="h-6 mr-3 sm:h-7" alt="Moringa School Logo" />
-         {/* <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">ProTracker</span> */}
-      </a>
-      <ul class="space-y-2 font-medium">
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-               <svg aria-hidden="true" class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
-               <span class="ml-3">Admin Dashboard</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-               <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Cohort</span>
-               
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-               <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path><path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Projects</span>
-              
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-               <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Users</span>
-            </a>
-         </li>
-         <li>
-            
-         </li>
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h3 {
+    color: #666666;
+    margin-bottom: 2rem;
+  }
 
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-               <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z" clip-rule="evenodd"></path></svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">About</span>
-            </a>
-         </li>
+  button {
+    width: 75%;
+    max-width: 350px;
+    min-width: 250px;
+    height: 40px;
+    border: none;
+    margin: 1rem 0;
+    box-shadow: 0px 14px 9px -15px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    background-color: #70edb9;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
 
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-               <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path></svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Sign Out</span>
-            </a>
-         </li>
-        
-      </ul>
-   </div>
-</aside>
+    &:hover {
+      transform: translateY(-3px);
+    }
+  }
+`;
 
-<div class="p-4 sm:ml-64">
-   <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-      
+const LogoWrapper = styled.div`
+  img {
+    height: 6rem;
+  }
 
-      
-      
-   </div>
-</div>
+  h3 {
+    color: #ff8d8d;
+    text-align: center;
+    font-size: 22px;
+  }
 
-</>
-    )
-}
+  span {
+    color: #5dc399;
+    font-weight: 300;
+    font-size: 18px;
+  }
+`;
 
-export default Sidebar
+const Container = styled.div`
+  min-width: 400px;
+  backdrop-filter: blur(35px);
+  background-color: rgba(255, 255, 255, 0.8);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0 2rem;
+
+  @media (max-width: 900px) {
+    width: 100vw;
+    position: absolute;
+    padding: 0;
+  }
+
+  h4 {
+    color: #808080;
+    font-weight: bold;
+    font-size: 13px;
+    margin-top: 2rem;
+
+    span {
+      color: #ff8d8d;
+      cursor: pointer;
+    }
+  }
+`;
+
+export default Sidebar;
