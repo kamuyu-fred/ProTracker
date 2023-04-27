@@ -141,21 +141,10 @@ function CohortList() {
     })
       .then((response) => {
         if (response.ok) {
-          setStillLoading(true);
-          setTimeout(() => {
-            setStillLoading(false);
-            setSuccessText("Success!");
-          }, 2000);
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
+          window.location.reload()
           return response.json();
         } else {
-          setStillLoading(true);
-          setTimeout(() => {
-            setStillLoading(false);
-            setSuccessText("Failed!");
-          }, 2000);
+          alert("failed yoh")
           return response.json();
         }
       })
@@ -232,31 +221,6 @@ function CohortList() {
             }}
             id="create-cohort-box"
           >
-            {isLoading && (
-              <div id="loader-container">
-                {isStillLoading ? (
-                  <div id="loader-icon"></div>
-                ) : (
-                  <>
-                    <i
-                      onClick={() => {
-                        setLoading(false);
-                        setSuccessText("");
-                        setErrorsArray([]);
-                      }}
-                      id="error-back"
-                      className="material-icons"
-                    >
-                      arrow_backwords
-                    </i>
-
-                    <h1 id="result-text">{successText}</h1>
-                    <ul id="errors-container">{errorsList}</ul>
-                  </>
-                )}
-              </div>
-            )}
-
             {isCreatingCohort ? (
               <CohortForm
                 handleSubmit={handleSubmit}

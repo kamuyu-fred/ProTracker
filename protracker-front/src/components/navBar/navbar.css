@@ -1,0 +1,137 @@
+#my_profile {
+  width: 10em;
+  height: 3em;
+  /* background-color: black; */
+  position: absolute;
+  right: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+#current-user-pfp {
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  background-color: black;
+  cursor: pointer;
+  /* overflow: hidden; */
+  position: relative;
+}
+
+#current-user-pfp img {
+  width: 100%;
+  border-radius: 50%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#user-profile-bar {
+  position: absolute;
+  top: 140%;
+  width: 33em;
+  height: 60vh;
+  right: -7em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 100;
+  transition: 0;
+}
+
+#profile-pointer {
+  width: 0;
+  height: 0;
+  border-bottom: 10px solid #000;
+  border-left: 10px solid transparent;
+  margin-right: 7.5em;
+  border-right: 10px solid transparent;
+}
+
+#my-profile-bar{
+  border-radius: 10px;
+  background-color: #000;
+  width: 100%;
+  flex-grow: 1;
+  max-height: 34em;
+}
+
+#notif-cont {
+  width: 3em;
+  height: 3em;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+}
+
+#notif-count {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  background-color: rgb(131, 74, 0);
+  color: #e1dada;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.6rem;
+  padding-top: 2px;
+  border: 1px solid #fff;
+}
+
+#notif-cont i {
+  font-size: 2rem !important;
+  cursor: pointer;
+}
+
+#notif-checkbox {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+#notif-count h6 {
+  margin: 0;
+}
+
+#notifications-container {
+  position: absolute;
+  width: 25em;
+  height: 30em;
+  right: -1em;
+  top: 120%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  z-index: 100;
+  transition: 0;
+}
+
+.container-active {
+  display: flex !important;
+}
+
+.container-disabled {
+  display: none !important;
+}
+
+#pointer {
+  width: 0;
+  height: 0;
+  border-bottom: 10px solid #000;
+  border-left: 10px solid transparent;
+  margin-right: 1.8em;
+  border-right: 10px solid transparent;
+}
+
+#notif-container {
+  width: 100%;
+  background-color: #000;
+  flex-grow: 1;
+  border-radius: 10px;
+}

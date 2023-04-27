@@ -42,8 +42,6 @@ class ProjectsController < ApplicationController
     end
 
 
-
-
     def dislike
         @project = Project.find(params[:project_id])
 

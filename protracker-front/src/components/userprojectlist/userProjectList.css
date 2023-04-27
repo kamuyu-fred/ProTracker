@@ -127,6 +127,38 @@
   align-items: center;
 }
 
+#fave-span{
+  position: relative;
+  /* background-color: #000000; */
+
+}
+
+#fave-box{
+  position: absolute;
+  bottom: 0;
+  left: 15px;
+  width: 30%;
+  opacity: 0;
+  height: 50%;
+  cursor: pointer;
+}
+
+#fave-box:checked ~ #like-button{
+color: blueviolet;
+}
+
+#fave-box:not(checked) ~ #like-button{
+  color: black;
+  }
+
+#like-button{
+  cursor: pointer;
+}
+
+#like-button{
+  cursor: pointer;
+}
+
 .image-container {
   height: 100%;
   width: 10em;

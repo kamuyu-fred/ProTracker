@@ -5,11 +5,13 @@ function Activities() {
 
   const [activities, setActivities] = useState([]);
 
+
+
   useEffect(() => {
     fetch(`http://localhost:3000/activities`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + token
       },
     })
       .then((response) => response.json())

@@ -1,6 +1,7 @@
 class SessionController < ApplicationController
 
   before_action :verify_auth, only: [:destroy]
+  before_action :admin, only: [:update,:delete]
 
 
     def login
@@ -24,7 +25,7 @@ class SessionController < ApplicationController
   
     def check_out
       if current_user
-          render json: current_user
+        render json: current_user
       else
         render json: { message: "No user is logged in", data: @current_user}
       end
@@ -36,3 +37,5 @@ class SessionController < ApplicationController
     end
 
 end
+
+

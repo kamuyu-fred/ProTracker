@@ -8,14 +8,19 @@ import angular from "./assets/angular.png";
 import mongo from "./assets/mongodb.png";
 import postgres from "./assets/postgresql.png";
 import redux from "./assets/tailwind-css.png";
+import ruby from "./assets/ruby.png";
+import next from "./assets/next.png";
+import bootstrap from "./assets/bootstrap.png";
+import rails from "./assets/rails.png";
+import css from "./assets/css3.png";
+import tailwind from "./assets/tailwind-css.png";
+
 import { useDispatch } from "react-redux";
-import { useSelector } from 'react-redux'
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
-
 function Projectdetails() {
-
-  const token = localStorage.getItem("jwt");  //store token in localStorage
+  const token = localStorage.getItem("jwt"); //store token in localStorage
 
   const dispatch = useDispatch();
 
@@ -24,9 +29,9 @@ function Projectdetails() {
     dispatch({ type: "SET_PROJECT_ID", payload: newId });
   }
 
-  const project_id = useSelector(state => state.project.id);
+  const project_id = useSelector((state) => state.project.id);
 
-  const[id, setId] = useState('')
+  const [id, setId] = useState("");
 
   // useEffect(() => {
   //   if (storedProjectId) {
@@ -35,8 +40,7 @@ function Projectdetails() {
   //   }
   // }, []);
 
-  const storedProjectId = localStorage.getItem('projectId');
-
+  const storedProjectId = localStorage.getItem("projectId");
 
   // states for conditional rendering;
   const [isAddingMember, setIsAddingMember] = useState(false);
@@ -49,25 +53,31 @@ function Projectdetails() {
     e.stopPropagation();
   };
 
-
-
   const [projectData, setProjectData] = useState({});
 
+
+
+
+  
   useEffect(() => {
-    fetch(`http://localhost:3000/projects/${storedProjectId}/project_details`,{
+    fetch(`http://localhost:3000/projects/${storedProjectId}/project_details`, {
       headers: {
-          "Content-Type": 'application/json',
-          'Authorization': 'Bearer ' + token
-      }
-  })
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         // console.log("data");
+        console.log(data);
         // handleProjectId(data.id);
         setGroupMembers(data.members);
         setProjectData(data);
       });
   }, []);
+
+
+
 
   // user details;
   let projectName = projectData ? projectData.project_name : "something";
@@ -85,9 +95,15 @@ function Projectdetails() {
     html: html,
     javascript: javascript,
     angular: angular,
-    mongo : mongo,
+    mongo: mongo,
     redux: redux,
     postgres: postgres,
+    ruby: ruby,
+    next: next,
+    bootstrap: bootstrap,
+    rails: rails,
+    css: css,
+    tailwind: tailwind,
   };
 
   let imageArray;
@@ -180,89 +196,91 @@ function Projectdetails() {
     setGroupMembers(results);
   };
 
-  console.log(projectData)
+  console.log(projectData);
 
-  const[cohortMembers,setCohortMembers] = useState([])
+  const [cohortMembers, setCohortMembers] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/cohort/1/cohort_members`,{
+    fetch(`http://localhost:3000/cohort/1/cohort_members`, {
       headers: {
-          "Content-Type": 'application/json',
-          'Authorization': 'Bearer ' + token
-      }
-  })
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         setCohortMembers(data);
       });
-  },[]);
-  
+  }, []);
 
-  let cohort_id = localStorage.getItem('cohort_id');
+  let cohort_id = localStorage.getItem("cohort_id");
 
   let handleAddingMember = (id) => {
-    console.log(id)
+    console.log(id);
 
-    const memberObj = {id,
-    project_id: storedProjectId
-    }
+    const memberObj = { id, project_id: storedProjectId };
 
-      fetch(`http://localhost:3000/cohort/${cohort_id}/project/add_member`,{
-        method: 'POST',
-        headers: {
-          "Content-Type": 'application/json',
-          'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify(memberObj)
+    fetch(`http://localhost:3000/cohort/${cohort_id}/project/add_member`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(memberObj),
+    })
+      .then((response) => {
+        if (response.ok) {
+          toggleAddMemberForm();
+          return response.json();
+        } else {
+          console.log(response.json());
+          alert("Couldn't add member");
+        }
       })
-    .then((response) => {
-      if (response.ok){
-        toggleAddMemberForm()
-       return response.json()
-      }
-      else{
-        alert("Couldn't add member");
-      }
-      })
-    .then((data) => {console.log(data)});
-
+      .then((data) => {
+        console.log(data);
+      });
   };
 
-
-  let cohortMembersList = cohortMembers.map(member => {
-
+  let cohortMembersList = cohortMembers.map((member) => {
     let avatar_url =
-    member.avatar_url === null
-      ? "https://i.pinimg.com/736x/00/80/ee/0080eeaeaa2f2fba77af3e1efeade565.jpg"
-      : member.avatar_url;
+      member.avatar_url === null
+        ? "https://i.pinimg.com/736x/00/80/ee/0080eeaeaa2f2fba77af3e1efeade565.jpg"
+        : member.avatar_url;
 
-  let indicatorColor = member.online_status === "offline" ? "red" : "green";
+    let indicatorColor = member.online_status === "offline" ? "red" : "green";
 
-    return(
-      <div className="group-cohort-member">        
-      <div className="cohort-member-pfp">
-        <img
-          src={avatar_url}
-          alt=""
-        />
-        <div style={{backgroundColor : indicatorColor}} className="online-indicator"></div>
+    return (
+      <div className="group-cohort-member">
+        <div className="cohort-member-pfp">
+          <img src={avatar_url} alt="" />
+          <div
+            style={{ backgroundColor: indicatorColor }}
+            className="online-indicator"
+          ></div>
+        </div>
+        <div className="cohort-member-details">
+          <h3>{member.username}</h3>
+          <button
+            onClick={() => {
+              handleAddingMember(member.id);
+            }}
+            id="member-add-btn"
+          >
+            Add member
+          </button>
+        </div>
       </div>
-      <div className="cohort-member-details">
-        <h3>{member.username}</h3>
-        <button onClick={()=>{
-          handleAddingMember(member.id)
-        }} id="member-add-btn">Add member</button>
-      </div>
-    </div>
-    )
-  })
-
+    );
+  });
 
   return (
     <>
       <section id="project-details-container">
         <NavLink to="/projectList">
-          <i id="backward-btn" className="material-icons">arrow_backwards</i>
+          <i id="backward-btn" className="material-icons">
+            arrow_backwards
+          </i>
         </NavLink>
         <div id="project-details-header">
           <h1 id="project-name">{projectName}</h1>
@@ -359,9 +377,7 @@ function Projectdetails() {
                 ></input>
                 <i className="material-icons">search</i>
               </div>
-              <div className="add-members-modal-body">
-                  {cohortMembersList}
-              </div>
+              <div className="add-members-modal-body">{cohortMembersList}</div>
             </div>
           ) : (
             isCheckingMembers || (

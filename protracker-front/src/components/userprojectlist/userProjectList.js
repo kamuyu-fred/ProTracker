@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./userProjectList.css";
 import android from "./assets/android.png";
 import fullstack from "./assets/code.png";
-import { NavLink } from 'react-router-dom/cjs/react-router-dom.min'
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch } from "react-redux";
 
 function UserProjectList() {
@@ -34,23 +34,56 @@ function UserProjectList() {
       .then((response) => response.json())
       .then((data) => {
         setProjects(data);
+        console.log(data);
+        console.log(userId);
       });
-  },[cohort_id]);
+  }, [cohort_id]);
 
-  console.log(projects)
   const dispatch = useDispatch();
 
   // updating redux state;
   function handleProjectId(newId) {
-    console.log(newId)
+    console.log(newId);
     dispatch({ type: "SET_PROJECT_ID", payload: newId });
-    localStorage.setItem('projectId', newId);
+    localStorage.setItem("projectId", newId);
   }
 
+  // handle liking projects
+
+  let handleLikingProject = (id, event, likes, liked,checked_state) => {
+    const isChecked = event.target.checked;
+    let h6Elem = event.target.nextSibling.nextSibling;
+    let isLiked = liked.length > 0;
+  
+    if (!isLiked) {
+      event.target.style.color = "blueViolet !important";
+      h6Elem.innerHTML = "";
+      h6Elem.innerHTML = likes + 1;
+      fetch(`http://localhost:3000/projects/${id}/like`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } else {
+      event.target.style.color = "black !important";
+      h6Elem.innerHTML = "";
+      h6Elem.innerHTML = likes - 1;
+      fetch(`http://localhost:3000/projects/${id}/dislike`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    }
+  };
 
   // creating an element for each project;
 
-  let userId = localStorage.getItem("userId")
+  let userId = localStorage.getItem("userId");
+  let role = localStorage.getItem("admin");
 
   let projectsList = projects.map((project) => {
     let avatar_url =
@@ -61,9 +94,43 @@ function UserProjectList() {
     let indicatorColor =
       project.user.online_status === "offline" ? "red" : "green";
 
-    let member = project.members.filter(member => member.id === 1).length > 0 ?  <NavLink  onClick={()=>{
-            handleProjectId(project.id)
-          }} to="/projectdetails"><h2>View</h2></NavLink>   :  <>{}</>
+    let member =
+      project.members.filter((member) => member.id === 1).length > 0 || project.user.id == userId ? (
+        <NavLink
+          onClick={() => {
+            handleProjectId(project.id);
+          }}
+          to="/projectdetails"
+        >
+          <h2>View</h2>
+        </NavLink>
+      ) : (
+        <>{}</>
+      );
+
+    let checkout =
+      role !== "admin" ? (
+        <></>
+      ) : (
+        <NavLink
+          onClick={() => {
+            handleProjectId(project.id);
+          }}
+          to="/projectdetails"
+        >
+          <h2>checkout</h2>
+        </NavLink>
+      );
+
+
+    let likes = project.student_likes.length;
+
+    let liked = project.student_likes.filter((student) => {
+      return student.id == userId;
+    });
+    console.log(liked);
+    let color_button = liked.length > 0 ? "blueViolet" : "";
+    let checked_state = liked.length > 0 ? true : false;
 
     return (
       <div className="project-card">
@@ -71,23 +138,34 @@ function UserProjectList() {
           <img src={android}></img>
         </div>
         <div className="project-info">
-          <h1>
-
-{project.project_name}
-          </h1>
+          <h1>{project.project_name}</h1>
           <h6>{member}</h6>
+          <h6>{checkout}</h6>
         </div>
         <div id="user-project-info">
           <div id="project-info-menu"></div>
           <div id="project-add-info">
-            <span>
-              <i className="material-icons">favorite</i>
-              <h6>{project.student_likes.length}</h6>
+            <span id="fave-span">
+              <input
+                onChange={(e) => {
+                  handleLikingProject(project.id, e, likes, liked,checked_state);
+                }}
+                type="checkbox"
+                id="fave-box"
+              />
+              <i
+                style={{ color: color_button }}
+                id="like-button"
+                className="material-icons"
+              >
+                favorite
+              </i>
+              <h6>{likes}</h6>
             </span>
             <div id="project-owner-details">
               <div id="project-owner-dp">
                 <img src={avatar_url} alt="avatar" />
-                <div></div>
+                <div style={{backgroundColor: indicatorColor}}></div>
               </div>
               <span>
                 <h1>{project.user.username}</h1>
@@ -113,17 +191,15 @@ function UserProjectList() {
     setIsProjectFormActive(!isProjectFormActive);
   };
 
-
   // adding projects form
 
-  const [projectName, setProjectName] = useState("")
-  const [projectDescription, setProjectDescription] = useState("")
-  const [category, setCategory] = useState("")
-  const [tags, setTags] = useState([])
-  const [githubLink, setGithubLink] = useState("")
+  const [projectName, setProjectName] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [tags, setTags] = useState([]);
+  const [githubLink, setGithubLink] = useState("");
 
-
-  function handleCheckBox(value,event){
+  function handleCheckBox(value, event) {
     const isChecked = event.target.checked;
     if (isChecked) {
       setTags((tags) => [...tags, value]);
@@ -132,7 +208,6 @@ function UserProjectList() {
     }
   }
 
-
   let createNewProject = () => {
     let projObj = {
       cohort_id: cohort_id,
@@ -140,23 +215,20 @@ function UserProjectList() {
       project_description: projectDescription,
       category: category,
       github_link: githubLink,
-      tags: tags
-    }
+      tags: tags,
+    };
 
-    fetch("http://localhost:3000/projects/add_project",{
+    fetch("http://localhost:3000/projects/add_project", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
-      }
-    ,
-    body: JSON.stringify(projObj)
-    })
-.then(response => {
-  console.log(response.json())
-}
-)
-    console.log(projObj)
+      },
+      body: JSON.stringify(projObj),
+    }).then((response) => {
+      console.log(response.json());
+    });
+    console.log(projObj);
   };
 
   return (
@@ -224,27 +296,50 @@ function UserProjectList() {
         >
           <form
             onClick={(e) => {
-              e.stopPropagation()
+              e.stopPropagation();
               setIsProjectFormActive(true);
             }}
           >
             <h1 id="form-title">Add Project</h1>
             <div className="form-group">
               <label>Name</label>
-              <input onChange={(e)=>{setProjectName(e.target.value)}} type="text" name="title" value={projectName} />
+              <input
+                onChange={(e) => {
+                  setProjectName(e.target.value);
+                }}
+                type="text"
+                name="title"
+                value={projectName}
+              />
             </div>
             <div className="form-group">
               <label>Description</label>
-              <textarea onChange={(e)=>{setProjectDescription(e.target.value)}} value={projectDescription}></textarea>
+              <textarea
+                onChange={(e) => {
+                  setProjectDescription(e.target.value);
+                }}
+                value={projectDescription}
+              ></textarea>
             </div>
             <div className="form-group">
               <label>Gihub link</label>
-              <input onChange={(e)=>{setGithubLink(e.target.value)}} type="url" name="title" value={githubLink} />
+              <input
+                onChange={(e) => {
+                  setGithubLink(e.target.value);
+                }}
+                type="url"
+                name="title"
+                value={githubLink}
+              />
             </div>
 
             <div className="form-group">
               <label>Categories</label>
-              <select onChange={(e)=>{setCategory(e.target.value)}}>
+              <select
+                onChange={(e) => {
+                  setCategory(e.target.value);
+                }}
+              >
                 <option>Fullstack</option>
                 <option>Android</option>
               </select>
@@ -254,51 +349,126 @@ function UserProjectList() {
               <label>Technologies</label>
               <div id="tags-container">
                 <div>
-                  <input onChange={(e)=>{handleCheckBox(e.target.value,e)}} type="checkbox" className="tag-checkbox" value="react"></input>
+                  <input
+                    onChange={(e) => {
+                      handleCheckBox(e.target.value, e);
+                    }}
+                    type="checkbox"
+                    className="tag-checkbox"
+                    value="react"
+                  ></input>
                   <h6>React</h6>
                 </div>
                 <div>
-                <input onChange={(e)=>{handleCheckBox(e.target.value,e)}} type="checkbox" className="tag-checkbox" value="tailwind"></input>
+                  <input
+                    onChange={(e) => {
+                      handleCheckBox(e.target.value, e);
+                    }}
+                    type="checkbox"
+                    className="tag-checkbox"
+                    value="tailwind"
+                  ></input>
                   <h6>Tailwind</h6>
                 </div>
                 <div>
-                <input onChange={(e)=>{handleCheckBox(e.target.value,e)}} type="checkbox" className="tag-checkbox" value="bootstrap"></input>
+                  <input
+                    onChange={(e) => {
+                      handleCheckBox(e.target.value, e);
+                    }}
+                    type="checkbox"
+                    className="tag-checkbox"
+                    value="bootstrap"
+                  ></input>
                   <h6>Bootstrap</h6>
                 </div>
                 <div>
-                <input onChange={(e)=>{handleCheckBox(e.target.value,e)}} type="checkbox" className="tag-checkbox" value="html"></input>
+                  <input
+                    onChange={(e) => {
+                      handleCheckBox(e.target.value, e);
+                    }}
+                    type="checkbox"
+                    className="tag-checkbox"
+                    value="html"
+                  ></input>
                   <h6>Html</h6>
                 </div>
                 <div>
-                <input onChange={(e)=>{handleCheckBox(e.target.value,e)}} type="checkbox" className="tag-checkbox" value="css"></input>
+                  <input
+                    onChange={(e) => {
+                      handleCheckBox(e.target.value, e);
+                    }}
+                    type="checkbox"
+                    className="tag-checkbox"
+                    value="css"
+                  ></input>
                   <h6>Css</h6>
                 </div>
                 <div>
-                <input onChange={(e)=>{handleCheckBox(e.target.value,e)}} type="checkbox" className="tag-checkbox" value="mongo"></input>
+                  <input
+                    onChange={(e) => {
+                      handleCheckBox(e.target.value, e);
+                    }}
+                    type="checkbox"
+                    className="tag-checkbox"
+                    value="mongo"
+                  ></input>
                   <h6>Mongo</h6>
                 </div>
                 <div>
-                <input onChange={(e)=>{handleCheckBox(e.target.value,e)}} type="checkbox" className="tag-checkbox" value="postgres"></input>
+                  <input
+                    onChange={(e) => {
+                      handleCheckBox(e.target.value, e);
+                    }}
+                    type="checkbox"
+                    className="tag-checkbox"
+                    value="postgres"
+                  ></input>
                   <h6>Postgres</h6>
                 </div>
                 <div>
-                <input onChange={(e)=>{handleCheckBox(e.target.value,e)}} type="checkbox" className="tag-checkbox" value="ruby"></input>
+                  <input
+                    onChange={(e) => {
+                      handleCheckBox(e.target.value, e);
+                    }}
+                    type="checkbox"
+                    className="tag-checkbox"
+                    value="ruby"
+                  ></input>
                   <h6>Ruby</h6>
                 </div>
                 <div>
-                <input onChange={(e)=>{handleCheckBox(e.target.value,e)}} type="checkbox" className="tag-checkbox" value="rails"></input>
+                  <input
+                    onChange={(e) => {
+                      handleCheckBox(e.target.value, e);
+                    }}
+                    type="checkbox"
+                    className="tag-checkbox"
+                    value="rails"
+                  ></input>
                   <h6>Rails</h6>
                 </div>
                 <div>
-                <input onChange={(e)=>{handleCheckBox(e.target.value,e)}} type="checkbox" className="tag-checkbox" value="ruby"></input>
+                  <input
+                    onChange={(e) => {
+                      handleCheckBox(e.target.value, e);
+                    }}
+                    type="checkbox"
+                    className="tag-checkbox"
+                    value="ruby"
+                  ></input>
                   <h6>Ruby</h6>
                 </div>
               </div>
             </div>
-            <button onClick={(e)=>{
-              e.preventDefault();
-              createNewProject()
-            }} id="create-project-btn">Create project</button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                createNewProject();
+              }}
+              id="create-project-btn"
+            >
+              Create project
+            </button>
           </form>
         </div>
       )}

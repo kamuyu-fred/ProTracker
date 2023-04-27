@@ -28,9 +28,11 @@ function Login() {
               let token = data.token;
               let role = data.user.admin;
               let userId = data.user.id
+
               localStorage.setItem('jwt', token.toString());
               localStorage.setItem('admin', role.toString());
               localStorage.setItem('userId', userId.toString());
+              
 
               console.log(role)
             });

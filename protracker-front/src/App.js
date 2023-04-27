@@ -1,6 +1,6 @@
 import { Route, RouterProvider, Routes } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navBar/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
 import Projectdetails from "./components/projectdetails/Projectdetails";
 import CommentBox from "./components/comments/CommentBox";
@@ -20,6 +20,7 @@ import CohortList from "./components/CohortList/cohortlist";
 import Activities from "./components/Activities";
 import AdminDashCohorts from "./components/AdminDashCohorts";
 import { Router } from "react-router-dom/cjs/react-router-dom";
+import UserBio from "./components/userBio/UserBio";
 
 function App() {
 
@@ -125,6 +126,20 @@ function App() {
               </div>
               <div id="body-row">
                 <AdminDashCohorts />
+              </div>
+            </div>
+          </Route>
+
+          <Route path="/userProfile">
+            <div id="sidebar">
+              <Sidebar />
+            </div>
+            <div id="main-body">
+              <div id="nav-row">
+                <Navbar />
+              </div>
+              <div id="body-row">
+                <UserBio/>
               </div>
             </div>
           </Route>

@@ -117,6 +117,7 @@ const CommentReply = ({ reply, formatTimestamp }) => {
 
 const Comment = ({ comment, replies, formatTimestamp }) => {
   const token = localStorage.getItem("jwt"); //store token in localStorage
+  const userId = localStorage.getItem("userId");
 
   const [replyContent, setReplyContent] = useState("");
 
@@ -129,7 +130,7 @@ const Comment = ({ comment, replies, formatTimestamp }) => {
   const handleReplyingToComment = (value) => {
     let replyObj = {
       comment_id: comment.id,
-      user_id: 11,
+      user_id: userId,
       message: replyContent,
       created_at: new Date(),
     };
@@ -141,7 +142,7 @@ const Comment = ({ comment, replies, formatTimestamp }) => {
 
     let obj = {
       comment_id: comment.id,
-      user_id: 11,
+      user_id: userId,
       message: replyContent,
     };
 
@@ -291,7 +292,8 @@ const CommentForm = ({ formatTimestamp }) => {
   const token = localStorage.getItem("jwt"); //store token in localStorage
 
 
-  const project_id = useSelector((state) => state.project.id);
+  const projectId = localStorage.getItem("projectId");
+  const userId = localStorage.getItem("userId");
 
   const [message, setMessage] = useState("");
 
@@ -310,8 +312,8 @@ const CommentForm = ({ formatTimestamp }) => {
 
     let comment_obj = {
       message: message,
-      project_id: project_id,
-      user_id: 11,
+      project_id: projectId,
+      user_id: userId,
     };
 
     fetch("http://localhost:3000/comments/comment", {
@@ -363,8 +365,9 @@ const CommentForm = ({ formatTimestamp }) => {
   );
 };
 
-function CommentBox({ project_id }) {
-  console.log(project_id);
+function CommentBox() {
+
+  const project_id = localStorage.getItem("projectId");
 
   let formatTimestamp = (timestamp) => {
     const seconds = Math.floor((new Date() - new Date(timestamp)) / 1000);

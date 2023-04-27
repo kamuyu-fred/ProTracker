@@ -66,6 +66,7 @@ class ApplicationController < ActionController::API
         user_now ||= User.find_by(id: session[:user_id]) 
     end
 
+    
     # verify authorization headers
     def verify_auth
         auth_headers = request.headers['Authorization']
@@ -76,7 +77,6 @@ class ApplicationController < ActionController::API
             save_user_id(token)
         end
     end
-
       
     private
       

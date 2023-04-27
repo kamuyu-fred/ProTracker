@@ -28,10 +28,11 @@ class ProjectMembersController < ApplicationController
            return
         end
 
-        current_project = current_user.projects.find_by(id: params[:project_id].to_i)
+        current_project = Project.find_by(id: params[:project_id])
 
         member = current_project.project_members.find_by(user_id: student.id)
 
+        
 
         if !member
             current_project.project_members.create(user: student)
