@@ -48,7 +48,7 @@
   border-right: 10px solid transparent;
 }
 
-#my-profile-bar{
+#my-profile-bar {
   border-radius: 10px;
   background-color: #000;
   width: 100%;
@@ -103,8 +103,8 @@
   position: absolute;
   width: 25em;
   height: 30em;
-  right: -1em;
-  top: 120%;
+  right: -2em;
+  top: 140%;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -121,17 +121,85 @@
 }
 
 #pointer {
-  width: 0;
-  height: 0;
-  border-bottom: 10px solid #000;
-  border-left: 10px solid transparent;
-  margin-right: 1.8em;
-  border-right: 10px solid transparent;
+  width: 15px;
+  height: 15px;
+  transform: rotate(45deg);
+  background-color: #f4f9fa;
+  border-top: 1px solid #d1d1d1;
+  border-left: 1px solid #d1d1d1;
+  position: absolute;
+  top: -8px;
+  z-index: 1;
+  right: 3em;
 }
 
 #notif-container {
   width: 100%;
-  background-color: #000;
+  background-color: #fff;
+  border: 1px solid #d1d1d1;
   flex-grow: 1;
+  z-index: 3;
+  position: relative;
   border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+#notif-cont-header {
+  width: 100%;
+  height: 5em;
+  position: relative;
+  /* background-color: #000; */
+}
+
+#mark-as-done {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 70%;
+  justify-content: space-between;
+  padding:20px;
+}
+
+#mark-as-done h5{
+  color: #000;
+  font-size: 1.2rem;
+  }
+
+#mark-as-done h6{
+color: #555;
+}
+
+#notif-category{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-left: 20px;
+  height: 30%;
+  border-bottom: 1px solid #e7e7e7;
+  padding-bottom: 1em;
+}
+
+#notif-category span{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+#notif-category span i{
+font-size: 1.3rem !important;
+margin-right: 10px;
+}
+
+
+#notif-category h6{
+color: #777;
+margin-right: 20px;
+}
+
+#notif-indicator{
+  width: 6em;
+  height: 3px;
+  position: absolute;
+  background-color: #000;
+  bottom: 2px;
 }

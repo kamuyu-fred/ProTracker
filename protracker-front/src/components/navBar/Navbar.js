@@ -13,7 +13,6 @@ function Navbar() {
       });
   }, []);
 
-
   console.log(notifications);
 
   let formatTimestamp = (timestamp) => {
@@ -102,10 +101,10 @@ function Navbar() {
   const profileClass = isUserProfileVisible ? "active" : "disabled";
   const notifClass = areNotificationsVisible ? "active" : "disabled";
 
-  document.addEventListener("click",()=>{
+  document.addEventListener("click", () => {
     setNotificationsVisible(false);
-    setUserProfileVisible(false)
-  })
+    setUserProfileVisible(false);
+  });
 
   return (
     <>
@@ -308,7 +307,7 @@ function Navbar() {
           <div id="my_profile">
             <div
               onClick={(e) => {
-                e.stopPropagation()
+                e.stopPropagation();
                 setNotificationsVisible(false);
                 setUserProfileVisible(!isUserProfileVisible);
               }}
@@ -322,10 +321,13 @@ function Navbar() {
                 id="user-profile-bar"
               >
                 <div id="profile-pointer"></div>
-                <div onClick={(e)=>{
-                  e.stopPropagation()
-                  setUserProfileVisible(true)
-                }} id="my-profile-bar"></div>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setUserProfileVisible(true);
+                  }}
+                  id="my-profile-bar"
+                ></div>
               </div>
             </div>
             <div id="notif-cont">
@@ -334,7 +336,7 @@ function Navbar() {
               </div>
               <i
                 onClick={(e) => {
-                  e.stopPropagation()
+                  e.stopPropagation();
                   setNotificationsVisible(!areNotificationsVisible);
                   setUserProfileVisible(false);
                 }}
@@ -347,7 +349,36 @@ function Navbar() {
                 id="notifications-container"
               >
                 <div id="pointer"></div>
-                <div id="notif-container"></div>
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setNotificationsVisible(true);
+                  }}
+                  id="notif-container"
+                >
+                  <div id="notif-cont-header">
+                    <div id="mark-as-done">
+                      <h5>Notifications</h5>
+                    </div>
+                    <div id="notif-category">
+                      <span>
+                        <i className="material-icons">all_inclusive</i>
+                        <h6>All</h6>
+                      </span>
+                      <h6>.</h6>
+                      <span>
+                        <i className="material-icons">groups</i>
+                        <h6>Groups</h6>
+                      </span>{" "}
+                      <h6>.</h6>
+                      <span>
+                        <i>@</i>
+                        <h6>Interactions</h6>
+                      </span>{" "}
+                    </div>
+                    <div id="notif-indicator"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
