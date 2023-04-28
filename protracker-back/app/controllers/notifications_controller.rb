@@ -1,6 +1,8 @@
 class NotificationsController < ApplicationController
+
+    before_action :verify_auth
+
     def get_notifications
-        current_user = User.find(11)
         notifications = Notification.where(receiver_id: current_user.id).order(created_at: :desc)
         render json: notifications
     end
@@ -15,5 +17,10 @@ class NotificationsController < ApplicationController
         notification.read = true
         notification.save
         render json: notification
+    end
+
+    def mark_all_as_read
+        notifications = Notification.where(receiver_id: current_user.id).update_all(read: true);
+        render json: {message: "successfull"}, status: :ok
     end
 end

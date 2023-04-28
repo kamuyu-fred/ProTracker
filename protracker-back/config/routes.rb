@@ -89,7 +89,7 @@ Rails.application.routes.draw do
 
   get '/notifications', to: 'notifications#get_notifications' # *
   get '/unread_notifications', to: 'notifications#get_unread_notifications' # *
-  put '/mark_as_read', to: 'notifications#mark_as_read' # *
+  put '/mark_as_read', to: 'notifications#mark_all_as_read' # *
 
   #* ONLINE STATUS
 

@@ -6,7 +6,12 @@ function Navbar() {
   let [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/notifications")
+    fetch("http://localhost:3000/notifications",{
+      headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+      }
+    })
       .then((response) => response.json())
       .then((data) => {
         setNotifications(data);
@@ -50,8 +55,15 @@ function Navbar() {
     return Math.floor(seconds) + " s ago";
   };
 
-  const markAsRead = (notifId) => {
-    console.log(notifId);
+  const markAsRead = () => {
+    fetch("http://localhost:3000/mark_as_read",{
+      method: 'PUT',
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+    }
+    }).then(response => {
+    console.log(response)})
   };
 
 
@@ -63,6 +75,12 @@ function Navbar() {
   let[isAllNotifications, setAllNotifications] = useState(true);
   let[isGroupNotifications, setGroupNotifications] = useState(false);
   let[isInteractionMessages, setInteractionMessages] = useState(false);
+
+
+  // NUMBER OF UNREAD MESSAGES;
+
+  let unreadGroup = groupMessages.filter((notif) => {return notif.read === false}).length
+  let unreadInteractions = interactionMessages.filter((notif) => {return notif.read === false}).length
 
 
   console.log(unreadMessages.length)
@@ -109,7 +127,7 @@ function Navbar() {
       <div className="notification-pod">
       <div style={{backgroundColor : readStatus}} id="read-status"></div>
       <div id="notif-details">
-        <h5>
+        <h5 className="comment-link">
           {notification.message}
         </h5>
         <h6>{timestamp}</h6>
@@ -382,9 +400,9 @@ function Navbar() {
               </div>
             </div>
             <div id="notif-cont">
-              <div id="notif-count">
+           {unreadMessages.length > 0 &&  <div id="notif-count">
                 <h6>{unreadMessages.length}</h6>
-              </div>
+              </div>}
               <i
                 onClick={(e) => {
                   e.stopPropagation();
@@ -410,6 +428,9 @@ function Navbar() {
                   <div id="notif-cont-header">
                     <div id="mark-as-done">
                       <h5>Notifications</h5>
+                      <h6 onClick={()=>{
+                        markAsRead()
+                      }}>Mark all as done</h6>
                     </div>
                     <div id="notif-category">
                       <span
@@ -420,7 +441,7 @@ function Navbar() {
                       >
                         <i className="material-icons">all_inclusive</i>
                         <h6>All</h6>
-                        <h5>{unreadMessages.length}</h5>
+                       {unreadMessages.length > 0 && <h5>{unreadMessages.length}</h5>}
                       </span>
                       <h6>.</h6>
                       <span
@@ -431,7 +452,7 @@ function Navbar() {
                       >
                         <i className="material-icons">groups</i>
                         <h6>Groups</h6>
-                        <h5>{groupMessages.length}</h5>
+                        {unreadGroup > 0 && <h5>{unreadGroup}</h5>}
                       </span>{" "}
                       <h6>.</h6>
                       <span
@@ -442,7 +463,7 @@ function Navbar() {
                       >
                         <i>@</i>
                         <h6>Interactions</h6>
-                        <h5>{interactionMessages.length}</h5>
+                        {unreadInteractions > 0 && <h5>{unreadInteractions}</h5>}
                       </span>{" "}
                     </div>
                     <div id="notif-indicator"></div>

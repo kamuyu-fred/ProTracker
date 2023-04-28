@@ -163,10 +163,16 @@
 #mark-as-done h5{
   color: #000;
   font-size: 1.2rem;
-  }
+}
 
 #mark-as-done h6{
 color: #555;
+font-size: .9rem;
+cursor: pointer;
+}
+
+#mark-as-done h6:hover{
+  color: #000;
 }
 
 #notif-category{
@@ -183,7 +189,7 @@ color: #555;
   display: flex;
   align-items: center;
   cursor: pointer;
-  /* background-color: #3b3b3b; */
+  min-width: 6em;
 }
 
 #notif-category span i{
@@ -294,7 +300,7 @@ margin-right: 10px;
 }
 
 .comment-link:hover{
-color: rgb(0, 179, 255);
+  color: rgb(8, 109, 152) !important;
 }
 
 
