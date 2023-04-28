@@ -165,7 +165,7 @@ function Navbar() {
           <a href="http://localhost:3000/" class="flex items-start">
             <img
               src={logo}
-              class="h-12 mr-3"
+              class="h-12 mr-1"
               alt="ProTracker Logo"
             />
           
