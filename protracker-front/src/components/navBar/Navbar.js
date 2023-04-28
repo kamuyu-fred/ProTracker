@@ -54,42 +54,67 @@ function Navbar() {
     console.log(notifId);
   };
 
-  let notificationsList = notifications.map((notification) => {
-    let timestamp = formatTimestamp(notification.created_at);
 
+  let unreadMessages = notifications.filter((notif)=>{return notif.read === false});
+  let groupMessages = notifications.filter((notif)=>{return notif.notification_type === "Added to cohort" || notif.notification_type === "Added to project"});
+  let interactionMessages = notifications.filter((notif)=>{return notif.notification_type === "Achievements unlocked" || notif.notification_type === "Project comment" || notif.notification_type === "Comment reply"});
+
+
+  let[isAllNotifications, setAllNotifications] = useState(true);
+  let[isGroupNotifications, setGroupNotifications] = useState(false);
+  let[isInteractionMessages, setInteractionMessages] = useState(false);
+
+
+  console.log(unreadMessages.length)
+  console.log(groupMessages.length)
+  console.log(interactionMessages.length)
+
+  let allNotificationsList = notifications.map((notification) => {
+    let timestamp = formatTimestamp(notification.created_at);
+    let readStatus = notification.read ? "green" : "red";
     return (
-      <>
-        <a
-          href="#"
-          class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700"
-        >
-          <div class="w-full pl-3">
-            <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400">
-              <span class="font-semibold text-gray-900 dark:text-white">
-                {notification.notification_type}
-              </span>
-              &nbsp;
-              <div class="inline-flex items-center ">
-                <svg
-                  class="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                  <path
-                    fill-rule="evenodd"
-                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                Mark as Read
-              </div>
-            </div>
-          </div>
-        </a>
-      </>
+      <div className="notification-pod">
+      <div style={{backgroundColor : readStatus}} id="read-status"></div>
+      <div id="notif-details">
+        <h5>
+          {notification.message}
+        </h5>
+        <h6>{timestamp}</h6>
+      </div>
+    </div>
+    );
+  });
+
+
+  let groupNotificationsList = groupMessages.map((notification) => {
+    let timestamp = formatTimestamp(notification.created_at);
+    let readStatus = notification.read ? "green" : "red";
+    return (
+      <div className="notification-pod">
+      <div style={{backgroundColor : readStatus}} id="read-status"></div>
+      <div id="notif-details">
+        <h5>
+          {notification.message}
+        </h5>
+        <h6>{timestamp}</h6>
+      </div>
+    </div>
+    );
+  });
+
+  let interactionMessagesList = interactionMessages.map((notification) => {
+    let timestamp = formatTimestamp(notification.created_at);
+    let readStatus = notification.read ? "green" : "red";
+    return (
+      <div className="notification-pod">
+      <div style={{backgroundColor : readStatus}} id="read-status"></div>
+      <div id="notif-details">
+        <h5>
+          {notification.message}
+        </h5>
+        <h6>{timestamp}</h6>
+      </div>
+    </div>
     );
   });
 
@@ -105,6 +130,32 @@ function Navbar() {
     setNotificationsVisible(false);
     setUserProfileVisible(false);
   });
+
+  // toggling user category;
+
+  let handleToggleNofitCategory = (left, width) => {
+    let indicator = document.getElementById("notif-indicator");
+    indicator.style.left = `${left}em`;
+    indicator.style.width = `${width}em`;
+  };
+
+
+  let handleAllMessages = ()=>{
+    setAllNotifications(true)
+    setGroupNotifications(false)
+    setInteractionMessages(false)
+  };
+  let handleGroupMessages = ()=>{
+    setAllNotifications(false)
+    setGroupNotifications(true)
+    setInteractionMessages(false)
+  };
+  let handleInteractionMessages = ()=>{
+    setAllNotifications(false)
+    setGroupNotifications(false)
+    setInteractionMessages(true)
+  };
+
 
   return (
     <>
@@ -332,7 +383,7 @@ function Navbar() {
             </div>
             <div id="notif-cont">
               <div id="notif-count">
-                <h6>87</h6>
+                <h6>{unreadMessages.length}</h6>
               </div>
               <i
                 onClick={(e) => {
@@ -361,22 +412,45 @@ function Navbar() {
                       <h5>Notifications</h5>
                     </div>
                     <div id="notif-category">
-                      <span>
+                      <span
+                        onClick={() => {
+                          handleToggleNofitCategory(0.5, 6);
+                          handleAllMessages()
+                        }}
+                      >
                         <i className="material-icons">all_inclusive</i>
                         <h6>All</h6>
+                        <h5>{unreadMessages.length}</h5>
                       </span>
                       <h6>.</h6>
-                      <span>
+                      <span
+                        onClick={() => {
+                          handleToggleNofitCategory(7, 7.2);
+                          handleGroupMessages()
+                        }}
+                      >
                         <i className="material-icons">groups</i>
                         <h6>Groups</h6>
+                        <h5>{groupMessages.length}</h5>
                       </span>{" "}
                       <h6>.</h6>
-                      <span>
+                      <span
+                        onClick={() => {
+                          handleToggleNofitCategory(15, 9.2);
+                          handleInteractionMessages()
+                        }}
+                      >
                         <i>@</i>
                         <h6>Interactions</h6>
+                        <h5>{interactionMessages.length}</h5>
                       </span>{" "}
                     </div>
                     <div id="notif-indicator"></div>
+                  </div>
+                  <div id="notifications-box">
+                  {isAllNotifications && allNotificationsList}
+                  {isGroupNotifications && groupNotificationsList}
+                  {isInteractionMessages && interactionMessagesList}
                   </div>
                 </div>
               </div>

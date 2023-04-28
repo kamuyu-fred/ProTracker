@@ -1,12 +1,12 @@
 class NotificationsController < ApplicationController
     def get_notifications
         current_user = User.find(11)
-        notifications = Notification.where(receiver_id: current_user.id)
+        notifications = Notification.where(receiver_id: current_user.id).order(created_at: :desc)
         render json: notifications
     end
 
     def get_unread_notifications
-        notifications = Notification.where(receiver_id: current_user.id, read: false)
+        notifications = Notification.where(receiver_id: current_user.id, read: false).order(created_at: :desc)
         render json: notifications
     end
 
