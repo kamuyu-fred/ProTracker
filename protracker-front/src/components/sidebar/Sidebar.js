@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import "./sidebar.css";
 import { Redirect } from "react-router-dom/cjs/react-router-dom";
+import sidebarlogo from "./assets/school-logo.png"
 
 function Sidebar() {
   let role = localStorage.getItem("admin");
@@ -68,11 +69,11 @@ function Sidebar() {
       >
         <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <a
-            href="https://moringaschool.com/"
+            href="http://localhost:3000/"
             class="flex items-center pl-2.5 mb-5"
           >
             <img
-              src="https://moringaschool.com/wp-content/themes/moringa/public/images/logo.png"
+              src= {sidebarlogo}
               class="h-6 mr-3 sm:h-7"
               alt="Moringa School Logo"
             />
