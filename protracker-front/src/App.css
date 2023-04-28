@@ -26,7 +26,7 @@
 
 #main-body{
   height: 100vh;
-  width: calc(100%-13em);
+  width: 50em;
   flex-grow: 1;
   background-color: #fff;
   border-left: 1px solid #dddddd;
