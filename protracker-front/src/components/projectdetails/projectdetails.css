@@ -26,7 +26,7 @@
 
 #project-name {
   font-size: 2rem;
-  color: #555;
+  color: #000000;
 }
 
 #project-options {
@@ -63,9 +63,10 @@
   width: 98%;
   min-height: calc(100% - 9em);
   height: auto;
-  background-color: #e1e7e9;
+  background-color: #ffffff;
   /* background-color: #000; */
   border-radius: 10px;
+  border-color:#b0b3b4;
   display: flex;
   align-items: center;
 }

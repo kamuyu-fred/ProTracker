@@ -89,7 +89,7 @@ function AdminDashUsers() {
   return (
     <div>
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <div class="flex items-center justify-between pb-4 bg-white dark:bg-gray-900">
+        <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
           <div>
 
             {/* Dropdown */}
@@ -151,13 +151,13 @@ function AdminDashUsers() {
             <input
               type="text"
               id="table-search-users"
-              class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="block p-2 pl-10 text-sm text-gray-900 border border-white rounded-lg w-80 bg-white focus:ring-orange-600 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search for users"
             />
           </div>
         </div>
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="p-4">
                 <div class="flex items-center">
