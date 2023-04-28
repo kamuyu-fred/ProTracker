@@ -385,19 +385,6 @@ function Navbar() {
               <NavLink to="/userprofile">
                 <img src="https://i.pinimg.com/564x/0b/46/fd/0b46fd8d2bc862ada06df6ce760da981.jpg"></img>
               </NavLink>
-              <div
-                className={`container-${profileClass}`}
-                id="user-profile-bar"
-              >
-                <div id="profile-pointer"></div>
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setUserProfileVisible(true);
-                  }}
-                  id="my-profile-bar"
-                ></div>
-              </div>
             </div>
             <div id="notif-cont">
            {unreadMessages.length > 0 &&  <div id="notif-count">

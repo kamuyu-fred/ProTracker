@@ -30,7 +30,7 @@ function UserBio() {
             <div onClick={(e)=>{
                 e.stopPropagation()
                 setAvatarBoxActive(true)}} className={`avatar-container-${avatarboxclass}`} id="avatar-container">
-                <div id="pointer"></div>
+                <div id="bio-pointer"></div>
                 <div id="avatar-box">
                     <h6>Choose your avatar</h6>
                     <div id="avatar-grid">

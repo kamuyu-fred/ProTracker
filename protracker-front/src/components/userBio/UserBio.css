@@ -105,7 +105,7 @@
   scale: 1;
 }
 
-#avatar-container #pointer {
+#avatar-container #bio-pointer{
   height: 0;
   width: 0;
   border-left: 20px solid transparent;
