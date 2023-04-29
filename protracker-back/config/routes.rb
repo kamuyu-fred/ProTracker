@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   post '/signup', to: 'users#create' # *
   get '/checkout', to: 'session#check_out' # *
   put '/update_profile', to: 'users#update' # *
-  get '/my_profile', to: 'users#my_profile' # *
+  get '/user_profile', to: 'users#user_profile' # *
   get '/all_users', to: 'users#all_users' # *
+  put "/update_avatar", to: 'users#update_avatar' # *
   # granting and revoking admin rights
 
   put '/make_admin', to: 'users#make_admin' # *

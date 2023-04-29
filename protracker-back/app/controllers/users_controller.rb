@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 
+  before_action :verify_auth, only: [:user_profile,:update,:update_avatar]
 
     def all_users
       users = User.all
@@ -82,30 +83,47 @@ class UsersController < ApplicationController
     # updating profile
     # * cleared
     def update
-      if current_user.update(user_params)
+
+      if !current_user.update(user_params)
+        render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
+        return
+      end
+
+      if user_params[:password].present?
+        current_user.update(user_params)
         current_user.create_activity(key: 'user.update',parameters:{
           user: "#{current_user.username}",
           task: "updated their profile details ",
           created_at: "at #{Time.now.strftime('%H:%M')}"
       }, owner: current_user)
-
-        render json: { message: "Profile updated successfully" }, status: :ok
+      render json: { message: "Profile updated successfully" }, status: :ok
       else
-        render json: { errors: current_user.errors.full_messages }, status: :unprocessable_entity
+        current_user.update(user_params.except(:password))
+        current_user.create_activity(key: 'user.update',parameters:{
+          user: "#{current_user.username}",
+          task: "updated their profile details ",
+          created_at: "at #{Time.now.strftime('%H:%M')}"
+      }, owner: current_user)
+      render json: { message: "Profile updated successfully" }, status: :ok
       end
+    end
+
+    def update_avatar
+      current_user.update(avatar_url: params[:avatar_url])
+      render json: { message: "Profile updated successfully" }, status: :ok
     end
 
 
     # check users profile
     # * cleared
-    def my_profile 
-      render json: current_user, include: :achievements
+    def user_profile 
+     render json: current_user
     end
 
     private
 
     def user_params
-        params.permit(:username, :email, :password, :bio, :github_link)
+        params.permit(:username, :email, :password, :bio, :github_link, :avatar_url)
     end
 
 end

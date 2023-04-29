@@ -10,6 +10,7 @@ class User < ApplicationRecord
     has_many :enrolled_cohorts, through: :cohort_students, source: :cohort
     has_many :project_members, dependent: :destroy
     has_many :likes
+    has_many :liked_projects, through: :likes, source: :project
     has_many :comments
     has_many :user_achievements, dependent: :destroy
     has_many :achievements , through: :user_achievements, source: :achievement

@@ -3,12 +3,13 @@ class ApplicationController < ActionController::API
 
     include Pundit::Authorization
 
+    before_action :verify_auth, only: [:update_last_seen_at]
+
     before_action :current_user
 
     before_action :update_last_seen_at, if: -> { !current_user.nil? && (current_user.last_seen_at.nil? || current_user.last_seen_at < 2.minutes.ago) }, except: [:remove_user]
 
     rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
 
 
     def online_users

@@ -3,6 +3,8 @@ import "./UserBio.css";
 import { useState } from "react";
 
 function UserBio() {
+  let token = localStorage.getItem("jwt");
+
   // selecting user avatars logic
 
   const [isAvatarBoxAcive, setAvatarBoxActive] = useState(false);
@@ -13,7 +15,248 @@ function UserBio() {
 
   // toggling between viewing bio and updating bio;
 
-  const [isViewingBio, setViewingBioActive] = useState(false);
+  const [isViewingBio, setViewingBioActive] = useState(true);
+
+  // handle category indicator;
+
+  let [isViewingMyProjects, setViewingMyProjects] = useState(true);
+  let [isViewingLikedProjects, setViewingLikedProjects] = useState(false);
+
+  let indicatorClassName = isViewingMyProjects ? "active" : "disabled";
+  let likesClassName = isViewingLikedProjects ? "active" : "disabled";
+
+  let handleProjectCategoryIndicator = (event) => {
+    let indicator = document.getElementById("p-indicator");
+    let leftValue = event.target.offsetLeft;
+    let width = event.target.offsetWidth;
+    indicator.style.left = leftValue + "px";
+    indicator.style.width = width + "px";
+  };
+
+  // fetching user details from server
+
+  const [userdetails, setUserDetails] = useState([]);
+  const [userProjects, setUserProjects] = useState([]);
+  const [likedProjects, setLikedProjects] = useState([]);
+  const [assignedProjects, setAssignedProjects] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/user_profile", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUserDetails(data);
+        setUserProjects(data.projects);
+        setAssignedProjects(data.enrolled_projects);
+        setLikedProjects(data.liked_projects);
+        console.log(data);
+      });
+  }, []);
+
+  let username = userdetails.username;
+  let userBio = userdetails.bio || "Looking good :)";
+  let github_link = userdetails.github_link;
+  let avaturl =
+    userdetails.avatar_url ||
+    "https://i.pinimg.com/564x/00/80/ee/0080eeaeaa2f2fba77af3e1efeade565.jpg";
+
+  const [viewAllProjects, setViewAllProjects] = useState(true);
+  const [viewLikedProjects, setViewLikedProjects] = useState(false);
+  const [viewAssignedProjects, setViewAssignedProject] = useState(false);
+
+  let checkOutAllProjects = () => {
+    setViewAllProjects(true);
+    setViewLikedProjects(false);
+    setViewAssignedProject(false);
+  };
+
+  let checkOutAllLikedProjects = () => {
+    setViewAllProjects(false);
+    setViewLikedProjects(true);
+    setViewAssignedProject(false);
+  };
+
+  let checkOutAllAssignedProjects = () => {
+    setViewAllProjects(false);
+    setViewLikedProjects(false);
+    setViewAssignedProject(true);
+  };
+
+  let userProjectsList = userProjects.map((project) => {
+    return (
+      <div className="u-project-pod">
+        <h6>{project.project_name}</h6>
+        <div id="project-stats">
+          <span>
+            <i className="material-icons">favorite</i>
+            <h5>{project.student_likes.length}</h5>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="25"
+              viewBox="0 0 24 24"
+              fill="black"
+              id="comment"
+            >
+              <path d="M18,2H6A3,3,0,0,0,3,5V16a3,3,0,0,0,3,3H8.59l2.7,2.71A1,1,0,0,0,12,22a1,1,0,0,0,.65-.24L15.87,19H18a3,3,0,0,0,3-3V5A3,3,0,0,0,18,2Zm1,14a1,1,0,0,1-1,1H15.5a1,1,0,0,0-.65.24l-2.8,2.4L9.71,17.29A1,1,0,0,0,9,17H6a1,1,0,0,1-1-1V5A1,1,0,0,1,6,4H18a1,1,0,0,1,1,1Z"></path>
+            </svg>{" "}
+            <h5>{project.comments.length}</h5>
+          </span>
+        </div>
+      </div>
+    );
+  });
+
+  let userLikedProjectsList = likedProjects.map((project) => {
+    return (
+      <div className="u-project-pod">
+        <h6>{project.project_name}</h6>
+        <div id="project-stats">
+          <span>
+            <i className="material-icons">favorite</i>
+            <h5>{project.student_likes.length}</h5>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="25"
+              viewBox="0 0 24 24"
+              fill="black"
+              id="comment"
+            >
+              <path d="M18,2H6A3,3,0,0,0,3,5V16a3,3,0,0,0,3,3H8.59l2.7,2.71A1,1,0,0,0,12,22a1,1,0,0,0,.65-.24L15.87,19H18a3,3,0,0,0,3-3V5A3,3,0,0,0,18,2Zm1,14a1,1,0,0,1-1,1H15.5a1,1,0,0,0-.65.24l-2.8,2.4L9.71,17.29A1,1,0,0,0,9,17H6a1,1,0,0,1-1-1V5A1,1,0,0,1,6,4H18a1,1,0,0,1,1,1Z"></path>
+            </svg>{" "}
+            <h5>{project.comments.length}</h5>
+          </span>
+        </div>
+      </div>
+    );
+  });
+
+  let userAssignedProjectsList = assignedProjects.map((project) => {
+    return (
+      <div className="u-project-pod">
+        <h6>{project.project_name}</h6>
+        <div id="project-stats">
+          <span>
+            <i className="material-icons">favorite</i>
+            <h5>{project.student_likes.length}</h5>
+          </span>
+          <span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="25"
+              viewBox="0 0 24 24"
+              fill="black"
+              id="comment"
+            >
+              <path d="M18,2H6A3,3,0,0,0,3,5V16a3,3,0,0,0,3,3H8.59l2.7,2.71A1,1,0,0,0,12,22a1,1,0,0,0,.65-.24L15.87,19H18a3,3,0,0,0,3-3V5A3,3,0,0,0,18,2Zm1,14a1,1,0,0,1-1,1H15.5a1,1,0,0,0-.65.24l-2.8,2.4L9.71,17.29A1,1,0,0,0,9,17H6a1,1,0,0,1-1-1V5A1,1,0,0,1,6,4H18a1,1,0,0,1,1,1Z"></path>
+            </svg>{" "}
+            <h5>{project.comments.length}</h5>
+          </span>
+        </div>
+      </div>
+    );
+  });
+
+  // updating user profile details
+
+  const [updatedUserName, setUserName] = useState("");
+  const [updatedGithub, setUpdateGithub] = useState("");
+  const [updatedBio, setUpdateBio] = useState("");
+  const [updatedPassword, setUpdatePassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
+
+  let handleProfileUpdate = () => {
+    let profileObject = {
+      username: updatedUserName || username,
+      github_link: updatedGithub || github_link,
+      bio: updatedBio || userBio,
+      password: updatedPassword,
+    };
+    if (updatedPassword !== "" && updatedPassword !== confirmPassword) {
+      alert("Password mismatch");
+      return;
+    }
+    fetch("http://localhost:3000/update_profile", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify(profileObject),
+    }).then((response) => {
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        alert("Couldn't update profile");
+      }
+      console.log(response);
+    });
+    console.log(profileObject);
+  };
+
+  // picking avatar logic
+
+  let avatarArray = [
+    "https://i.pinimg.com/564x/20/57/6e/20576e2fea1a3eb2b760dfb6d846d7d8.jpg",
+    "https://i.pinimg.com/564x/86/38/3f/86383f344c66e9c8d3e487cc18e81b30.jpg",
+    "https://i.pinimg.com/564x/da/2c/2a/da2c2a1627a18605c7c309470231da59.jpg",
+    "https://i.pinimg.com/564x/14/cc/2a/14cc2a3f8559f8ed86efb28e33b5c749.jpg",
+    "https://i.pinimg.com/564x/21/39/8d/21398d375e0e5977de20fe4c7e6e1e0c.jpg",
+    "https://i.pinimg.com/564x/18/78/5d/18785dd07c09465d01beef679baf1846.jpg",
+    "https://i.pinimg.com/564x/3e/b3/f3/3eb3f34ccea3c7d84a415a261cf9cd08.jpg",
+    "https://i.pinimg.com/564x/67/b3/cd/67b3cd153f8bfd2d816d98b5c4d7a038.jpg",
+  ];
+
+  let updateAvatar = (avatar, e) => {
+    setAvatarUrl(avatar);
+    e.preventDefault();
+    let loader = e.target;
+    let obj = {
+      avatar_url: avatar,
+    };
+    loader.classList.remove("avatar-inactive");
+    loader.classList.add("avatar-active");
+    fetch("http://localhost:3000/update_avatar", {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify(obj),
+    }).then((response) => {
+      console.log(response);
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        alert("Couldn't update profile");
+      }
+    });
+  };
+
+  let avatarList = avatarArray.map((avatar) => {
+    return (
+      <div
+        onClick={(e) => {
+          e.preventDefault();
+          updateAvatar(avatar, e);
+        }}
+        className="avatar-pod avatar-inactive"
+      >
+        <div className="pod-img-cont">
+          <img src={avatar} alt="avatar"></img>
+        </div>
+        {/* <div className="avatar-loader"></div> */}
+      </div>
+    );
+  });
 
   return (
     <section
@@ -27,7 +270,7 @@ function UserBio() {
           <div className="user-details-col profile-col">
             <div id="user-profile-picture">
               <div id="picture-cont">
-                <img src="https://i.pinimg.com/564x/51/90/4f/51904fc86411963d8701777a2a983049.jpg"></img>
+                <img id="main-dp" src={avaturl}></img>
               </div>
               <div
                 onClick={(e) => {
@@ -38,91 +281,18 @@ function UserBio() {
               >
                 <h6>Edit</h6>
               </div>
-            </div>
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                setAvatarBoxActive(true);
-              }}
-              className={`avatar-container-${avatarboxclass}`}
-              id="avatar-container"
-            >
-              <div id="bio-pointer"></div>
-              <div id="avatar-box">
-                <h6>Choose your avatar</h6>
-                <div id="avatar-grid">
-                  <div className="avatar-pod">
-                    <div className="pod-img-cont">
-                      <img
-                        src="https://i.pinimg.com/564x/3a/59/26/3a5926e8a933fe43bbd0b59b4c72d819.jpg"
-                        alt="avatar"
-                      ></img>
-                    </div>
-                    <div className="avatar-loader"></div>
-                  </div>
-                  <div className="avatar-pod">
-                    <div className="pod-img-cont">
-                      <img
-                        src="https://i.pinimg.com/564x/3a/59/26/3a5926e8a933fe43bbd0b59b4c72d819.jpg"
-                        alt="avatar"
-                      ></img>
-                    </div>
-                    <div className="avatar-loader"></div>
-                  </div>{" "}
-                  <div className="avatar-pod">
-                    <div className="pod-img-cont">
-                      <img
-                        src="https://i.pinimg.com/564x/3a/59/26/3a5926e8a933fe43bbd0b59b4c72d819.jpg"
-                        alt="avatar"
-                      ></img>
-                    </div>
-                    <div className="avatar-loader"></div>
-                  </div>{" "}
-                  <div className="avatar-pod">
-                    <div className="pod-img-cont">
-                      <img
-                        src="https://i.pinimg.com/564x/3a/59/26/3a5926e8a933fe43bbd0b59b4c72d819.jpg"
-                        alt="avatar"
-                      ></img>
-                    </div>
-                    <div className="avatar-loader"></div>
-                  </div>{" "}
-                  <div className="avatar-pod">
-                    <div className="pod-img-cont">
-                      <img
-                        src="https://i.pinimg.com/564x/3a/59/26/3a5926e8a933fe43bbd0b59b4c72d819.jpg"
-                        alt="avatar"
-                      ></img>
-                    </div>
-                    <div className="avatar-loader"></div>
-                  </div>{" "}
-                  <div className="avatar-pod">
-                    <div className="pod-img-cont">
-                      <img
-                        src="https://i.pinimg.com/564x/3a/59/26/3a5926e8a933fe43bbd0b59b4c72d819.jpg"
-                        alt="avatar"
-                      ></img>
-                    </div>
-                    <div className="avatar-loader"></div>
-                  </div>{" "}
-                  <div className="avatar-pod">
-                    <div className="pod-img-cont">
-                      <img
-                        src="https://i.pinimg.com/564x/3a/59/26/3a5926e8a933fe43bbd0b59b4c72d819.jpg"
-                        alt="avatar"
-                      ></img>
-                    </div>
-                    <div className="avatar-loader"></div>
-                  </div>{" "}
-                  <div className="avatar-pod">
-                    <div className="pod-img-cont">
-                      <img
-                        src="https://i.pinimg.com/564x/3a/59/26/3a5926e8a933fe43bbd0b59b4c72d819.jpg"
-                        alt="avatar"
-                      ></img>
-                    </div>
-                    <div className="avatar-loader"></div>
-                  </div>
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setAvatarBoxActive(true);
+                }}
+                className={`avatar-container-${avatarboxclass}`}
+                id="avatar-container"
+              >
+                <div id="bio-pointer"></div>
+                <div id="avatar-box">
+                  <h6>Choose your avatar</h6>
+                  <div id="avatar-grid">{avatarList}</div>
                 </div>
               </div>
             </div>
@@ -131,21 +301,19 @@ function UserBio() {
             {isViewingBio ? (
               <>
                 <div id="update-profile-cont">
-                  <button>
+                  <button
+                    onClick={() => {
+                      setViewingBioActive(false);
+                    }}
+                  >
                     <i className="material-icons">edit</i>
                     Update profile
                   </button>
                 </div>
-                <h1 id="user-username">Jeff Maina</h1>
+                <h1 id="user-username">{username}</h1>
                 <div id="bio_box">
                   <h2 className="section-header">BIO</h2>
-                  <p id="bio-text">
-                    Exercitation do minim voluptate consectetur excepteur id.
-                    Proident labore labore labore adipisicing adipisicing est
-                    sint ad sunt nostrud anim ad irure adipisicing. Ad ea ut
-                    voluptate exercitation aute. Incididunt voluptate sint
-                    adipisicing incididunt Lorem tempor occaecat enim laboris.
-                  </p>
+                  <p id="bio-text">{userBio}</p>
                 </div>
                 <div id="contacts-box">
                   <h2 className="section-header">CONTACTS</h2>
@@ -210,29 +378,126 @@ function UserBio() {
               </>
             ) : (
               <div id="update-form-container">
-                <form >
+                <form>
                   <div className="form-group">
                     <label>Username</label>
-                    <input type="text"></input>
+                    <input
+                      onChange={(e) => {
+                        setUserName(e.target.value);
+                      }}
+                      type="text"
+                      value={updatedUserName}
+                    ></input>
                   </div>
                   <div className="form-group">
                     <label>Bio</label>
-                    <textarea type="text"></textarea>
+                    <textarea
+                      onChange={(e) => {
+                        setUpdateBio(e.target.value);
+                      }}
+                      type="text"
+                      value={updatedBio}
+                    ></textarea>
                   </div>
                   <div className="form-group">
                     <label>Github link</label>
-                    <input type="text"></input>
+                    <input
+                      onChange={(e) => {
+                        setUpdateGithub(e.target.value);
+                      }}
+                      type="text"
+                      value={updatedGithub}
+                    ></input>
+                  </div>
+                  <div id="password-div">
+                    <div id="password-confirm" className="form-group">
+                      <label>Password</label>
+                      <input
+                        onFocus={() => {
+                          document.getElementById(
+                            "confirm-password"
+                          ).style.visibility = "visible";
+                        }}
+                        onChange={(e) => {
+                          setUpdatePassword(e.target.value);
+                        }}
+                        type="password"
+                        value={updatedPassword}
+                      ></input>
+                    </div>
+                    <div id="confirm-password" className="form-group">
+                      <label>Confirm Password</label>
+                      <input
+                        onChange={(e) => {
+                          setConfirmPassword(e.target.value);
+                        }}
+                        type="password"
+                        value={confirmPassword}
+                      ></input>
+                    </div>
                   </div>
                   <div id="form-buttons">
-                    <button>Save</button>
-                    <button>Cancel</button>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleProfileUpdate();
+                      }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setViewingBioActive(true);
+                      }}
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </form>
               </div>
             )}
           </div>
         </div>
-        <div id="user-data"></div>
+        <div id="user-data">
+          <div id="user-data-header">
+            <div id="data-category">
+              <div
+                id="first-category"
+                onClick={(e) => {
+                  handleProjectCategoryIndicator(e);
+                  checkOutAllProjects();
+                }}
+              >
+                <h6>Projects</h6>
+              </div>
+              <div
+                className={`p-category-${likesClassName}`}
+                onClick={(e) => {
+                  handleProjectCategoryIndicator(e);
+                  checkOutAllLikedProjects();
+                }}
+              >
+                <h6>Assigned</h6>
+              </div>
+              <div
+                className={`p-category-${likesClassName}`}
+                onClick={(e) => {
+                  handleProjectCategoryIndicator(e);
+                  checkOutAllAssignedProjects();
+                }}
+              >
+                <h6>Liked</h6>
+              </div>
+              <div id="p-indicator"></div>
+            </div>
+          </div>
+          <div id="user-data-container">
+            {viewAllProjects && userProjectsList}
+            {viewLikedProjects && userLikedProjectsList}
+            {viewAssignedProjects && userAssignedProjectsList}
+          </div>
+        </div>
       </div>
     </section>
   );
