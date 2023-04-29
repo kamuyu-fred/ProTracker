@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+
+
 body {
   margin: 0;
   font-family: 'Gotham Rounded', sans-serif;
@@ -11,3 +15,5 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@tailwind utilities;

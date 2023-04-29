@@ -5,7 +5,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import Projectdetails from "./components/projectdetails/Projectdetails";
 import CommentBox from "./components/comments/CommentBox";
 import ReplyBox from "./components/comments/ReplyBox";
-import Login from "./components/Login";
+import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp";
 import CohortForm from "./pages/Cohort";
 import ProjectsList from "./components/ProjectsList";
@@ -143,44 +143,25 @@ function App() {
               </div>
             </div>
           </Route>
+
+          <Route path="/signup">
+            <div id="sidebar">
+              <Sidebar />
+            </div>
+            <div id="main-body">
+              <div id="nav-row">
+                <Navbar />
+              </div>
+              <div id="body-row">
+                <SignUp />
+              </div>
+            </div>
+          </Route>
+
         </Switch>
       </div>
     </Provider>
   );
-  {
-    /* <Projectdetails/> */
-  }
-
-  {
-    /* <Switch>
-        <Route path="/projectlist">
-          <ProjectsList/>
-        </Route>
-        <Route path="/projectdetails">
-        </Route>
-        <Route path="/cohortform">
-          <CohortForm/>
-        </Route>
-        <Route exact path ="/">
-          <Login/>
-        </Route>
-      </Switch> */
-  }
-
-  {
-    /* <CommentBox/> */
-  }
-  {
-    /* <Login/> */
-  }
-  {
-    /* <SignUp/> */
-  }
-  {
-    /* <ReplyBox/> */
-  }
-  {
-    /*<UserProjectList/> */
-  }
+  
 }
 export default App;

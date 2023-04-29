@@ -161,7 +161,8 @@ function Navbar() {
   return (
     <>
       <nav class="bg-white border-gray-200 dark:bg-gray-900">
-        <div class="max-w-screen-xl flex justify-items-start mx-auto p-4">
+        <div class="max-w-screen-xl flex justify-items-center mx-4 p-4">
+        <div class="navbar-container">
           <a href="http://localhost:3000/" class="flex items-start">
             <img
               src={logo}
@@ -170,7 +171,7 @@ function Navbar() {
             />
           
           </a>
-          
+        </div>
           <div id="my_profile">
             <div
               onClick={(e) => {
@@ -183,19 +184,19 @@ function Navbar() {
               <NavLink to="/userprofile">
                 <img src="https://i.pinimg.com/564x/0b/46/fd/0b46fd8d2bc862ada06df6ce760da981.jpg"></img>
               </NavLink>
-              <div
+              {/* <div
                 className={`container-${profileClass}`}
                 id="user-profile-bar"
               >
-                <div id="profile-pointer"></div>
-                <div
+                <div id="profile-pointer"></div> */}
+                {/* <div
                   onClick={(e) => {
                     e.stopPropagation();
                     setUserProfileVisible(true);
                   }}
                   id="my-profile-bar"
-                ></div>
-              </div>
+                ></div> */}
+              {/* </div> */}
             </div>
             <div id="notif-cont">
               <div id="notif-count">
