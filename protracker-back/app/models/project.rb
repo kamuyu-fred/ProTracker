@@ -16,7 +16,7 @@ class Project < ApplicationRecord
   validates :project_name, presence: true
   validates :project_description, presence: true
   validates :github_link, presence: true
-  validates :cohort_class, presence: true
+  validates :category, presence: true
 
 
 
