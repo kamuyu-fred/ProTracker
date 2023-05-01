@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import { showNotification, hideNotification } from "../toast/toastActions";
+import "./resetPassword.css"
 
 function EmailEntry() {
   const [email, setEmail] = useState("");
@@ -23,6 +25,7 @@ function EmailEntry() {
   };
 
   let handleSendingEmail = () => {
+    setIsLoading(true)
     let emailBody = {
       email: email,
     };
@@ -35,16 +38,27 @@ function EmailEntry() {
     }).then((response) => {
       console.log(response.json());
       if (response.ok) {
+        localStorage.setItem("email", email)
+        setEmailSent(true);
+        setIsLoading(false)
         handleToast("Email sent successfully", "success", "primary");
       } else if (!response.ok) {
+        setIsLoading(false)
         handleToast("Error sending email", "error", "primary");
       }
     });
   };
 
+  const[isLoading, setIsLoading] = useState(false)
+
+  if (emailSent) {
+    return <Redirect to="/newpass" />;
+  }
+
   return (
     <div>
-      <form class="space-y-4 md:space-y-6" action="#">
+      <form id="reset-password-form" class="space-y-4 md:space-y-6" action="#">
+        <h1 id="form-title">Enter email you registered with :)</h1>
         <div>
           <label
             for="email"
@@ -75,6 +89,13 @@ function EmailEntry() {
           class="w-full text-red bg-primary-000 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
         >
           Send Email
+          {isLoading && (
+                    <div className="loader">
+                      <div className="ball-1"></div>
+                      <div className="ball-2"></div>
+                      <div className="ball-3"></div>
+                    </div>
+                  )}
         </button>
       </form>
     </div>

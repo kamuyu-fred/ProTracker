@@ -244,7 +244,7 @@ function CohortList() {
         <div id="coohort-path">
           <div id="path-col">
             <h6>Cohort > </h6>
-            <h2>My Cohorts</h2>
+            <h2>All Cohorts</h2>
           </div>
         </div>
         {role === "true" && (

@@ -59,7 +59,7 @@ class CohortsController < ApplicationController
     # retrieving all corhots a user is part of;
     # * cleared
     def my_cohorts
-        cohorts = current_user.enrolled_cohorts
+        cohorts = Cohort.all
         render json: cohorts, status: :ok
     end
 
