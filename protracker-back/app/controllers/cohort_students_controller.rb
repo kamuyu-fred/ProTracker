@@ -7,7 +7,7 @@ class CohortStudentsController < ApplicationController
 
         authorize cohort, :owner?
 
-        student = User.find_by(email: params[:email])
+        student = User.find_by(id: params[:user_id])
 
         if !student
           render json: { message: "Student not found" } , status: :not_found
@@ -23,7 +23,7 @@ class CohortStudentsController < ApplicationController
 
         @cohort_student = CohortStudent.new(user_id: student.id, cohort_id: params[:cohort_id])
 
-        authorize @cohort_student
+        # authorize @cohort_student
 
         if !@cohort_student.save
             render json: {message: "Student was not added.",  errors: @cohort_student.errors.full_messages} , status: :unprocessable_entity

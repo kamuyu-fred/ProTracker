@@ -82,5 +82,3 @@ test:
 production:
   <<: *default
   database: protracker_back_production
-  username: protracker_back
-  password: <%= ENV["PROTRACKER_BACK_DATABASE_PASSWORD"] %>
