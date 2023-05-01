@@ -15,6 +15,7 @@ function UserProjectList() {
 
   // handling project filter dropdown logic
 
+
   // redux stuff;
   const dispatch = useDispatch();
   const handleToast = (message, type, level) => {
@@ -43,7 +44,7 @@ function UserProjectList() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/cohort/${cohort_id}/all_projects`, {
+    fetch(`https://protracker-5hxf.onrender.com/${cohort_id}/all_projects`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -55,7 +56,7 @@ function UserProjectList() {
         console.log(data);
         console.log(userId);
       });
-  }, [cohort_id]);
+  }, []);
 
   // updating redux state;
   function handleProjectId(newId) {
@@ -90,7 +91,7 @@ function UserProjectList() {
       event.target.style.color = "black !important";
       h6Elem.innerHTML = "";
       h6Elem.innerHTML = likes - 1;
-      fetch(`http://localhost:3000/projects/${id}/dislike`, {
+      fetch(`https://protracker-5hxf.onrender.com/${id}/dislike`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -474,7 +475,7 @@ function UserProjectList() {
       github_link: githubLink,
       tags: tags,
     };
-    fetch("http://localhost:3000/projects/add_project", {
+    fetch("https://protracker-5hxf.onrender.com/projects/add_project", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -482,6 +483,7 @@ function UserProjectList() {
       },
       body: JSON.stringify(projObj),
     }).then((response) => {
+      console.log(response.json())
       if (response.ok) {
         handleProjectForm();
         handleToast("Project created successfully", "success", "primary");

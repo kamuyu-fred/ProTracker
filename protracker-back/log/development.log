@@ -17,3 +17,105 @@ Completed 200 OK in 433ms (Views: 8.0ms | ActiveRecord: 13.8ms | Allocations: 51
   [1m[36mUser Load (2.9ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
   [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
   [1m[36mCohort Load (2.1ms)[0m  [1m[34mSELECT "cohorts".* FROM "cohorts" INNER JOIN "cohort_students" ON "cohorts"."id" = "cohort_students"."cohort_id" WHERE "cohort_students"."user_id" = $1[0m  [["user_id", 1]]
+Started GET "/ws" for ::1 at 2023-05-01 21:01:32 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/ws"):
+  
+Started GET "/cohort/cohort_members" for ::1 at 2023-05-01 21:20:00 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/cohort/cohort_members"):
+  
+Started GET "/cohort/cohort_members" for ::1 at 2023-05-01 21:20:01 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/cohort/cohort_members"):
+  
+Started POST "/add_project" for ::1 at 2023-05-01 21:46:48 +0300
+  
+ActionController::RoutingError (No route matches [POST] "/add_project"):
+  
+Started POST "/projects/add_project" for ::1 at 2023-05-01 21:48:55 +0300
+Processing by ProjectsController#create as */*
+  Parameters: {"cohort_id"=>"1", "project_name"=>"new", "project_description"=>"new description", "cohort_class"=>"Android", "github_link"=>"https:/githublink", "tags"=>["react", "html", "postgres"], "project"=>{"project_name"=>"new", "project_description"=>"new description", "github_link"=>"https:/githublink", "cohort_class"=>"Android", "cohort_id"=>"1"}}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+[31mUnpermitted parameters: :cohort_id, :tags, :project. Context: { controller: ProjectsController, action: create, request: #<ActionDispatch::Request:0x00007fc0e00397a8>, params: {"cohort_id"=>"1", "project_name"=>"new", "project_description"=>"new description", "cohort_class"=>"Android", "github_link"=>"https:/githublink", "tags"=>["react", "html", "postgres"], "controller"=>"projects", "action"=>"create", "project"=>{"project_name"=>"new", "project_description"=>"new description", "github_link"=>"https:/githublink", "cohort_class"=>"Android", "cohort_id"=>"1"}} }[0m
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCohort Load (1.6ms)[0m  [1m[34mSELECT "cohorts".* FROM "cohorts" INNER JOIN "cohort_students" ON "cohorts"."id" = "cohort_students"."cohort_id" WHERE "cohort_students"."user_id" = $1 AND "cohorts"."id" = $2 LIMIT $3[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/projects_controller.rb:96:in `create'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+[31mUnpermitted parameters: :cohort_id, :tags, :project. Context: { controller: ProjectsController, action: create, request: #<ActionDispatch::Request:0x00007fc0e00397a8>, params: {"cohort_id"=>"1", "project_name"=>"new", "project_description"=>"new description", "cohort_class"=>"Android", "github_link"=>"https:/githublink", "tags"=>["react", "html", "postgres"], "controller"=>"projects", "action"=>"create", "project"=>{"project_name"=>"new", "project_description"=>"new description", "github_link"=>"https:/githublink", "cohort_class"=>"Android", "cohort_id"=>"1"}} }[0m
+Completed 500 Internal Server Error in 374ms (ActiveRecord: 54.0ms | Allocations: 93946)
+
+
+  
+NoMethodError (undefined method `category' for #<Project:0x00007fc0e00ac500>):
+  
+app/controllers/projects_controller.rb:106:in `create'
+Started POST "/projects/add_project" for ::1 at 2023-05-01 21:50:19 +0300
+Processing by ProjectsController#create as */*
+  Parameters: {"cohort_id"=>"1", "project_name"=>"new", "project_description"=>"new description", "cohort_class"=>"Android", "github_link"=>"https:/githublink", "tags"=>["react", "html", "postgres"], "project"=>{"project_name"=>"new", "project_description"=>"new description", "github_link"=>"https:/githublink", "cohort_class"=>"Android", "cohort_id"=>"1"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+[31mUnpermitted parameters: :cohort_id, :tags, :project. Context: { controller: ProjectsController, action: create, request: #<ActionDispatch::Request:0x00007fc0d4112e60>, params: {"cohort_id"=>"1", "project_name"=>"new", "project_description"=>"new description", "cohort_class"=>"Android", "github_link"=>"https:/githublink", "tags"=>["react", "html", "postgres"], "controller"=>"projects", "action"=>"create", "project"=>{"project_name"=>"new", "project_description"=>"new description", "github_link"=>"https:/githublink", "cohort_class"=>"Android", "cohort_id"=>"1"}} }[0m
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCohort Load (1.1ms)[0m  [1m[34mSELECT "cohorts".* FROM "cohorts" INNER JOIN "cohort_students" ON "cohorts"."id" = "cohort_students"."cohort_id" WHERE "cohort_students"."user_id" = $1 AND "cohorts"."id" = $2 LIMIT $3[0m  [["user_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/projects_controller.rb:96:in `create'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+[31mUnpermitted parameters: :cohort_id, :tags, :project. Context: { controller: ProjectsController, action: create, request: #<ActionDispatch::Request:0x00007fc0d4112e60>, params: {"cohort_id"=>"1", "project_name"=>"new", "project_description"=>"new description", "cohort_class"=>"Android", "github_link"=>"https:/githublink", "tags"=>["react", "html", "postgres"], "controller"=>"projects", "action"=>"create", "project"=>{"project_name"=>"new", "project_description"=>"new description", "github_link"=>"https:/githublink", "cohort_class"=>"Android", "cohort_id"=>"1"}} }[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/projects_controller.rb:106:in `create'
+  [1m[36mProject Create (5.6ms)[0m  [1m[32mINSERT INTO "projects" ("project_name", "project_description", "github_link", "cohort_class", "user_id", "cohort_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["project_name", "new"], ["project_description", "new description"], ["github_link", "https:/githublink"], ["cohort_class", "Android"], ["user_id", 1], ["cohort_id", 1], ["created_at", "2023-05-01 18:50:20.202783"], ["updated_at", "2023-05-01 18:50:20.202783"]]
+  ↳ app/controllers/projects_controller.rb:106:in `create'
+  [1m[36mPublicActivity::Activity Create (5.9ms)[0m  [1m[32mINSERT INTO "activities" ("trackable_type", "trackable_id", "owner_type", "owner_id", "key", "parameters", "recipient_type", "recipient_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["trackable_type", "Project"], ["trackable_id", 22], ["owner_type", nil], ["owner_id", nil], ["key", "project.create"], ["parameters", nil], ["recipient_type", nil], ["recipient_id", nil], ["created_at", "2023-05-01 18:50:20.251367"], ["updated_at", "2023-05-01 18:50:20.251367"]]
+  ↳ app/controllers/projects_controller.rb:106:in `create'
+  [1m[36mTRANSACTION (1.5ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/projects_controller.rb:106:in `create'
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mTRANSACTION (5.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/projects_controller.rb:119:in `create'
+  [1m[36mProjectMember Create (3.1ms)[0m  [1m[32mINSERT INTO "project_members" ("user_id", "project_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["user_id", 1], ["project_id", 22], ["created_at", "2023-05-01 18:50:20.329169"], ["updated_at", "2023-05-01 18:50:20.329169"]]
+  ↳ app/controllers/projects_controller.rb:119:in `create'
+  [1m[36mTag Create (4.7ms)[0m  [1m[32mINSERT INTO "tags" ("name", "project_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "react"], ["project_id", 22], ["created_at", "2023-05-01 18:50:20.346828"], ["updated_at", "2023-05-01 18:50:20.346828"]]
+  ↳ app/controllers/projects_controller.rb:119:in `create'
+  [1m[36mTag Create (0.5ms)[0m  [1m[32mINSERT INTO "tags" ("name", "project_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "html"], ["project_id", 22], ["created_at", "2023-05-01 18:50:20.356851"], ["updated_at", "2023-05-01 18:50:20.356851"]]
+  ↳ app/controllers/projects_controller.rb:119:in `create'
+  [1m[36mTag Create (1.5ms)[0m  [1m[32mINSERT INTO "tags" ("name", "project_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "postgres"], ["project_id", 22], ["created_at", "2023-05-01 18:50:20.361531"], ["updated_at", "2023-05-01 18:50:20.361531"]]
+  ↳ app/controllers/projects_controller.rb:119:in `create'
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/projects_controller.rb:119:in `create'
+  [1m[36mUser Load (7.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mProject Count (1.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "projects" WHERE "projects"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/controllers/projects_controller.rb:121:in `create'
+  [1m[36mCACHE User Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+[active_model_serializers] Rendered ActiveModel::Serializer::Null with Hash (0.69ms)
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:67:in `current_user'
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/application_controller.rb:129:in `create_user_activity'
+  [1m[36mPublicActivity::Activity Create (3.9ms)[0m  [1m[32mINSERT INTO "activities" ("trackable_type", "trackable_id", "owner_type", "owner_id", "key", "parameters", "recipient_type", "recipient_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["trackable_type", "Project"], ["trackable_id", 22], ["owner_type", "User"], ["owner_id", 1], ["key", "project.create"], ["parameters", "---\n:user: Jeff Maina\n:task: created a project titled 'new'\n:created_at: at 21:50\n"], ["recipient_type", nil], ["recipient_id", nil], ["created_at", "2023-05-01 18:50:20.411108"], ["updated_at", "2023-05-01 18:50:20.411108"]]
+  ↳ app/controllers/application_controller.rb:129:in `create_user_activity'
+  [1m[36mTRANSACTION (1.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/application_controller.rb:129:in `create_user_activity'
+Completed 200 OK in 404ms (Views: 16.2ms | ActiveRecord: 88.9ms | Allocations: 144949)
+
+

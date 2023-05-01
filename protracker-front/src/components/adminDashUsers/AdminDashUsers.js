@@ -72,7 +72,7 @@ function AdminDashUsers() {
         );
         setTimeout(() => {
           window.location.reload();
-        }, 3100);
+        }, 2000);
       } else {
         handleToast("Could not grant user admin rights", "error", "primary");
       }
@@ -94,7 +94,7 @@ function AdminDashUsers() {
         handleToast("Successfully revoked admin rights", "success", "primary");
         setTimeout(() => {
           window.location.reload();
-        }, 3100);
+        }, 2000);
       } else {
         handleToast("Could not revoke user admin rights", "error", "primary");
       }

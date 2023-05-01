@@ -38,7 +38,7 @@ function CohortList() {
   // Retrieving cohorts from database;
   const [cohorts, setCohorts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3000/cohorts/my_cohorts", {
+    fetch("https://protracker-5hxf.onrender.com/cohorts/my_cohorts", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -47,6 +47,7 @@ function CohortList() {
       .then((response) => response.json())
       .then((data) => {
         setCohorts(data);
+        console.log(data)
       });
   }, []);
 
@@ -88,7 +89,7 @@ function CohortList() {
   const [allUsersSearch, setallUsersSearch] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/all_users", {
+    fetch("https://protracker-5hxf.onrender.com/all_users", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -109,7 +110,7 @@ function CohortList() {
       cohort_id: clickedCohortId,
       user_id: id,
     };
-    fetch("http://localhost:3000/cohort/add_student", {
+    fetch("https://protracker-5hxf.onrender.com/cohort/add_student", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -117,6 +118,7 @@ function CohortList() {
       },
       body: JSON.stringify(memberObj),
     }).then((response) => {
+      console.log(response.json());
       if (response.ok) {
         handleToast("Member successfully added", "success", "primary");
         setTimeout(() => {
@@ -135,9 +137,13 @@ function CohortList() {
         ? "https://i.pinimg.com/736x/00/80/ee/0080eeaeaa2f2fba77af3e1efeade565.jpg"
         : user.avatar_url;
     let onlineStatus = user.online_status === "online" ? "green" : "red";
-    let onCohort = user.enrolled_cohorts.filter((cohort) => {
+
+    let onCohort = user.enrolled_cohorts ? user.enrolled_cohorts.filter((cohort) => {
       return cohort.id == clickedCohortId;
-    });
+    }) : [];
+
+    console.log(user)
+
     let cursorType = onCohort.length > 0 ? "not-allowed" : "pointer";
     let btn_state = cursorType === "not-allowed" ? true : false;
     return (
@@ -199,7 +205,7 @@ function CohortList() {
   function handleSubmit() {
     setLoading(true);
     console.log(cohortData);
-    fetch(`http://localhost:3000/cohorts/create_cohort`, {
+    fetch(`https://protracker-5hxf.onrender.com/cohorts/create_cohort`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -208,6 +214,7 @@ function CohortList() {
       body: JSON.stringify(cohortData),
     })
       .then((response) => {
+        console.log(response.json())
         if (response.ok) {
           handleToast("Cohort created successfully", "success", "primary");
           setInterval(() => {
