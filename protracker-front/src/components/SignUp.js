@@ -1,34 +1,74 @@
 import React, { useState } from "react";
+import { NavLink, Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { useDispatch } from "react-redux";
+import { showNotification, hideNotification } from "./toast/toastActions";
 
 const SignUp = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [firstName, setFirstName] = useState("")
-    const [lastName, setLastName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [confirmPassword, setConfirmPassword] = useState("")
+  const [isSignedUp, setIsSignedUp] = useState(false);
 
-    const handleSigningUp = () => {
-        let userObj = {
-            first_name: firstName,
-            last_name: lastName,
-            email: email,
-            password: password
-        }
+  // redux stuff;
+  const dispatch = useDispatch();
+  const handleToast = (message, type, level) => {
+    dispatch(
+      showNotification({
+        message: message,
+        type: type,
+        level: level,
+        toast_state: "active",
+      })
+    );
+    setTimeout(() => {
+      dispatch(hideNotification());
+    }, 3000);
+  };
 
-        if(password === confirmPassword){
-            fetch("http://localhost:3000/signup", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(userObj)
-            })
-            .then(response => {
-                console.log(response.json(),response)
-            })}
-        else{
-            alert("Password does not match")
-        }
+  const handleSigningUp = () => {
+    let userObj = {
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      password: password,
     };
+
+    if (password === confirmPassword) {
+      setIsLoading(true)
+      fetch("https://protracker-5hxf.onrender.com/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userObj),
+      }).then((response) => {
+        if (response.ok) {
+          setIsLoading(false)
+          setIsSignedUp(true)
+          handleToast("Successfully registered", "success", "primary");
+        } else {
+          setIsLoading(false)
+          return response.json().then((error) => {
+            let errorMessage = error.error[0];
+            handleToast(`${errorMessage}`, "error", "primary");
+          });        }
+        console.log(response.json())
+      });
+    } else {
+      handleToast("Password does not match", "error", "primary");
+    }
+  };
+
+
+  // loader logic;
+
+  const[isLoading, setIsLoading] = useState(false)
+
+  if(isSignedUp){
+    return <Redirect to="/"/>
+  }
+
 
   return (
     <div>
@@ -46,7 +86,11 @@ const SignUp = () => {
               <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create account
               </h1>
-              <form class="space-y-4 md:space-y-6" action="#">
+              <form
+                style={{ width: "40em" }}
+                class="space-y-4 md:space-y-6"
+                action="#"
+              >
                 <div>
                   <label
                     for="email"
@@ -55,8 +99,8 @@ const SignUp = () => {
                     First name{" "}
                   </label>
                   <input
-                    onChange={(e)=>{
-                        setFirstName(e.target.value);
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
                     }}
                     type="email"
                     name="first_name"
@@ -75,8 +119,8 @@ const SignUp = () => {
                     Last Name
                   </label>
                   <input
-                    onChange={(e)=>{
-                        setLastName(e.target.value);
+                    onChange={(e) => {
+                      setLastName(e.target.value);
                     }}
                     type="text"
                     name="last_name"
@@ -95,8 +139,8 @@ const SignUp = () => {
                     Your email
                   </label>
                   <input
-                    onChange={(e)=>{
-                        setEmail(e.target.value)
+                    onChange={(e) => {
+                      setEmail(e.target.value);
                     }}
                     type="email"
                     name="email"
@@ -115,8 +159,8 @@ const SignUp = () => {
                     Password
                   </label>
                   <input
-                    onChange={(e)=>{
-                        setPassword(e.target.value)
+                    onChange={(e) => {
+                      setPassword(e.target.value);
                     }}
                     type="password"
                     name="password"
@@ -135,12 +179,12 @@ const SignUp = () => {
                     Confirm password
                   </label>
                   <input
-                    onChange={(e)=>{
-                        setConfirmPassword(e.target.value)
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value);
                     }}
                     type="password"
                     name="confirm-password"
-                    id="confirm-password"
+                    // id="confirm-password"
                     placeholder="••••••••"
                     value={confirmPassword}
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -156,8 +200,6 @@ const SignUp = () => {
                       class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                       required=""
                     />
-                      <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                      <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@moringaschool.com" required=""/>
                   </div>
                   <div class="ml-3 text-sm">
                     <label
@@ -175,14 +217,22 @@ const SignUp = () => {
                   </div>
                 </div>
                 <button
-                  onClick={(e)=>{
+                  onClick={(e) => {
                     e.preventDefault();
                     handleSigningUp();
                   }}
                   type="submit"
-                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  style={{border: '1px solid #999', display : "flex", alignItems : 'center', justifyContent : 'center'}}
+                  class="relative w-full text-dark bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Create an account
+                  Create an account{
+                    isLoading &&
+                  <div className="loader">
+                      <div className="ball-1"></div>
+                      <div className="ball-2"></div>
+                      <div className="ball-3"></div>
+
+                  </div>}
                 </button>
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account?{" "}
@@ -190,7 +240,9 @@ const SignUp = () => {
                     href="#"
                     class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
-                    Login here
+                    <NavLink exact to="/">
+                      Login here
+                    </NavLink>
                   </a>
                 </p>
               </form>

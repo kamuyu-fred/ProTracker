@@ -2,22 +2,41 @@ import { useState, useEffect } from "react";
 import CohortForm from "../../pages/Cohort";
 import "./cohortlist.css";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
-function CohortList() {
+import { useDispatch } from "react-redux";
+import { showNotification, hideNotification } from "../toast/toastActions";
 
+function CohortList() {
+  // retrieve values from localStorage
   let role = localStorage.getItem("admin");
+  const token = localStorage.getItem("jwt");
+
+  // redux stuff;
+  const dispatch = useDispatch();
+  const handleToast = (message, type, level) => {
+    dispatch(
+      showNotification({
+        message: message,
+        type: type,
+        level: level,
+        toast_state: "active",
+      })
+    );
+    setTimeout(() => {
+      dispatch(hideNotification());
+    }, 3000);
+  };
+
+  let [clickedCohortId, setClickedCohortId] = useState("");
 
   // toggle create cohort form
-
   const [isCohortFormActive, setCohortFormActive] = useState();
 
   let handleCohortForm = () => {
     setCohortFormActive(!isCohortFormActive);
   };
 
-  const token = localStorage.getItem("jwt"); //store token in localStorage
-
+  // Retrieving cohorts from database;
   const [cohorts, setCohorts] = useState([]);
-
   useEffect(() => {
     fetch("http://localhost:3000/cohorts/my_cohorts", {
       headers: {
@@ -27,13 +46,12 @@ function CohortList() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setCohorts(data);
       });
   }, []);
 
+  // store cohort id inlocalStorage;
   let handleCohortId = (value) => {
-    console.log(value);
     localStorage.setItem("cohort_id", value);
   };
 
@@ -48,6 +66,15 @@ function CohortList() {
         >
           <NavLink to="/projectList">{cohort.name}</NavLink>
         </h1>
+        <button
+          onClick={() => {
+            handleCohortForm();
+            setCreatingCohort(false);
+            setClickedCohortId(cohort.id);
+          }}
+        >
+          Add Member
+        </button>
       </div>
     );
   });
@@ -58,6 +85,7 @@ function CohortList() {
   // retrieving all users in the database;
 
   const [allUsers, setallUsers] = useState([]);
+  const [allUsersSearch, setallUsersSearch] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:3000/all_users", {
@@ -69,11 +97,35 @@ function CohortList() {
       .then((response) => response.json())
       .then((data) => {
         setallUsers(data);
+        setallUsersSearch(data);
       });
   }, []);
 
+  console.log(allUsers);
+
   let handleAddingMemberToCohort = (id) => {
     console.log(id);
+    let memberObj = {
+      cohort_id: clickedCohortId,
+      user_id: id,
+    };
+    fetch("http://localhost:3000/cohort/add_student", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(memberObj),
+    }).then((response) => {
+      if (response.ok) {
+        handleToast("Member successfully added", "success", "primary");
+        setTimeout(() => {
+          window.location.reload();
+        }, 3100);
+      } else {
+        handleToast("Failed to add member", "error", "primary");
+      }
+    });
   };
 
   let allUsersList = allUsers.map((user) => {
@@ -83,6 +135,11 @@ function CohortList() {
         ? "https://i.pinimg.com/736x/00/80/ee/0080eeaeaa2f2fba77af3e1efeade565.jpg"
         : user.avatar_url;
     let onlineStatus = user.online_status === "online" ? "green" : "red";
+    let onCohort = user.enrolled_cohorts.filter((cohort) => {
+      return cohort.id == clickedCohortId;
+    });
+    let cursorType = onCohort.length > 0 ? "not-allowed" : "pointer";
+    let btn_state = cursorType === "not-allowed" ? true : false;
     return (
       <div className="add-cohort-member">
         <div className="c-add-dp">
@@ -100,6 +157,8 @@ function CohortList() {
             onClick={() => {
               handleAddingMemberToCohort(user.id);
             }}
+            style={{ cursor: cursorType }}
+            disabled={btn_state}
           >
             Add Member
           </button>
@@ -107,6 +166,15 @@ function CohortList() {
       </div>
     );
   });
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  let findCohortStudent = () => {
+    let results = allUsersSearch.filter((student) => {
+      return student.username.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+    setallUsers(results);
+  };
 
   // creating a cohort
 
@@ -141,11 +209,16 @@ function CohortList() {
     })
       .then((response) => {
         if (response.ok) {
-          window.location.reload()
+          handleToast("Cohort created successfully", "success", "primary");
+          setInterval(() => {
+            window.location.reload();
+          },3100);
           return response.json();
         } else {
-          alert("failed yoh")
-          return response.json();
+          return response.json().then((error) => {
+            let errorMessage = error.errors[0];
+            handleToast(`${errorMessage}`, "error", "primary");
+          });
         }
       })
       .then((data) => {
@@ -158,14 +231,6 @@ function CohortList() {
       .catch((error) => {});
   }
 
-  let errorsList;
-  if (errorsArray) {
-    errorsList = errorsArray.map((error) => {
-      return <li>{error}</li>;
-    });
-  }
-
-
   return (
     <section>
       <div id="cohort-header">
@@ -175,24 +240,18 @@ function CohortList() {
             <h2>My Cohorts</h2>
           </div>
         </div>
-       {role === 'true' && <div id="project-list-options-col">
-          <button
-            onClick={() => {
-              handleCohortForm();
-              setCreatingCohort(true);
-            }}
-          >
-            Create Cohort
-          </button>
-          <button
-            onClick={() => {
-              handleCohortForm();
-              setCreatingCohort(false);
-            }}
-          >
-            Add Member
-          </button>
-        </div>}
+        {role === "true" && (
+          <div id="cohort-list-options-col">
+            <button
+              onClick={() => {
+                handleCohortForm();
+                setCreatingCohort(true);
+              }}
+            >
+              Create Cohort
+            </button>
+          </div>
+        )}
       </div>
       <div id="cohort-body">
         <div id="cohorts-box">
@@ -231,10 +290,23 @@ function CohortList() {
             ) : (
               <div id="add-cohort-form">
                 <div className="add-cohort-header">
-                  <input type="text" />
+                  <input
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      findCohortStudent();
+                    }}
+                    type="text"
+                    value={searchTerm}
+                  />
                   <i className="material-icons">search</i>
                 </div>
-                <div className="add-cohort-body">{allUsersList}</div>
+                <div className="add-cohort-body">
+                  {allUsersList.length > 0 ? (
+                    allUsersList
+                  ) : (
+                    <h1 className="no-results-msg">No users found</h1>
+                  )}
+                </div>
               </div>
             )}
           </div>

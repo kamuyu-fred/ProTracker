@@ -101,13 +101,6 @@ function Sidebar() {
                 </NavLink>
               </a>
             </li>
-            <li>
-              <div id="cohorts-list">
-                <h6>SDF-FT-03-2002</h6>
-                <h6>SDF-FT-03-2002</h6>
-              </div>
-            </li>
-
             {role === 'true' && (
               <li>
                 <button

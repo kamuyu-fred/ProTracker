@@ -8,13 +8,12 @@
   background-color: #fff;
 }
 
-#backward-btn{
+#backward-btn {
   position: relative;
   top: 20px;
   cursor: pointer;
   left: -20px;
 }
-
 
 #project-details-header {
   height: 7em;
@@ -48,15 +47,29 @@
   display: flex;
 }
 
-#project-menu{
+#project-menu {
   position: absolute;
   height: 5.5em;
-  width: 10em;
-  background-color: #000;
+  width: 7em;
+  background-color: #fff;
   bottom: -140%;
   right: 10px;
   z-index: 100;
   border-radius: 5px;
+  border: 1px solid #555;
+  overflow: hidden;
+}
+#project-menu div {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  cursor: pointer;
+}
+
+#project-menu div:hover {
+  background-color: #e1e7e9;
 }
 
 #project-details-body {
@@ -234,6 +247,9 @@
   font-size: 1.1rem;
   margin: 0;
   font-weight: 350;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #group-member-details h6 {
@@ -278,7 +294,6 @@
     rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
 
-
 .members-modal-header {
   height: 5em;
   width: 100%;
@@ -320,18 +335,18 @@
   overflow-y: scroll;
 }
 
-.members-modal-body::-webkit-scrollbar{
+.members-modal-body::-webkit-scrollbar {
   width: 10px;
   background-color: transparent;
 }
 
-.members-modal-body::-webkit-scrollbar-thumb{
+.members-modal-body::-webkit-scrollbar-thumb {
   width: 10px;
   border-radius: 5px;
   background-color: transparent;
 }
 
-.members-modal-body:hover::-webkit-scrollbar-thumb{
+.members-modal-body:hover::-webkit-scrollbar-thumb {
   width: 10px;
   border-radius: 5px;
   background-color: #c0c1c2;
@@ -348,7 +363,7 @@
   margin-bottom: 15px;
 }
 
-.members-list-member #group-member-box{
+.members-list-member #group-member-box {
   margin: 0;
 }
 
@@ -382,7 +397,7 @@
     rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
 
-.add-members-modal-header{
+.add-members-modal-header {
   width: 95%;
   height: 5em;
   /* background-color: #529bf5; */
@@ -409,35 +424,33 @@
   color: #777;
 }
 
-
-.add-members-modal-body{
+.add-members-modal-body {
   width: 95%;
   height: 29em;
   overflow-y: scroll;
   /* background-color: #529bf5; */
 }
 
-
-.add-members-modal-body::-webkit-scrollbar{
+.add-members-modal-body::-webkit-scrollbar {
   width: 10px;
   background-color: transparent;
 }
 
-.add-members-modal-body::-webkit-scrollbar-thumb{
+.add-members-modal-body::-webkit-scrollbar-thumb {
   width: 10px;
   border-radius: 5px;
   background-color: transparent;
 }
 
-.add-members-modal-body:hover::-webkit-scrollbar-thumb{
+.add-members-modal-body:hover::-webkit-scrollbar-thumb {
   width: 10px;
   border-radius: 5px;
   background-color: #c0c1c2;
 }
 
-.group-cohort-member{
+.group-cohort-member {
   width: 97%;
-  height:4.5em;
+  height: 4.5em;
   border-radius: 5px;
   cursor: pointer;
   margin: auto;
@@ -449,24 +462,24 @@
   justify-content: space-between;
 }
 
-.group-cohort-member:hover{
-background-color: #f0f5fb;
+.group-cohort-member:hover {
+  background-color: #f0f5fb;
 }
 
-.cohort-member-pfp{
+.cohort-member-pfp {
   height: 2.5em;
   width: 2.5em;
   border-radius: 4px;
   position: relative;
 }
 
-.cohort-member-pfp img{
+.cohort-member-pfp img {
   border-radius: inherit;
   max-width: 100%;
   max-height: 100%;
 }
 
-.online-indicator{
+.online-indicator {
   position: absolute;
   bottom: -2px;
   right: -2px;
@@ -478,7 +491,7 @@ background-color: #f0f5fb;
   background-color: #529bf5;
 }
 
-.cohort-member-details{
+.cohort-member-details {
   height: 80%;
   width: 90%;
   display: flex;
@@ -486,15 +499,112 @@ background-color: #f0f5fb;
   justify-content: space-between;
 }
 
-#member-add-btn{
+#member-add-btn {
   border: 1px solid #999;
   padding: 3px 10px;
   cursor: pointer;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 4px;
 }
 
 .comments-col {
   position: relative;
   width: 34%;
+}
+
+/* form for updating user details */
+
+#project-update-container {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  background-color: rgb(85, 85, 85, 0.2);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#project-update-container form {
+  width: 30%;
+  min-width: 580px;
+  position: relative;
+  height: auto;
+  padding: 1em 0em;
+  padding-bottom: 2em;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+#delete-box {
+  position: relative;
+  width: 30%;
+  min-width: 580px;
+  height: 18em;
+  padding: 1em 0em;
+  padding-left: ;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 2em;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+#delete-info {
+  width: 100%;
+  flex-grow: 1;
+  /* background-color: #ad5151; */
+  box-sizing: border-box;
+  padding: 2em;
+}
+
+#delete-info h2 {
+  font-size: 1.7rem;
+  font-weight: 350;
+  margin-bottom: 1em;
+  color: #000000;
+}
+
+#delete-info p {
+  font-size: 1.05rem;
+  color: #666;
+  font-weight: 350;
+  line-height: 30px;
+}
+
+#delete-actions {
+  width: 100%;
+  height: 6em;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#delete-actions button{
+  width: 8em;
+  margin-right: 20px;
+  border: 1px solid #999;
+  border-radius: 5px;
+  height: 2.5em;
+}
+
+#delete-actions #delete-btn{
+  background-color: rgb(220, 20, 20);
+  color: #fff;
+  border: none;
+}
+
+.no-results-msg{
+  color: #777;
+  text-align: center;
 }

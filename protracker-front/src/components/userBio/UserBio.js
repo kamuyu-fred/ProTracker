@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import "./UserBio.css";
 import { useState } from "react";
+import stellarproject from "./Assets/Kikombe (1).png";
+import workhorse from "./Assets/medal (1).png";
+import teamplayer from "./Assets/Crown.png";
+import prolificCreator from "./Assets/Star Trophy.png";
+import { useDispatch } from "react-redux";
+import { showNotification, hideNotification } from "../toast/toastActions";
 
 function UserBio() {
   let token = localStorage.getItem("jwt");
@@ -8,6 +14,24 @@ function UserBio() {
   // selecting user avatars logic
 
   const [isAvatarBoxAcive, setAvatarBoxActive] = useState(false);
+
+  // redux stuff;
+
+  // redux stuff;
+  const dispatch = useDispatch();
+  const handleToast = (message, type, level) => {
+    dispatch(
+      showNotification({
+        message: message,
+        type: type,
+        level: level,
+        toast_state: "active",
+      })
+    );
+    setTimeout(() => {
+      dispatch(hideNotification());
+    }, 3000);
+  };
 
   let imageArray = [];
 
@@ -39,9 +63,10 @@ function UserBio() {
   const [userProjects, setUserProjects] = useState([]);
   const [likedProjects, setLikedProjects] = useState([]);
   const [assignedProjects, setAssignedProjects] = useState([]);
+  const [achievements, setAchievements] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/user_profile", {
+    fetch("https://protracker-5hxf.onrender.com/user_profile", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -53,7 +78,7 @@ function UserBio() {
         setUserProjects(data.projects);
         setAssignedProjects(data.enrolled_projects);
         setLikedProjects(data.liked_projects);
-        console.log(data);
+        setAchievements(data.achievements);
       });
   }, []);
 
@@ -174,6 +199,7 @@ function UserBio() {
   const [avatarUrl, setAvatarUrl] = useState("");
 
   let handleProfileUpdate = () => {
+    setIsLoading(true)
     let profileObject = {
       username: updatedUserName || username,
       github_link: updatedGithub || github_link,
@@ -181,10 +207,11 @@ function UserBio() {
       password: updatedPassword,
     };
     if (updatedPassword !== "" && updatedPassword !== confirmPassword) {
-      alert("Password mismatch");
+      handleToast("Password mismatch", "error", "tertiary");
+      setIsLoading(false)
       return;
     }
-    fetch("http://localhost:3000/update_profile", {
+    fetch("https://protracker-5hxf.onrender.com/update_profile", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -193,13 +220,16 @@ function UserBio() {
       body: JSON.stringify(profileObject),
     }).then((response) => {
       if (response.ok) {
-        window.location.reload();
+        setIsLoading(false)
+        handleToast("Profile updated successfully", "new", "tertiary");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } else {
-        alert("Couldn't update profile");
+        setIsLoading(false)
+        handleToast("Could not update profile", "error", "tertiary");
       }
-      console.log(response);
     });
-    console.log(profileObject);
   };
 
   // picking avatar logic
@@ -224,7 +254,7 @@ function UserBio() {
     };
     loader.classList.remove("avatar-inactive");
     loader.classList.add("avatar-active");
-    fetch("http://localhost:3000/update_avatar", {
+    fetch("https://protracker-5hxf.onrender.com/update_avatar", {
       method: "PUT",
       headers: {
         "content-type": "application/json",
@@ -232,14 +262,51 @@ function UserBio() {
       },
       body: JSON.stringify(obj),
     }).then((response) => {
-      console.log(response);
       if (response.ok) {
-        window.location.reload();
+        handleToast("Avatar updated successfully", "success", "tertiary");
+        setTimeout(() => {
+          window.location.reload();
+        }, 3100);
       } else {
-        alert("Couldn't update profile");
+        handleToast("Could not update avatar", "error", "tertiary");
       }
     });
   };
+
+  let colors = ["#5b7ee8", "#f4d005", "f405a4", "#05f4cc"];
+
+  let images = {
+    Stellar_Project: stellarproject,
+    Work_Horse: workhorse,
+    Team_Player: teamplayer,
+    Prolific_Creator: prolificCreator,
+  };
+
+  let imagesArray = achievements.map((item) => ({
+    name: item.name,
+    image: images[item.name.replace(" ", "_")],
+    description: item.description,
+  }));
+
+  console.log(imagesArray);
+
+  let achievementsList = imagesArray.map((achievement) => {
+    return (
+      <div className="achievement-pod">
+        <img src={achievement.image} alt="achievement" />
+        <div className="decription-box">
+          <div id="img-cont">
+            <img src={achievement.image} alt="achievement"></img>
+          </div>
+          <div id="achievement-details">
+            <h2>{achievement.name}</h2>
+            <hr />
+            <p>{achievement.description}</p>
+          </div>
+        </div>
+      </div>
+    );
+  });
 
   let avatarList = avatarArray.map((avatar) => {
     return (
@@ -257,6 +324,9 @@ function UserBio() {
       </div>
     );
   });
+  
+
+  const[isLoading, setIsLoading] = useState(false)
 
   return (
     <section
@@ -296,6 +366,7 @@ function UserBio() {
                 </div>
               </div>
             </div>
+            <div id="achievements-box">{achievementsList}</div>
           </div>
           <div className="user-details-col info-col">
             {isViewingBio ? (
@@ -442,8 +513,17 @@ function UserBio() {
                         e.preventDefault();
                         handleProfileUpdate();
                       }}
+                      style={{border: '1px solid #999', display : "flex", alignItems : 'center', justifyContent : 'center'}}
                     >
                       Save
+                      {
+                    isLoading &&
+                  <div className="loader">
+                      <div className="ball-1"></div>
+                      <div className="ball-2"></div>
+                      <div className="ball-3"></div>
+
+                  </div>}
                     </button>
                     <button
                       onClick={(e) => {
@@ -474,8 +554,8 @@ function UserBio() {
               <div
                 className={`p-category-${likesClassName}`}
                 onClick={(e) => {
+                  checkOutAllAssignedProjects();
                   handleProjectCategoryIndicator(e);
-                  checkOutAllLikedProjects();
                 }}
               >
                 <h6>Assigned</h6>
@@ -484,7 +564,7 @@ function UserBio() {
                 className={`p-category-${likesClassName}`}
                 onClick={(e) => {
                   handleProjectCategoryIndicator(e);
-                  checkOutAllAssignedProjects();
+                  checkOutAllLikedProjects();
                 }}
               >
                 <h6>Liked</h6>

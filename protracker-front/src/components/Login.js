@@ -1,57 +1,80 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { useDispatch } from "react-redux";
+import { showNotification, hideNotification } from "./toast/toastActions";
 
 function Login() {
+  // redux stuff;
+  const dispatch = useDispatch();
+  const handleToast = (message, type, level) => {
+    dispatch(
+      showNotification({
+        message: message,
+        type: type,
+        level: level,
+        toast_state: "active",
+      })
+    );
+    setTimeout(() => {
+      dispatch(hideNotification());
+    }, 3000);
+  };
 
-    const[email, setEmail] = useState("");
-    const[password, setPassword] = useState("");
-    const[isLoggedIn, setIsLoggedIn] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
-    let handleLogin =  () => {
-
-        let obj = {
-            email,
-            password
-        }
-
-        fetch("http://localhost:3000/login",{
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(obj)
-        })
-        .then(response => {
-          if (response.ok) {
-            setIsLoggedIn(true)
-            return response.json().then((data) => {
-              console.log(data);
-              let token = data.token;
-              let role = data.user.admin;
-              let userId = data.user.id
-
-              localStorage.setItem('jwt', token.toString());
-              localStorage.setItem('admin', role.toString());
-              localStorage.setItem('userId', userId.toString());
-              
-
-              console.log(role)
-            });
-          } else if (!response.ok) {
-            return response.json().then((error) => {
-              let notFound = error["message"];
-              let invalidCredentials = error["error"];
-              let errorMessage = error["message"] === undefined ? invalidCredentials : notFound;
-              alert(errorMessage)
-            });
-          }
-        })
-
+  let handleLogin = () => {
+    let obj = {
+      email,
+      password,
     };
 
-    if(isLoggedIn){
-      return ( <Redirect to="/cohortlist"/>)
-    }
+    setIsLoading(true)
+    fetch("https://protracker-5hxf.onrender.com/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(obj),
+    }).then((response) => {
+      if (response.ok) {
+        setIsLoading(false)
+        handleToast(
+          `Login successful.Redirecting in second...`,
+          "success",
+          "primary"
+        );
+        setTimeout(() => {
+          setIsLoggedIn(true);
+        }, 3100);
+        return response.json().then((data) => {
+          console.log(data);
+          let token = data.token;
+          let role = data.user.admin;
+          let userId = data.user.id;
+          localStorage.setItem("jwt", token.toString());
+          localStorage.setItem("admin", role.toString());
+          localStorage.setItem("userId", userId.toString());
+        });
+      } else if (!response.ok) {
+        setIsLoading(false)
+        return response.json().then((error) => {
+          let notFound = error["message"];
+          let invalidCredentials = error["error"];
+          let errorMessage =
+            error["message"] === undefined ? invalidCredentials : notFound;
 
+          handleToast(`${errorMessage}`, "error", "primary");
+        });
+      }
+    });
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isLoggedIn) {
+    return <Redirect to="/cohortlist" />;
+  }
 
   return (
     <div id="login-form-container">
@@ -78,8 +101,8 @@ function Login() {
                     Your email
                   </label>
                   <input
-                    onChange={(e)=>{
-                        setEmail(e.target.value);
+                    onChange={(e) => {
+                      setEmail(e.target.value);
                     }}
                     type="email"
                     name="email"
@@ -98,8 +121,8 @@ function Login() {
                     Password
                   </label>
                   <input
-                    onChange={(e)=>{
-                        setPassword(e.target.value);
+                    onChange={(e) => {
+                      setPassword(e.target.value);
                     }}
                     type="password"
                     name="password"
@@ -134,18 +157,26 @@ function Login() {
                     href="#"
                     class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
-                    Forgot password?
+                    <NavLink to="/emailentry">Forgot password?</NavLink>
                   </a>
                 </div>
                 <button
-                  onClick={(e)=>{
+                  onClick={(e) => {
                     e.preventDefault();
-                    handleLogin()
+                    handleLogin();
                   }}
+                  style={{border: '1px solid #999', display : "flex", alignItems : 'center', justifyContent : 'center'}}
                   type="submit"
-                  class="w-full text-red bg-primary-000 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  class="relative w-full text-red bg-primary-000 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
                   Sign in
+                  {isLoading && (
+                    <div className="loader">
+                      <div className="ball-1"></div>
+                      <div className="ball-2"></div>
+                      <div className="ball-3"></div>
+                    </div>
+                  )}
                 </button>
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
@@ -153,7 +184,7 @@ function Login() {
                     href="#"
                     class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
-                    Sign up
+                    <NavLink to="/signup">Sign up</NavLink>
                   </a>
                 </p>
               </form>

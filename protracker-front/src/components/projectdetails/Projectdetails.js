@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./projectdetails.css";
+
+import { useSelector, useDispatch } from "react-redux";
+import { showNotification, hideNotification } from "../toast/toastActions";
+
 import CommentBox from "../comments/CommentBox";
+import react from "./assets/react.png";
 import Github from "./assets/github.png";
 import html from "./assets/html.png";
 import javascript from "./assets/javascript.png";
@@ -15,32 +20,36 @@ import rails from "./assets/rails.png";
 import css from "./assets/css3.png";
 import tailwind from "./assets/tailwind-css.png";
 
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
 function Projectdetails() {
   const token = localStorage.getItem("jwt"); //store token in localStorage
+  const cohort_id = localStorage.getItem("cohort_id");
+  const storedProjectId = localStorage.getItem("projectId");
+  const userId = localStorage.getItem("userId");
 
+  // redux stuff;
   const dispatch = useDispatch();
+  const handleToast = (message, type, level) => {
+    dispatch(
+      showNotification({
+        message: message,
+        type: type,
+        level: level,
+        toast_state: "active",
+      })
+    );
+    setTimeout(() => {
+      dispatch(hideNotification());
+    }, 3000);
+  };
 
   // updating redux state;
   function handleProjectId(newId) {
     dispatch({ type: "SET_PROJECT_ID", payload: newId });
   }
 
-  const project_id = useSelector((state) => state.project.id);
-
-  const [id, setId] = useState("");
-
-  // useEffect(() => {
-  //   if (storedProjectId) {
-  //     setId(storedProjectId);
-  //     console.log(storedProjectId)
-  //   }
-  // }, []);
-
-  const storedProjectId = localStorage.getItem("projectId");
+  const [modalGroupMembers, setGroupMembers] = useState([]);
 
   // states for conditional rendering;
   const [isAddingMember, setIsAddingMember] = useState(false);
@@ -54,11 +63,8 @@ function Projectdetails() {
   };
 
   const [projectData, setProjectData] = useState({});
+  const [projectOwner, setProjectOwner] = useState({});
 
-
-
-
-  
   useEffect(() => {
     fetch(`http://localhost:3000/projects/${storedProjectId}/project_details`, {
       headers: {
@@ -73,22 +79,22 @@ function Projectdetails() {
         // handleProjectId(data.id);
         setGroupMembers(data.members);
         setProjectData(data);
+        setProjectOwner(data.user)
       });
   }, []);
 
 
-
+  let ownerName = projectOwner.username || "loading...";
+  let ownerAvatar = projectOwner.avatar_url || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg"
 
   // user details;
-  let projectName = projectData ? projectData.project_name : "something";
+  let projectName = projectData ? projectData.project_name : "loading...";
   let projectDescription = projectData
     ? projectData.project_description
-    : "something";
-  let githubLink = projectData ? projectData.github_link : "something";
-  let groupMembers = projectData ? projectData.members : "something";
+    : "loading...";
+  let githubLink = projectData ? projectData.github_link : "loading...";
+  let groupMembers = projectData ? projectData.members : "loading...";
   let tags = projectData.tags || [];
-
-  const [modalGroupMembers, setGroupMembers] = useState([]);
 
   // tag images
   let images = {
@@ -104,6 +110,7 @@ function Projectdetails() {
     rails: rails,
     css: css,
     tailwind: tailwind,
+    react: react,
   };
 
   let imageArray;
@@ -121,7 +128,8 @@ function Projectdetails() {
     });
   }
 
-  // refactoring member component
+
+ // refactoring member component
 
   const Member = ({ member, avatar_url }) => {
     return (
@@ -165,43 +173,28 @@ function Projectdetails() {
     });
   }
 
-  // cohort students;
-  useEffect(() => {
-    fetch("")
-      .then()
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
-
-  const [memberSeachTerm, setMemberSearchTerm] = useState("");
+  const [memberSearchTerm, setMemberSearchTerm] = useState("");
   // searching for group members
   const findGroupMembers = () => {
-    console.log(memberSeachTerm);
+    console.log(memberSearchTerm);
     let members = projectData.members;
-
-    const searchTerm = memberSeachTerm.trim().toLowerCase();
-
-    if (!searchTerm) {
-      // if search term is empty, render all members
-      return setGroupMembers(members);
-    }
 
     // filter members by search term
     let results = members.filter((member) => {
-      const username = member.username.toLowerCase();
-      return username.includes(searchTerm);
+      return member.username
+        .toLowerCase()
+        .includes(memberSearchTerm.toLowerCase());
     });
 
     setGroupMembers(results);
   };
 
-  console.log(projectData);
-
   const [cohortMembers, setCohortMembers] = useState([]);
+  const [cohortMembersSearch, setCohortMembersSearch] = useState([]);
+  const [cohortMembersReset, setCohortMembersReset] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/cohort/1/cohort_members`, {
+    fetch(`http://localhost:3000/cohort/${cohort_id}/cohort_members`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -210,10 +203,12 @@ function Projectdetails() {
       .then((response) => response.json())
       .then((data) => {
         setCohortMembers(data);
+        setCohortMembersSearch(data);
+        setCohortMembersReset(data);
       });
   }, []);
 
-  let cohort_id = localStorage.getItem("cohort_id");
+  console.log(cohortMembers);
 
   let handleAddingMember = (id) => {
     console.log(id);
@@ -230,16 +225,33 @@ function Projectdetails() {
     })
       .then((response) => {
         if (response.ok) {
-          toggleAddMemberForm();
-          return response.json();
+          handleToast("Member successfully added", "success", "primary");
+          setTimeout(() => {
+            window.location.reload();
+          },3000);
         } else {
-          console.log(response.json());
-          alert("Couldn't add member");
+          handleToast("Failed to add member", "error", "primary");
         }
       })
       .then((data) => {
-        console.log(data);
       });
+  };
+
+  const [cohortMemberSearchTerm, setcohortMemberSearchTerm] = useState("");
+  // searching for group members
+  const findCohortMembers = () => {
+    if (cohortMemberSearchTerm == "") {
+      setCohortMembers(cohortMembersReset);
+      return;
+    }
+    // filter members by search term
+    let results = cohortMembersSearch.filter((member) => {
+      return member.username
+        .toLowerCase()
+        .includes(cohortMemberSearchTerm.toLowerCase());
+    });
+
+    setCohortMembers(results);
   };
 
   let cohortMembersList = cohortMembers.map((member) => {
@@ -249,6 +261,13 @@ function Projectdetails() {
         : member.avatar_url;
 
     let indicatorColor = member.online_status === "offline" ? "red" : "green";
+
+    let enrolled = member.enrolled_projects.filter((project) => {
+      return project.id == storedProjectId;
+    });
+
+    let cursorType = enrolled.length > 0 ? "not-allowed" : "pointer";
+    let btn_state = cursorType === "not-allowed" ? true : false;
 
     return (
       <div className="group-cohort-member">
@@ -266,6 +285,8 @@ function Projectdetails() {
               handleAddingMember(member.id);
             }}
             id="member-add-btn"
+            style={{ cursor: cursorType }}
+            disabled={btn_state}
           >
             Add member
           </button>
@@ -273,6 +294,44 @@ function Projectdetails() {
       </div>
     );
   });
+
+  // updating an exisiting project;
+
+  const [isUpdatingProject, setUpdatingProject] = useState(false);
+  const [updatedprojectName, setProjectName] = useState("");
+  const [updatedprojectDescription, setProjectDescription] = useState("");
+  const [updatedcategory, setCategory] = useState("Fullstack");
+  const [updatedgithubLink, setGithubLink] = useState("");
+
+  const handleUpdateProjectDetails = () => {
+    let newProjectObj = {
+      project_name: updatedprojectName || projectData.project_name,
+      project_description:
+        updatedprojectDescription || projectData.project_description,
+      github_link: updatedgithubLink || projectData.github_link,
+      cohort_class: updatedcategory || projectData.cohort_class,
+    };
+    fetch(`http://localhost:3000/projects/${projectData.id}/update`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify(newProjectObj),
+    }).then((response) => {
+      if (response.ok) {
+        handleToast("Project details updated successfully", "success", "tertiary");
+        setUpdatingProject(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 3100);
+      }
+    });
+  };
+
+  //  deleting an existing project;
+
+  const [isDeletingProject, setDeletingProject] = useState(false);
 
   return (
     <>
@@ -284,26 +343,49 @@ function Projectdetails() {
         </NavLink>
         <div id="project-details-header">
           <h1 id="project-name">{projectName}</h1>
-          <div id="project-options">
-            <button
-              onClick={(e) => {
-                toggleAddMemberForm(e);
-                setIsAddingNewMember(true);
-              }}
-              id="add-member-btn"
-            >
-              Add member
-            </button>
-            <button
-              onClick={() => {
-                setIsMenuActive(!isMenuActive);
-              }}
-              id="project-more-options"
-            >
-              <i className="material-icons">more_horiz</i>
-            </button>
-            {isMenuActive && <div id="project-menu"></div>}
-          </div>
+          {userId == projectData.user_id ? (
+            <div id="project-options">
+              <button
+                onClick={(e) => {
+                  toggleAddMemberForm(e);
+                  setIsAddingNewMember(true);
+                }}
+                id="add-member-btn"
+              >
+                Add member
+              </button>
+              <button
+                onClick={() => {
+                  setIsMenuActive(!isMenuActive);
+                }}
+                id="project-more-options"
+              >
+                <i className="material-icons">more_horiz</i>
+              </button>
+              {isMenuActive && (
+                <div id="project-menu">
+                  <div
+                    onClick={() => {
+                      setUpdatingProject(true);
+                      setDeletingProject(false);
+                    }}
+                  >
+                    <h6>Update</h6>
+                  </div>
+                  <div
+                    onClick={() => {
+                      setUpdatingProject(true);
+                      setDeletingProject(true);
+                    }}
+                  >
+                    <h6>Delete</h6>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
         <div id="project-details-body">
           <div className="details-body-col details-col">
@@ -322,10 +404,10 @@ function Projectdetails() {
                 <div className="technologies-cont ">{tagsList}</div>
                 <div id="project-owner-box">
                   <div id="owner-pfp">
-                    <img></img>
+                    <img src={ownerAvatar} ></img>
                   </div>
                   <div id="owner-details">
-                    <h1>{}</h1>
+                    <h1>{ownerName}</h1>
                     <h6>Project Owner</h6>
                   </div>
                 </div>
@@ -369,15 +451,23 @@ function Projectdetails() {
             >
               <div className="add-members-modal-header">
                 <input
-                  onChange={() => {
-                    findGroupMembers();
-                  }}
                   type="text"
                   placeholder="Find members..."
+                  onChange={(e) => {
+                    setcohortMemberSearchTerm(e.target.value);
+                    findCohortMembers();
+                  }}
+                  value={cohortMemberSearchTerm}
                 ></input>
                 <i className="material-icons">search</i>
               </div>
-              <div className="add-members-modal-body">{cohortMembersList}</div>
+              <div className="add-members-modal-body">
+                {cohortMembersList.length > 0 ? (
+                  cohortMembersList
+                ) : (
+                  <h1 className="no-results-msg">No users found</h1>
+                )}
+              </div>
             </div>
           ) : (
             isCheckingMembers || (
@@ -396,13 +486,141 @@ function Projectdetails() {
                     }}
                     type="text"
                     placeholder="Find members..."
-                    value={memberSeachTerm}
+                    value={memberSearchTerm}
                   ></input>
                   <i className="material-icons">search</i>
                 </div>
-                <div className="members-modal-body">{groupMembersList}</div>
+                <div className="members-modal-body">
+                  {groupMembersList.length > 0 ? (
+                    groupMembersList
+                  ) : (
+                    <h1 className="no-results-msg">No Users found...</h1>
+                  )}
+                </div>
               </div>
             )
+          )}
+        </div>
+      )}
+      {isUpdatingProject && (
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setUpdatingProject(false);
+            setDeletingProject(true);
+          }}
+          id="project-update-container"
+        >
+          {isDeletingProject === false ? (
+            <form
+              onClick={(e) => {
+                e.stopPropagation();
+                setUpdatingProject(true);
+              }}
+            >
+              <i
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setUpdatingProject(false);
+                }}
+                id="close-btn"
+                className="material-icons"
+              >
+                close
+              </i>
+              <h1 id="form-title">Update Project</h1>
+              <div className="form-group">
+                <label>Project name</label>
+                <input
+                  onChange={(e) => {
+                    setProjectName(e.target.value);
+                  }}
+                  type="text"
+                  value={updatedprojectName}
+                ></input>
+              </div>
+              <div className="form-group">
+                <label>Project description</label>
+                <textarea
+                  onChange={(e) => {
+                    setProjectDescription(e.target.value);
+                  }}
+                  type="text"
+                  value={updatedprojectDescription}
+                ></textarea>
+              </div>
+              <div className="form-group">
+                <label>Class</label>
+                <select
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                  }}
+                >
+                  <option>Fullstack</option>
+                  <option>Android</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Github link</label>
+                <input
+                  onChange={(e) => {
+                    setGithubLink(e.target.value);
+                  }}
+                  type="text"
+                  value={updatedgithubLink}
+                ></input>
+              </div>
+              <br />
+              <br />
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleUpdateProjectDetails();
+                }}
+                id="create-project-btn"
+              >
+                Create project
+              </button>
+            </form>
+          ) : (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                setUpdatingProject(true);
+              }}
+              id="delete-box"
+            >
+              <i
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setUpdatingProject(false);
+                }}
+                id="close-btn"
+                className="material-icons"
+              >
+                close
+              </i>
+              <div id="delete-info">
+                <h2>Delete Project</h2>
+                <p>
+                  Are you sure you want to delete this project? By doing this
+                  you will lose all of this project's data and will not be able
+                  retrieve it.
+                </p>
+              </div>
+              <div id="delete-actions">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setUpdatingProject(false);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button id="delete-btn">Delete</button>
+              </div>
+            </div>
           )}
         </div>
       )}

@@ -1,37 +1,47 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 
 function AdminDashCohorts() {
+  const token = localStorage.getItem("jwt"); //store token in localStorage
 
-    const token = localStorage.getItem("jwt"); //store token in localStorage
+  const [cohorts, setCohorts] = useState([]);
+  const [cohortsSearch, setCohortsSearch] = useState([]);
 
-    const [cohorts, setCohorts] = useState([]);
-  
-    useEffect(() => {
-      fetch(`http://localhost:3000/all_cohorts`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setCohorts(data);
-          console.log(data);
-        });
-    }, []);
+  useEffect(() => {
+    fetch(`http://localhost:3000/all_cohorts`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setCohorts(data);
+        setCohortsSearch(data)
+        console.log(data);
+      });
+  }, []);
 
 
-    let cohortsList = cohorts.map((cohort) => {
-        return(
-            <tr class="border-b dark:border-gray-700">
-            <td class="px-4 py-3">{cohort.name}</td>            
-                {cohort.start_date}
-            <td class="px-4 py-3 flex items-center justify-end">
-                {cohort.end_date}
-            </td>
-        </tr>
-        )
+  const [searchTerm, setSearchTerm] = useState("");
+
+  let findCohort = () => {
+    let results = cohortsSearch.filter((cohort) => {
+      return cohort.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
     });
+    setCohorts(results);
+  };
+
+  let cohortsList = cohorts.map((cohort) => {
+    return (
+      <tr class="border-b dark:border-gray-700">
+        <td class="px-4 py-3">{cohort.name}</td>
+        <td class="px-4 py-3">{cohort.start_date}</td>
+        <td class="px-4 py-3">{cohort.end_date}</td>
+      </tr>
+    );
+  });
 
   return (
     <div>
@@ -65,13 +75,17 @@ function AdminDashCohorts() {
                       id="simple-search"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       placeholder="Search"
-                      required=""
+                      onChange={(e)=>{
+                        setSearchTerm(e.target.value)
+                        findCohort()
+                      }}
+                      value={searchTerm}
                     />
                   </div>
                 </form>
               </div>
               <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                <button
+                {/* <button
                   type="button"
                   class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                 >
@@ -213,7 +227,7 @@ function AdminDashCohorts() {
                       </li>
                     </ul>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             <div class="overflow-x-auto">
@@ -221,7 +235,7 @@ function AdminDashCohorts() {
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" class="px-4 py-3">
-                      Project name
+                      Cohort name
                     </th>
                     <th scope="col" class="px-4 py-3">
                       Start Date
@@ -229,10 +243,9 @@ function AdminDashCohorts() {
                     <th scope="col" class="px-4 py-3">
                       End Date
                     </th>
-
-                    <th scope="col" class="px-4 py-3">
+                    {/* <th scope="col" class="px-4 py-3">
                       <span class="sr-only">Actions</span>
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody>{cohortsList}</tbody>

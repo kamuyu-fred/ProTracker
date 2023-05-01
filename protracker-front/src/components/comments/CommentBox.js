@@ -3,105 +3,17 @@ import "./comments.css";
 import ReactDOM from "react-dom";
 import { useSelector } from "react-redux";
 
-// function CommentBox() {
-//   return (
 
-//     <>
-//     <div>CommentBox</div>
-
-//     <div className='Comment Box'>
-
-// <div class="antialiased mx-auto max-w-screen-sm">
-//   <h3 class="mb-4 text-lg font-semibold text-gray-900">Comments</h3>
-
-//   <div class="space-y-4">
-
-//     <div class="flex">
-//       <div class="flex-shrink-0 mr-3">
-//         <img class="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10" src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80" alt=""/>
-//       </div>
-//       <div class="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-//         <strong>Sarah</strong> <span class="text-xs text-gray-400">3:34 PM</span>
-//         <p class="text-sm">
-//           Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-//           sed diam nonumy eirmod tempor invidunt ut labore et dolore
-//           magna aliquyam erat, sed diam voluptua.
-//         </p>
-//         <div class="mt-4 flex items-center">
-//           <div class="flex -space-x-2 mr-2">
-//             <img class="rounded-full w-6 h-6 border border-white" src="https://images.unsplash.com/photo-1554151228-14d9def656e4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80" alt=""/>
-//             <img class="rounded-full w-6 h-6 border border-white" src="https://images.unsplash.com/photo-1513956589380-bad6acb9b9d4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&h=100&q=80" alt=""/>
-//           </div>
-//           <div class="text-sm text-gray-500 font-semibold">
-//             5 Replies
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-
-//     <div class="flex">
-//       <div class="flex-shrink-0 mr-3">
-//         <img class="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10" src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80" alt=""/>
-//       </div>
-//       <div class="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-//         <strong>Sarah</strong> <span class="text-xs text-gray-400">3:34 PM</span>
-//         <p class="text-sm">
-//           Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-//           sed diam nonumy eirmod tempor invidunt ut labore et dolore
-//           magna aliquyam erat, sed diam voluptua.
-//         </p>
-
-//         <h4 class="my-5 uppercase tracking-wide text-gray-400 font-bold text-xs">Replies</h4>
-
-//         <div class="space-y-4">
-//           <div class="flex">
-//             <div class="flex-shrink-0 mr-3">
-//               <img class="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8" src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80" alt=""/>
-//             </div>
-//             <div class="flex-1 bg-gray-100 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-//               <strong>Sarah</strong> <span class="text-xs text-gray-400">3:34 PM</span>
-//               <p class="text-xs sm:text-sm">
-//                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-//                 sed diam nonumy eirmod tempor invidunt ut labore et dolore
-//                 magna aliquyam erat, sed diam voluptua.
-//               </p>
-//             </div>
-//           </div>
-//           <div class="flex">
-//             <div class="flex-shrink-0 mr-3">
-//               <img class="mt-3 rounded-full w-6 h-6 sm:w-8 sm:h-8" src="https://images.unsplash.com/photo-1604426633861-11b2faead63c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&h=200&q=80" alt=""/>
-//             </div>
-//             <div class="flex-1 bg-gray-100 rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-//               <strong>Sarah</strong> <span class="text-xs text-gray-400">3:34 PM</span>
-//               <p class="text-xs sm:text-sm">
-//                 Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-//                 sed diam nonumy eirmod tempor invidunt ut labore et dolore
-//                 magna aliquyam erat, sed diam voluptua.
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// </div>
-//     </div>
-
-//     </>
-//   )
-// }
-
-const CommentReply = ({ reply, formatTimestamp }) => {
+const CommentReply = ({ reply, formatTimestamp,avatar_url }) => {
   let fomartedTimestamp = formatTimestamp(reply.created_at);
-  // let avatarUrl = reply.user.avatar_url == null ? "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg" : reply.user.avatar_url
 
-  // console.log(avatarUrl)
+  let avatarUrl = avatar_url == null ? "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg" : avatar_url
 
   return (
     <div id="custom-comment">
       <div id="profile-image-container">
         <img
-          src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg"
+          src={avatarUrl}
           alt="profile_img"
         />
       </div>
@@ -115,7 +27,7 @@ const CommentReply = ({ reply, formatTimestamp }) => {
   );
 };
 
-const Comment = ({ comment, replies, formatTimestamp }) => {
+const Comment = ({ comment, replies, formatTimestamp,avatar_url }) => {
   const token = localStorage.getItem("jwt"); //store token in localStorage
   const userId = localStorage.getItem("userId");
 
@@ -166,6 +78,7 @@ const Comment = ({ comment, replies, formatTimestamp }) => {
         formatTimestamp={formatTimestamp}
         reply={reply}
         key={reply.id}
+        avatar_url={avatar_url}
       />
     );
   });
@@ -198,13 +111,13 @@ const Comment = ({ comment, replies, formatTimestamp }) => {
   };
 
   let replyWord = commentRepliesList.length === 1 ? "reply" : "replies";
-  // let avatarUrl = comment.user.avatar_url === null ? "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg" : comment.user.avatar_url
+  let avatarUrl = avatar_url == null ? "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg" : avatar_url
 
   return (
     <div id="custom-comment">
       <div id="profile-image-container">
         <img
-          src="https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg"
+          src={avatarUrl}
           alt="profile_img"
         />
       </div>
@@ -213,11 +126,6 @@ const Comment = ({ comment, replies, formatTimestamp }) => {
           <h6 id="timestamp">{fomartedTimestamp}</h6>
           <p id="comment-content">{comment.message}</p>
           <div id="comment-details">
-            <div>
-              <i className="material-symbols-outlined">favorite</i>
-              &nbsp;
-              <h6>0</h6>
-            </div>
             <div>
               <h6>
                 {commentRepliesList.length} {replyWord}
@@ -287,7 +195,7 @@ const Comment = ({ comment, replies, formatTimestamp }) => {
   );
 };
 
-const CommentForm = ({ formatTimestamp }) => {
+const CommentForm = ({ formatTimestamp,avatar_url }) => {
 
   const token = localStorage.getItem("jwt"); //store token in localStorage
 
@@ -332,6 +240,7 @@ const CommentForm = ({ formatTimestamp }) => {
         comment={comment}
         formatTimestamp={formatTimestamp}
         replies={[]}
+        avatar_url={avatar_url}
       />
     );
 
@@ -368,6 +277,7 @@ const CommentForm = ({ formatTimestamp }) => {
 function CommentBox() {
 
   const project_id = localStorage.getItem("projectId");
+  const token = localStorage.getItem("jwt");
 
   let formatTimestamp = (timestamp) => {
     const seconds = Math.floor((new Date() - new Date(timestamp)) / 1000);
@@ -414,7 +324,23 @@ function CommentBox() {
       });
   }, [project_id]);
 
-  console.log(comments);
+
+  const [avatar_url, setAvatarUrl] = useState(null)
+
+
+  useEffect(() => {
+    fetch("http://localhost:3000/user_profile", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setAvatarUrl(data.avatar_url)
+      });
+  }, []);
+
 
   let rootComments = comments.filter(
     (comment) => comment.parent_comment_id === null
@@ -426,6 +352,7 @@ function CommentBox() {
         formatTimestamp={formatTimestamp}
         comment={comment}
         key={comment.id}
+        avatar_url = {avatar_url}
         replies={comment.replies}
       />
     );
@@ -433,7 +360,7 @@ function CommentBox() {
   return (
     <section id="comment-section">
       <div id="comments-box">{rootCommentsList}</div>
-      <CommentForm project_id={project_id} formatTimestamp={formatTimestamp} />
+      <CommentForm project_id={project_id} formatTimestamp={formatTimestamp} avatar_url={avatar_url} />
     </section>
   );
 }

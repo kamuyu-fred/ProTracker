@@ -1,186 +1,111 @@
 import { Route, RouterProvider, Routes } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/navBar/Navbar";
-import Sidebar from "./components/sidebar/Sidebar";
-import Projectdetails from "./components/projectdetails/Projectdetails";
-import CommentBox from "./components/comments/CommentBox";
-import ReplyBox from "./components/comments/ReplyBox";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
-import CohortForm from "./pages/Cohort";
-import ProjectsList from "./components/ProjectsList";
-
 import { Provider } from "react-redux";
-import store from "./store.js";
+import store from "./components/store.js";
 import { Switch } from "react-router-dom/cjs/react-router-dom.min";
-import UserProjectList from "./components/userprojectlist/userProjectList";
-import AdminDashProjects from "./components/AdminDashProjects";
-import AdminDashUsers from "./components/AdminDashUsers";
-import CohortList from "./components/CohortList/cohortlist";
-import Activities from "./components/Activities";
-import AdminDashCohorts from "./components/AdminDashCohorts";
-import { Router } from "react-router-dom/cjs/react-router-dom";
-import UserBio from "./components/userBio/UserBio";
+import EmailEntry from "./components/passwordReset/emailEntry";
+import NewPasswordEntry from "./components/passwordReset/newPasswordEntry";
+import ProjectListPage from "./pages/ProjectListPage";
+import ProjectDetailsPage from "./pages/ProjectDetailsPage";
+import AdminDashProjectsPage from "./pages/AdminDashProjectsPage";
+import AdminUsersPage from "./pages/AdminUsersPage";
+import CohortListPage from "./pages/CohortListPage";
+import ActivitiesPage from "./pages/ActivitiesPage";
+import AdminDashCohortsPage from "./pages/AdminCohortsPage";
+import UserBioPage from "./pages/UserBioPage";
+import PrivateRoute from "./PrivateRoute";
+import Toast from "./components/toast/toast";
 
 function App() {
+  let token = localStorage.getItem("jwt");
 
-  let role = localStorage.getItem("admin")
+  console.log("token:" + token)
 
-  console.log(role);
+  let isAuthenticated = token ? true : false;
+
+  console.log(isAuthenticated);
 
   return (
     // <Login/>
     <Provider store={store}>
+
       <div className="app">
+      <Toast/>
         <Switch>
           <Route exact path="/">
             <div id="login-page">
               <Login />
             </div>
           </Route>
-          <Route path="/projectList">
-            <div id="sidebar">
-              <Sidebar />
-            </div>
-            <div id="main-body">
-              <div id="nav-row">
-                <Navbar />
-              </div>
-              <div id="body-row">
-                <UserProjectList />
-              </div>
-            </div>
-          </Route>
-          <Route path="/projectdetails">
-            <div id="sidebar">
-              <Sidebar />
-            </div>
-            <div id="main-body">
-              <div id="nav-row">
-                <Navbar />
-              </div>
-              <div id="body-row">
-                <Projectdetails />
-              </div>
-            </div>
-          </Route>
-          <Route path="/adminprojects">
-            <div id="sidebar">
-              <Sidebar />
-            </div>
-            <div id="main-body">
-              <div id="nav-row">
-                <Navbar />
-              </div>
-              <div id="body-row">
-                <AdminDashProjects />
-              </div>
-            </div>
-          </Route>
-          <Route path="/adminusers">
-            <div id="sidebar">
-              <Sidebar />
-            </div>
-            <div id="main-body">
-              <div id="nav-row">
-                <Navbar />
-              </div>
-              <div id="body-row">
-                <AdminDashUsers />
-              </div>
-            </div>
-          </Route>
-          <Route exact path="/cohortlist">
-            <div id="sidebar">
-              <Sidebar />
-            </div>
-            <div id="main-body">
-              <div id="nav-row">
-                <Navbar />
-              </div>
-              <div id="body-row">
-                <CohortList />
-              </div>
-            </div>
-          </Route>
-          <Route exact path="/activities">
-            <div id="sidebar">
-              <Sidebar />
-            </div>
-            <div id="main-body">
-              <div id="nav-row">
-                <Navbar />
-              </div>
-              <div id="body-row">
-                <Activities />
-              </div>
-            </div>
-          </Route>
-          <Route path="/admincohorts">
-            <div id="sidebar">
-              <Sidebar />
-            </div>
-            <div id="main-body">
-              <div id="nav-row">
-                <Navbar />
-              </div>
-              <div id="body-row">
-                <AdminDashCohorts />
-              </div>
+
+          <Route exact path="/signup">
+            <div id="login-page">
+              <SignUp />
             </div>
           </Route>
 
-          <Route path="/userProfile">
-            <div id="sidebar">
-              <Sidebar />
-            </div>
-            <div id="main-body">
-              <div id="nav-row">
-                <Navbar />
-              </div>
-              <div id="body-row">
-                <UserBio/>
-              </div>
+          <Route exact path="/emailentry">
+            <div id="login-page">
+              <EmailEntry />
             </div>
           </Route>
+
+          <Route exact path="/newpass">
+            <div id="login-page">
+              <NewPasswordEntry />
+            </div>
+          </Route>
+
+          <PrivateRoute
+            path="/projectList"
+            component={ProjectListPage}
+            isAuthenticated={isAuthenticated}
+          />
+
+          <PrivateRoute
+            path="/projectdetails"
+            component={ProjectDetailsPage}
+            isAuthenticated={isAuthenticated}
+          />
+
+          <PrivateRoute
+            path="/adminprojects"
+            component={AdminDashProjectsPage}
+            isAuthenticated={isAuthenticated}
+          />
+
+          <PrivateRoute
+            path="/adminusers"
+            component={AdminUsersPage}
+            isAuthenticated={isAuthenticated}
+          />
+
+          <PrivateRoute
+            path="/cohortlist"
+            component={CohortListPage}
+            isAuthenticated={isAuthenticated}
+          />
+
+          <PrivateRoute
+            path="/activities"
+            component={ActivitiesPage}
+            isAuthenticated={isAuthenticated}
+          />
+          <PrivateRoute
+            path="/admincohorts"
+            component={AdminDashCohortsPage}
+            isAuthenticated={isAuthenticated}
+          />
+          <PrivateRoute
+            path="/userProfile"
+            component={UserBioPage}
+            isAuthenticated={isAuthenticated}
+          />
         </Switch>
       </div>
     </Provider>
   );
-  {
-    /* <Projectdetails/> */
-  }
-
-  {
-    /* <Switch>
-        <Route path="/projectlist">
-          <ProjectsList/>
-        </Route>
-        <Route path="/projectdetails">
-        </Route>
-        <Route path="/cohortform">
-          <CohortForm/>
-        </Route>
-        <Route exact path ="/">
-          <Login/>
-        </Route>
-      </Switch> */
-  }
-
-  {
-    /* <CommentBox/> */
-  }
-  {
-    /* <Login/> */
-  }
-  {
-    /* <SignUp/> */
-  }
-  {
-    /* <ReplyBox/> */
-  }
-  {
-    /*<UserProjectList/> */
-  }
 }
 export default App;
