@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_action :verify_auth, only: [:user_profile,:update,:update_avatar]
+  before_action :verify_auth, only: [:user_profile,:update,:update_avatar,:make_admin,:remove_admin]
 
     def all_users
       users = User.all
