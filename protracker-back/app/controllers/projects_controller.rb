@@ -93,7 +93,7 @@ class ProjectsController < ApplicationController
     # *cleared
     def create
         new_project = current_user.projects.build(project_params)
-        current_cohort = current_user.enrolled_cohorts.find_by(id: params[:cohort_id])
+        current_cohort = Cohort.find_by(id: params[:cohort_id])
 
         if !current_cohort
             render json: { message: 'Cohort not found' }, status: :not_found
