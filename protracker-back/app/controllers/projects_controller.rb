@@ -32,7 +32,7 @@ class ProjectsController < ApplicationController
 
         current_user.likes.create(project: @project)
 
-        if (project_likes = 1)
+        if (project_likes = 5)
             user_achievement = Achievement.where(name: "Stellar Project").first
             project_owner.user_achievements.create!(achievement: user_achievement)
         end
@@ -123,7 +123,7 @@ class ProjectsController < ApplicationController
         if (user_projects_count == 10)
             unlock_achievement("Work Horse", current_user)
             create_notification(current_user, current_user, "You have unlocked the Work Horse achievement for creating five projects!", "Achievement unlocked!")
-        elsif (user_projects_count == 7)
+        elsif (user_projects_count == 5)
             unlock_achievement("Prolific Creator", current_user)
             create_notification(current_user, current_user, "You have unlocked the Prolific Creator achievement for creating five projects!", "Achievements unlocked")
         end
