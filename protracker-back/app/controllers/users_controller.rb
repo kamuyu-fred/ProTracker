@@ -31,7 +31,7 @@ class UsersController < ApplicationController
 
 
     def make_admin
-      student = User.find_by(email: params[:email])
+      student = User.find_by(id: params[:user_id])
 
       if !student.present?
         render json: { message: 'Student not found' }, status: :not_found
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
 
 
     def remove_admin
-      student = User.find_by(email: params[:email])
+      student = User.find_by(id: params[:user_id])
       if current_user.admin?
         if student
           student.admin = false

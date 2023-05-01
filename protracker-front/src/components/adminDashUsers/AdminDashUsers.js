@@ -26,7 +26,7 @@ function AdminDashUsers() {
   };
 
   // storing clicked user's information;
-  const [userActionId, setUserActive] = useState("");
+  const [userActionId, setUserActive] = useState(0);
   const [userName, setUserName] = useState("");
 
   // retrieving all users form the database;
@@ -34,7 +34,7 @@ function AdminDashUsers() {
   const [allUsersSearch, setallUsersSearch] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/all_users", {
+    fetch("https://protracker-5hxf.onrender.com/all_users", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -55,7 +55,7 @@ function AdminDashUsers() {
   // Granting a user admin rights;
   let handleMakingAdmin = () => {
     let userObj = { user_id: userActionId };
-    fetch("http://localhost:3000/make_admin", {
+    fetch("https://protracker-5hxf.onrender.com/make_admin", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -63,6 +63,7 @@ function AdminDashUsers() {
       },
       body: JSON.stringify(userObj),
     }).then((response) => {
+      console.log(response.json())
       if (response.ok) {
         handleToast(
           "User successfully granted admin rights",
@@ -81,7 +82,7 @@ function AdminDashUsers() {
   // revoking admin rights;
   let handleRevokingAdminStatus = () => {
     let userObj = { user_id: userActionId };
-    fetch("http://localhost:3000/remove_admin", {
+    fetch("https://protracker-5hxf.onrender.com/remove_admin", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
