@@ -1,7 +1,6 @@
 class SessionController < ApplicationController
 
   before_action :verify_auth, only: [:destroy]
-  before_action :admin, only: [:update,:delete]
 
 
     def login
