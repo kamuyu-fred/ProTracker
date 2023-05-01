@@ -1,5 +1,6 @@
 class CohortStudentsController < ApplicationController
 
+    before_action :verify_auth
         # adding members to a cohort;
     # * cleared;
     def create
