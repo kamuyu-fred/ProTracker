@@ -1,14 +1,32 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { showNotification, hideNotification } from "../toast/toastActions";
 
 function EmailEntry() {
   const [email, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
 
+  // redux stuff;
+  const dispatch = useDispatch();
+  const handleToast = (message, type, level) => {
+    dispatch(
+      showNotification({
+        message: message,
+        type: type,
+        level: level,
+        toast_state: "active",
+      })
+    );
+    setTimeout(() => {
+      dispatch(hideNotification());
+    }, 3000);
+  };
+
   let handleSendingEmail = () => {
     let emailBody = {
       email: email,
     };
-    fetch(`http://localhost:3000/password_reset/new`, {
+    fetch(`https://protracker-5hxf.onrender.com/password_reset/new`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,9 +35,9 @@ function EmailEntry() {
     }).then((response) => {
       console.log(response.json());
       if (response.ok) {
-        alert("Success");
+        handleToast("Email sent successfully", "success", "primary");
       } else if (!response.ok) {
-        alert("Error");
+        handleToast("Error sending email", "error", "primary");
       }
     });
   };

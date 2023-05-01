@@ -1,33 +1,38 @@
 import React, { useEffect, useState } from "react";
 import "./comments.css";
 import ReactDOM from "react-dom";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { showNotification, hideNotification } from "../toast/toastActions";
 
-
-const CommentReply = ({ reply, formatTimestamp,avatar_url }) => {
+const CommentReply = ({ reply, formatTimestamp, avatar_url }) => {
   let fomartedTimestamp = formatTimestamp(reply.created_at);
 
-  let avatarUrl = avatar_url == null ? "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg" : avatar_url
+  let avatarUrl =
+    avatar_url == null
+      ? "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg"
+      : avatar_url;
 
   return (
     <div id="custom-comment">
       <div id="profile-image-container">
-        <img
-          src={avatarUrl}
-          alt="profile_img"
-        />
+        <img src={avatarUrl} alt="profile_img" />
       </div>
       <div id="content-box">
         <div id="project-comment">
           <h6 id="timestamp">{fomartedTimestamp}</h6>
           <p id="comment-content">{reply.message}</p>
+          {reply.user.admin == false && <div id="admin-tag">
+              <h6>Admin</h6>
+          </div>}
         </div>
+      
       </div>
     </div>
   );
 };
 
-const Comment = ({ comment, replies, formatTimestamp,avatar_url }) => {
+const Comment = ({ comment, replies, formatTimestamp, avatar_url,handleToast }) => {
+  
   const token = localStorage.getItem("jwt"); //store token in localStorage
   const userId = localStorage.getItem("userId");
 
@@ -58,7 +63,7 @@ const Comment = ({ comment, replies, formatTimestamp,avatar_url }) => {
       message: replyContent,
     };
 
-    fetch("http://localhost:3000/comments/reply", {
+    fetch("https://protracker-5hxf.onrender.com/comments/reply", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -66,6 +71,11 @@ const Comment = ({ comment, replies, formatTimestamp,avatar_url }) => {
       },
       body: JSON.stringify(obj),
     }).then((response) => {
+      if (response.ok) {
+        handleToast("Reply sent!", "new", "secondary")
+      } else {
+        handleToast("Failed to send reply", "error", "secondary")
+      }
       console.log(response.json());
     });
 
@@ -109,17 +119,16 @@ const Comment = ({ comment, replies, formatTimestamp,avatar_url }) => {
   let toggleReplyForm = () => {
     setIsReplying(!isReplying);
   };
-
   let replyWord = commentRepliesList.length === 1 ? "reply" : "replies";
-  let avatarUrl = avatar_url == null ? "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg" : avatar_url
+  let avatarUrl =
+    avatar_url == null
+      ? "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg"
+      : avatar_url;
 
   return (
     <div id="custom-comment">
       <div id="profile-image-container">
-        <img
-          src={avatarUrl}
-          alt="profile_img"
-        />
+        <img src={avatarUrl} alt="profile_img" />
       </div>
       <div id="content-box">
         <div id="project-comment">
@@ -142,6 +151,9 @@ const Comment = ({ comment, replies, formatTimestamp,avatar_url }) => {
               &nbsp;&nbsp;
               <i className="material-symbols-outlined">chat</i>
             </div>
+            {comment.user.admin == true && <div id="admin-tag">
+              <h6>Admin</h6>
+          </div>}
           </div>
         </div>
 
@@ -195,10 +207,23 @@ const Comment = ({ comment, replies, formatTimestamp,avatar_url }) => {
   );
 };
 
-const CommentForm = ({ formatTimestamp,avatar_url }) => {
+const CommentForm = ({ formatTimestamp, avatar_url }) => {
+  const dispatch = useDispatch();
+  const handleToast = (message, type, level) => {
+    dispatch(
+      showNotification({
+        message: message,
+        type: type,
+        level: level,
+        toast_state: "active",
+      })
+    );
+    setTimeout(() => {
+      dispatch(hideNotification());
+    }, 3000);
+  };
 
   const token = localStorage.getItem("jwt"); //store token in localStorage
-
 
   const projectId = localStorage.getItem("projectId");
   const userId = localStorage.getItem("userId");
@@ -224,14 +249,19 @@ const CommentForm = ({ formatTimestamp,avatar_url }) => {
       user_id: userId,
     };
 
-    fetch("http://localhost:3000/comments/comment", {
+    fetch("https://protracker-5hxf.onrender.com/comments/comment", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        'Authorization': "Bearer " + token,
+        Authorization: "Bearer " + token,
       },
       body: JSON.stringify(comment_obj),
     }).then((response) => {
+      if (response.ok) {
+        handleToast("Comment sent!", "new", "secondary");
+      } else {
+        handleToast("Comment not dent!", "error", "secondary");
+      }
       console.log(response.json());
     });
 
@@ -276,6 +306,21 @@ const CommentForm = ({ formatTimestamp,avatar_url }) => {
 
 function CommentBox() {
 
+  const dispatch = useDispatch();
+  const handleToast = (message, type, level) => {
+    dispatch(
+      showNotification({
+        message: message,
+        type: type,
+        level: level,
+        toast_state: "active",
+      })
+    );
+    setTimeout(() => {
+      dispatch(hideNotification());
+    }, 3000);
+  };
+
   const project_id = localStorage.getItem("projectId");
   const token = localStorage.getItem("jwt");
 
@@ -317,19 +362,19 @@ function CommentBox() {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/comments/project_comments/${project_id}`)
+    fetch(
+      `https://protracker-5hxf.onrender.com/comments/project_comments/${project_id}`
+    )
       .then((response) => response.json())
       .then((data) => {
         setComments(data);
       });
   }, [project_id]);
 
-
-  const [avatar_url, setAvatarUrl] = useState(null)
-
+  const [avatar_url, setAvatarUrl] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/user_profile", {
+    fetch("https://protracker-5hxf.onrender.com/user_profile", {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -337,10 +382,9 @@ function CommentBox() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setAvatarUrl(data.avatar_url)
+        setAvatarUrl(data.avatar_url);
       });
   }, []);
-
 
   let rootComments = comments.filter(
     (comment) => comment.parent_comment_id === null
@@ -352,15 +396,20 @@ function CommentBox() {
         formatTimestamp={formatTimestamp}
         comment={comment}
         key={comment.id}
-        avatar_url = {avatar_url}
+        avatar_url={avatar_url}
         replies={comment.replies}
+        handleToast={handleToast}
       />
     );
   });
   return (
     <section id="comment-section">
       <div id="comments-box">{rootCommentsList}</div>
-      <CommentForm project_id={project_id} formatTimestamp={formatTimestamp} avatar_url={avatar_url} />
+      <CommentForm
+        project_id={project_id}
+        formatTimestamp={formatTimestamp}
+        avatar_url={avatar_url}
+      />
     </section>
   );
 }

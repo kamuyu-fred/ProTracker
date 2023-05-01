@@ -19,7 +19,20 @@ function Navbar() {
       .then((data) => {
         console.log(data);
         setNotifications(data);
-        setUserAvatar(data.user.avatar_url);
+      });
+  }, []);
+
+
+  useEffect(() => {
+    fetch("https://protracker-5hxf.onrender.com/user_profile", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUserAvatar(data.avatar_url);
       });
   }, []);
 

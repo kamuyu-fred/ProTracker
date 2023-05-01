@@ -223,11 +223,11 @@ function UserProjectList() {
             </div>
           </div>
         </div>
-        <div id="project-card-menu-icon">
+        {/* <div id="project-card-menu-icon">
           <i className="material-icons">more_horiz</i>
           <input type="checkbox" id="menu-checkbox"></input>
           <div id="card-menu-box"></div>
-        </div>
+        </div> */}
       </div>
     );
   });
@@ -327,11 +327,11 @@ function UserProjectList() {
             </div>
           </div>
         </div>
-        <div id="project-card-menu-icon">
+        {/* <div id="project-card-menu-icon">
           <i className="material-icons">more_horiz</i>
           <input type="checkbox" id="menu-checkbox"></input>
           <div id="card-menu-box"></div>
-        </div>
+        </div> */}
       </div>
     );
   });
@@ -432,11 +432,11 @@ function UserProjectList() {
             </div>
           </div>
         </div>
-        <div id="project-card-menu-icon">
+        {/* <div id="project-card-menu-icon">
           <i className="material-icons">more_horiz</i>
           <input type="checkbox" id="menu-checkbox"></input>
           <div id="card-menu-box"></div>
-        </div>
+        </div> */}
       </div>
     );
   });

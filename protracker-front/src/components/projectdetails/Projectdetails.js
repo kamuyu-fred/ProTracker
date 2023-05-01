@@ -230,7 +230,7 @@ function Projectdetails() {
           handleToast("Member successfully added", "success", "primary");
           setTimeout(() => {
             window.location.reload();
-          },3000);
+          },2000);
         } else {
           handleToast("Failed to add member", "error", "primary");
         }

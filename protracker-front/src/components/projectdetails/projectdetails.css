@@ -319,9 +319,10 @@
 
 .members-modal-header i {
   position: absolute;
-  right: 13px;
+  right: 14px;
   background-color: #ffffff;
   padding: 8px;
+  border-radius: 5px;
   color: #777;
 }
 
@@ -414,14 +415,16 @@
   width: 96%;
   color: #555;
   outline: none;
+  overflow: hidden;
 }
 
 .add-members-modal-header i {
   position: absolute;
-  right: 13px;
+  right: 14px;
   background-color: #ffffff;
   padding: 8px;
   color: #777;
+  border-radius: 5px;
 }
 
 .add-members-modal-body {
