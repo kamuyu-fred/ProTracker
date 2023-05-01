@@ -16,7 +16,7 @@ class ApplicationController < ActionController::API
         users = User.all
         online_users = users.where("last_seen_at < ?", 5.minutes.ago)
     end
-
+# 
      # hash data into web token
      def encode(uid, email)
         payload = {
