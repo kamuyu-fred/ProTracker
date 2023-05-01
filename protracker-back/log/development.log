@@ -14,3 +14,6 @@ Processing by SessionController#login as */*
 Completed 200 OK in 433ms (Views: 8.0ms | ActiveRecord: 13.8ms | Allocations: 51543)
 
 
+  [1m[36mUser Load (2.9ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mCohort Load (2.1ms)[0m  [1m[34mSELECT "cohorts".* FROM "cohorts" INNER JOIN "cohort_students" ON "cohorts"."id" = "cohort_students"."cohort_id" WHERE "cohort_students"."user_id" = $1[0m  [["user_id", 1]]

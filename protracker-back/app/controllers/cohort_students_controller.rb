@@ -5,7 +5,7 @@ class CohortStudentsController < ApplicationController
     def create
         cohort = Cohort.find_by(id: params[:cohort_id])
 
-        authorize cohort, :owner?
+        # authorize cohort, :owner?
 
         student = User.find_by(id: params[:user_id])
 
@@ -37,7 +37,7 @@ class CohortStudentsController < ApplicationController
           notification_type: "Added to cohort" 
         }
 
-      new_notification  = Notification.create(new_notification_params)
+        new_notification  = Notification.create(new_notification_params)
 
         # CohortEnrollmentMailer.student_enrollment(student,current_user).deliver_later
 
