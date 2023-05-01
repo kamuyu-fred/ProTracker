@@ -18,7 +18,7 @@ function Navbar() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setNotifications(data.notifs);
+        setNotifications(data);
         setUserAvatar(data.user.avatar_url);
       });
   }, []);
@@ -112,7 +112,9 @@ function Navbar() {
         return (
           notif.notification_type === "Achievements unlocked" ||
           notif.notification_type === "Project comment" ||
-          notif.notification_type === "Comment reply"
+          notif.notification_type === "Comment reply"  ||
+          notif.notification_type === "Your project was Liked" ||
+          notif.notification_type === "Your project was disliked"
         );
       })
     : [];
@@ -130,6 +132,7 @@ function Navbar() {
     return notif.read === false;
   }).length;
   
+  console.log(notifications)
   let allNotificationsList;
   if (notifications) {
     allNotificationsList = notifications.map((notification) => {

@@ -43,7 +43,7 @@ function AdminDashProjects() {
         </th>
         <td class="px-4 py-3">{project.user.username}</td>
         <td class="px-4 py-3">{project.cohort.name}</td>
-        <td class="px-4 py-3">{project.cohort_class}</td>
+        <td class="px-4 py-3">{project.category}</td>
 
         <td class="px-4 py-3 flex items-center justify-end">
           <button

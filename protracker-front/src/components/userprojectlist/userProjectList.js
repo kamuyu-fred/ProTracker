@@ -44,7 +44,7 @@ function UserProjectList() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch(`https://protracker-5hxf.onrender.com/${cohort_id}/all_projects`, {
+    fetch(`https://protracker-5hxf.onrender.com/cohort/${cohort_id}/all_projects`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -54,7 +54,6 @@ function UserProjectList() {
       .then((data) => {
         setProjects(data);
         console.log(data);
-        console.log(userId);
       });
   }, []);
 
@@ -74,13 +73,14 @@ function UserProjectList() {
       event.target.style.color = "blueViolet !important";
       h6Elem.innerHTML = "";
       h6Elem.innerHTML = likes + 1;
-      fetch(`http://localhost:3000/projects/${id}/like`, {
+      fetch(`https://protracker-5hxf.onrender.com/projects/${id}/like`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
       }).then((response) => {
+        console.log(response.json())
         if (response.ok) {
           handleToast("Liked", "new", "secondary");
         } else {
@@ -91,7 +91,7 @@ function UserProjectList() {
       event.target.style.color = "black !important";
       h6Elem.innerHTML = "";
       h6Elem.innerHTML = likes - 1;
-      fetch(`https://protracker-5hxf.onrender.com/${id}/dislike`, {
+      fetch(`https://protracker-5hxf.onrender.com/projects/${id}/dislike`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,10 +110,10 @@ function UserProjectList() {
   // creating an element for each project
 
   let androidProjects = projects.filter((project) => {
-    return project.cohort_class === "android";
+    return project.category === "Android";
   });
   let fullstackProjects = projects.filter((project) => {
-    return project.cohort_class === "Fullstack";
+    return project.category === "Fullstack";
   });
 
   console.log(fullstackProjects);
@@ -174,7 +174,7 @@ function UserProjectList() {
     let color_button = liked.length > 0 ? "blueViolet" : "";
     let checked_state = liked.length > 0 ? true : false;
 
-    let image_src = project.cohort_class === "android" ? android : fullstack;
+    let image_src = project.category === "Android" ? android : fullstack;
 
     return (
       <div className="project-card">
@@ -277,7 +277,7 @@ function UserProjectList() {
     let color_button = liked.length > 0 ? "blueViolet" : "";
     let checked_state = liked.length > 0 ? true : false;
 
-    let image_src = project.cohort_class === "android" ? android : fullstack;
+    let image_src = project.category === "Android" ? android : fullstack;
 
     return (
       <div className="project-card">
@@ -382,7 +382,7 @@ function UserProjectList() {
     let color_button = liked.length > 0 ? "blueViolet" : "";
     let checked_state = liked.length > 0 ? true : false;
 
-    let image_src = project.cohort_class === "android" ? android : fullstack;
+    let image_src = project.category === "Android" ? android : fullstack;
 
     return (
       <div className="project-card">
@@ -467,11 +467,12 @@ function UserProjectList() {
   }
 
   let createNewProject = () => {
+    setIsLoading(true)
     let projObj = {
       cohort_id: cohort_id,
       project_name: projectName,
       project_description: projectDescription,
-      cohort_class: newCategory,
+      category: newCategory,
       github_link: githubLink,
       tags: tags,
     };
@@ -483,14 +484,15 @@ function UserProjectList() {
       },
       body: JSON.stringify(projObj),
     }).then((response) => {
-      console.log(response.json())
       if (response.ok) {
+        setIsLoading(false)
         handleProjectForm();
         handleToast("Project created successfully", "success", "primary");
         setTimeout(() => {
           window.location.reload();
-        },3100);
+        },2000);
       } else {
+        setIsLoading(false)
         return response.json().then((error) => {
           let errorMessage = error.errors[0];
           handleToast(`${errorMessage}`, "error", "primary");
@@ -498,6 +500,9 @@ function UserProjectList() {
       }
     });
   };
+
+
+  const[ isLoading, setIsLoading] = useState(false)
 
   return (
     <section id="user-project-list">
@@ -550,16 +555,6 @@ function UserProjectList() {
             }}
           >
             Add Project
-          </button>
-          <button>
-            <i
-              onClick={() => {
-                handleProjectForm();
-              }}
-              className="material-icons"
-            >
-              more_horiz
-            </i>
           </button>
         </div>
       </div>
@@ -767,6 +762,13 @@ function UserProjectList() {
               id="create-project-btn"
             >
               Create project
+              {isLoading && (
+                    <div className="loader">
+                      <div className="ball-1"></div>
+                      <div className="ball-2"></div>
+                      <div className="ball-3"></div>
+                    </div>
+                  )}
             </button>
           </form>
         </div>

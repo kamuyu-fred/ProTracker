@@ -5,4 +5,5 @@ class UserSerializer < ActiveModel::Serializer
   has_many :projects
   has_many :liked_projects
   has_many :enrolled_cohorts
+  has_many :enrolled_projects
 end

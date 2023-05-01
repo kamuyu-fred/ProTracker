@@ -28,6 +28,8 @@ function Projectdetails() {
   const storedProjectId = localStorage.getItem("projectId");
   const userId = localStorage.getItem("userId");
 
+  console.log(storedProjectId, cohort_id)
+
   // redux stuff;
   const dispatch = useDispatch();
   const handleToast = (message, type, level) => {
@@ -66,7 +68,7 @@ function Projectdetails() {
   const [projectOwner, setProjectOwner] = useState({});
 
   useEffect(() => {
-    fetch(`http://localhost:3000/projects/${storedProjectId}/project_details`, {
+    fetch(`https://protracker-5hxf.onrender.com//projects/${storedProjectId}/project_details`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -194,7 +196,7 @@ function Projectdetails() {
   const [cohortMembersReset, setCohortMembersReset] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/cohort/${cohort_id}/cohort_members`, {
+    fetch(`https://protracker-5hxf.onrender.com//cohort/${cohort_id}/cohort_members`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -215,7 +217,7 @@ function Projectdetails() {
 
     const memberObj = { id, project_id: storedProjectId };
 
-    fetch(`http://localhost:3000/cohort/${cohort_id}/project/add_member`, {
+    fetch(`https://protracker-5hxf.onrender.com/cohort/${cohort_id}/project/add_member`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -264,7 +266,7 @@ function Projectdetails() {
 
     let enrolled = member.enrolled_projects.filter((project) => {
       return project.id == storedProjectId;
-    });
+    })
 
     let cursorType = enrolled.length > 0 ? "not-allowed" : "pointer";
     let btn_state = cursorType === "not-allowed" ? true : false;
@@ -304,14 +306,15 @@ function Projectdetails() {
   const [updatedgithubLink, setGithubLink] = useState("");
 
   const handleUpdateProjectDetails = () => {
+    sePosting(true)
     let newProjectObj = {
       project_name: updatedprojectName || projectData.project_name,
       project_description:
         updatedprojectDescription || projectData.project_description,
       github_link: updatedgithubLink || projectData.github_link,
-      cohort_class: updatedcategory || projectData.cohort_class,
+      category: updatedcategory || projectData.category,
     };
-    fetch(`http://localhost:3000/projects/${projectData.id}/update`, {
+    fetch(`https://protracker-5hxf.onrender.com/projects/${projectData.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -319,16 +322,25 @@ function Projectdetails() {
       },
       body: JSON.stringify(newProjectObj),
     }).then((response) => {
+      console.log(response.json());
       if (response.ok) {
+        sePosting(false)
         handleToast("Project details updated successfully", "success", "tertiary");
         setUpdatingProject(false);
         setTimeout(() => {
           window.location.reload();
-        }, 3100);
+        }, 2000);
+      }
+      else{
+        sePosting(false)
+        handleToast("Failed to update project", "error", "tertiary");
       }
     });
   };
 
+
+  const[isPosting, sePosting] = useState(false)
+ 
   //  deleting an existing project;
 
   const [isDeletingProject, setDeletingProject] = useState(false);
@@ -580,6 +592,13 @@ function Projectdetails() {
                 id="create-project-btn"
               >
                 Create project
+                {isPosting && (
+                    <div className="loader">
+                      <div className="ball-1"></div>
+                      <div className="ball-2"></div>
+                      <div className="ball-3"></div>
+                    </div>
+                  )}
               </button>
             </form>
           ) : (
