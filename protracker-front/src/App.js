@@ -21,11 +21,8 @@ import Toast from "./components/toast/toast";
 function App() {
   let token = localStorage.getItem("jwt");
 
-  console.log("token:" + token)
 
   let isAuthenticated = token ? true : false;
-
-  console.log(isAuthenticated);
 
   return (
     // <Login/>

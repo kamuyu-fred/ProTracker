@@ -47,7 +47,7 @@ function CohortList() {
       .then((response) => response.json())
       .then((data) => {
         setCohorts(data);
-        console.log(data)
+        setFetching(true);
       });
   }, []);
 
@@ -67,15 +67,17 @@ function CohortList() {
         >
           <NavLink to="/projectList">{cohort.name}</NavLink>
         </h1>
-        <button
-          onClick={() => {
-            handleCohortForm();
-            setCreatingCohort(false);
-            setClickedCohortId(cohort.id);
-          }}
-        >
-          Add Member
-        </button>
+        {role === true && (
+          <button
+            onClick={() => {
+              handleCohortForm();
+              setCreatingCohort(false);
+              setClickedCohortId(cohort.id);
+            }}
+          >
+            Add Member
+          </button>
+        )}
       </div>
     );
   });
@@ -102,10 +104,7 @@ function CohortList() {
       });
   }, []);
 
-  console.log(allUsers);
-
   let handleAddingMemberToCohort = (id) => {
-    console.log(id);
     let memberObj = {
       cohort_id: clickedCohortId,
       user_id: id,
@@ -118,7 +117,6 @@ function CohortList() {
       },
       body: JSON.stringify(memberObj),
     }).then((response) => {
-      console.log(response.json());
       if (response.ok) {
         handleToast("Member successfully added", "success", "primary");
         setTimeout(() => {
@@ -138,11 +136,11 @@ function CohortList() {
         : user.avatar_url;
     let onlineStatus = user.online_status === "online" ? "green" : "red";
 
-    let onCohort = user.enrolled_cohorts ? user.enrolled_cohorts.filter((cohort) => {
-      return cohort.id == clickedCohortId;
-    }) : [];
-
-    console.log(user)
+    let onCohort = user.enrolled_cohorts
+      ? user.enrolled_cohorts.filter((cohort) => {
+          return cohort.id == clickedCohortId;
+        })
+      : [];
 
     let cursorType = onCohort.length > 0 ? "not-allowed" : "pointer";
     let btn_state = cursorType === "not-allowed" ? true : false;
@@ -187,6 +185,7 @@ function CohortList() {
   // loading status
 
   const [isLoading, setLoading] = useState(false);
+  const [isFetching, setFetching] = useState(false);
   const [isStillLoading, setStillLoading] = useState(false);
   const [successText, setSuccessText] = useState("");
   const [errorsArray, setErrorsArray] = useState([]);
@@ -204,7 +203,6 @@ function CohortList() {
 
   function handleSubmit() {
     setLoading(true);
-    console.log(cohortData);
     fetch(`https://protracker-5hxf.onrender.com/cohorts/create_cohort`, {
       method: "POST",
       headers: {
@@ -214,12 +212,11 @@ function CohortList() {
       body: JSON.stringify(cohortData),
     })
       .then((response) => {
-        console.log(response.json())
         if (response.ok) {
           handleToast("Cohort created successfully", "success", "primary");
           setInterval(() => {
             window.location.reload();
-          },3100);
+          }, 3100);
           return response.json();
         } else {
           return response.json().then((error) => {
@@ -262,13 +259,23 @@ function CohortList() {
       </div>
       <div id="cohort-body">
         <div id="cohorts-box">
-          {cohorts.length > 0 ? (
-            cohortlist
-          ) : (
-            <div>
-              <h6 id="msg-alert">
-                You have not been enrolled in any cohorts yet :(
-              </h6>
+          {isFetching &&
+            (cohorts.length > 0 ? (
+              cohortlist
+            ) : (
+              <div>
+                <h6 id="msg-alert">
+                  You have not been enrolled in any cohorts yet :(
+                </h6>
+              </div>
+            ))}
+          {isFetching || (
+            <div className="page-loader">
+              <div className="p-loader">
+                <div className="p-ball-1"></div>
+                <div className="p-ball-2"></div>
+                <div className="p-ball-3"></div>
+              </div>
             </div>
           )}
         </div>

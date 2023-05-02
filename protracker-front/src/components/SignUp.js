@@ -53,7 +53,6 @@ const SignUp = () => {
             let errorMessage = error.error[0];
             handleToast(`${errorMessage}`, "error", "primary");
           });        }
-        console.log(response.json())
       });
     } else {
       handleToast("Password does not match", "error", "primary");

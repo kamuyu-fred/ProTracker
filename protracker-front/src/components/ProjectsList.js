@@ -7,12 +7,11 @@ function ProjectsList() {
 
     const token = localStorage.getItem("jwt");  //store token in localStorage
 
-    console.log(token)
+    
     const dispatch = useDispatch();
 
   // updating redux state;
   function handleProjectId(newId) {
-    console.log(newId)
     dispatch({ type: "SET_PROJECT_ID", payload: newId });
     localStorage.setItem('projectId', newId);
   }
@@ -28,7 +27,6 @@ function ProjectsList() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             setProjects(data)
         })
     },[])

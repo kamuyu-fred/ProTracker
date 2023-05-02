@@ -48,7 +48,6 @@ function Login() {
           setIsLoggedIn(true);
         }, 3100);
         return response.json().then((data) => {
-          console.log(data);
           let token = data.token;
           let role = data.user.admin;
           let userId = data.user.id;

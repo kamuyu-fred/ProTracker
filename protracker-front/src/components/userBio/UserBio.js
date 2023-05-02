@@ -288,7 +288,6 @@ function UserBio() {
     description: item.description,
   }));
 
-  console.log(imagesArray);
 
   let achievementsList = imagesArray.map((achievement) => {
     return (

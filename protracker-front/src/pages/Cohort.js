@@ -12,7 +12,7 @@ function CohortForm({cohortData,setCohortData,handleSubmit,handleInputChange}) {
     })
       .then(response => response.json())
       .then(data => setMembers(data))
-      .catch(error => console.log(error));
+      .catch(error => {});
   },[]);
 
   // function handleInputChange(event) {

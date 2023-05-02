@@ -28,8 +28,6 @@ function Projectdetails() {
   const storedProjectId = localStorage.getItem("projectId");
   const userId = localStorage.getItem("userId");
 
-  console.log(storedProjectId, cohort_id)
-
   // redux stuff;
   const dispatch = useDispatch();
   const handleToast = (message, type, level) => {
@@ -75,10 +73,7 @@ function Projectdetails() {
       },
     })
       .then((response) => response.json())
-      .then((data) => {
-        // console.log("data");
-        console.log(data);
-        // handleProjectId(data.id);
+      .then((data) => {;
         setGroupMembers(data.members);
         setProjectData(data);
         setProjectOwner(data.user)
@@ -178,7 +173,6 @@ function Projectdetails() {
   const [memberSearchTerm, setMemberSearchTerm] = useState("");
   // searching for group members
   const findGroupMembers = () => {
-    console.log(memberSearchTerm);
     let members = projectData.members;
 
     // filter members by search term
@@ -210,10 +204,10 @@ function Projectdetails() {
       });
   }, []);
 
-  console.log(cohortMembers);
+
 
   let handleAddingMember = (id) => {
-    console.log(id);
+
 
     const memberObj = { id, project_id: storedProjectId };
 
@@ -322,7 +316,6 @@ function Projectdetails() {
       },
       body: JSON.stringify(newProjectObj),
     }).then((response) => {
-      console.log(response.json());
       if (response.ok) {
         sePosting(false)
         handleToast("Project details updated successfully", "success", "tertiary");

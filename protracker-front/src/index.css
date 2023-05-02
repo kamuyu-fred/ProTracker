@@ -53,3 +53,42 @@ code {
     border: 1px solid red;
   }
 }
+
+
+.page-loader{
+  position: fixed;
+  background-color: #1b1a1a00;
+  width: 80%;
+  height: 80%;
+  display: grid;
+  place-items: center;
+}
+
+.p-loader{
+  width: 10em;
+  height: 4em;
+  background-color: transparent;
+  /* background-color: transparent; */
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.p-loader div{
+  width: 15px;
+  height: 15px;
+  border: 1px solid #000;
+  border-radius: 50%; 
+}
+
+.p-ball-1 {
+  animation: loader .9s infinite ease-in-out;
+}
+.p-ball-2 {
+  animation: loader .9s infinite ease-in-out;
+  animation-delay: .1s;
+}
+.p-ball-3 {
+  animation: loader .9s infinite ease-in-out;
+  animation-delay: .3s;
+}

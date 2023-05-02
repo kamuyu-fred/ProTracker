@@ -27,7 +27,6 @@ function NewPasswordEntry() {
   };
 
   let email = localStorage.getItem("email");
-console.log(email);
   let sendToken = () => {
     setIsLoading(true);
     let obj = {
@@ -43,7 +42,6 @@ console.log(email);
         },
         body: JSON.stringify(obj),
       }).then((response) => {
-        console.log(response.json());
         if (response.ok) {
           setIsLoading(false);
           localStorage.removeItem("email");

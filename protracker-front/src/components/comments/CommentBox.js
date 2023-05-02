@@ -21,9 +21,6 @@ const CommentReply = ({ reply, formatTimestamp, avatar_url }) => {
         <div id="project-comment">
           <h6 id="timestamp">{fomartedTimestamp}</h6>
           <p id="comment-content">{reply.message}</p>
-          {reply.user.admin == false && <div id="admin-tag">
-              <h6>Admin</h6>
-          </div>}
         </div>
       
       </div>
@@ -55,7 +52,6 @@ const Comment = ({ comment, replies, formatTimestamp, avatar_url,handleToast }) 
     setFilteredReplies([...filteredReplies, replyObj]);
 
     commentReplies.push(replyObj);
-    console.log(commentReplies);
 
     let obj = {
       comment_id: comment.id,
@@ -76,7 +72,6 @@ const Comment = ({ comment, replies, formatTimestamp, avatar_url,handleToast }) 
       } else {
         handleToast("Failed to send reply", "error", "secondary")
       }
-      console.log(response.json());
     });
 
     setReplyContent("");
@@ -115,7 +110,6 @@ const Comment = ({ comment, replies, formatTimestamp, avatar_url,handleToast }) 
   };
 
   const [isReplying, setIsReplying] = useState(false);
-
   let toggleReplyForm = () => {
     setIsReplying(!isReplying);
   };
@@ -151,9 +145,6 @@ const Comment = ({ comment, replies, formatTimestamp, avatar_url,handleToast }) 
               &nbsp;&nbsp;
               <i className="material-symbols-outlined">chat</i>
             </div>
-            {comment.user.admin == true && <div id="admin-tag">
-              <h6>Admin</h6>
-          </div>}
           </div>
         </div>
 
@@ -232,7 +223,6 @@ const CommentForm = ({ formatTimestamp, avatar_url }) => {
 
   let handleCommenting = (message) => {
     setMessage(message);
-    console.log(message);
   };
 
   let handlePosting = () => {
@@ -262,7 +252,6 @@ const CommentForm = ({ formatTimestamp, avatar_url }) => {
       } else {
         handleToast("Comment not dent!", "error", "secondary");
       }
-      console.log(response.json());
     });
 
     const newComment = (

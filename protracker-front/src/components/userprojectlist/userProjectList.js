@@ -15,7 +15,6 @@ function UserProjectList() {
 
   // handling project filter dropdown logic
 
-
   // redux stuff;
   const dispatch = useDispatch();
   const handleToast = (message, type, level) => {
@@ -44,16 +43,19 @@ function UserProjectList() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch(`https://protracker-5hxf.onrender.com/cohort/${cohort_id}/all_projects`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    })
+    fetch(
+      `https://protracker-5hxf.onrender.com/cohort/${cohort_id}/all_projects`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setProjects(data);
-        console.log(data);
+        setIsFetching(false)
       });
   }, []);
 
@@ -80,7 +82,6 @@ function UserProjectList() {
           Authorization: "Bearer " + token,
         },
       }).then((response) => {
-        console.log(response.json())
         if (response.ok) {
           handleToast("Liked", "new", "secondary");
         } else {
@@ -115,8 +116,6 @@ function UserProjectList() {
   let fullstackProjects = projects.filter((project) => {
     return project.category === "Fullstack";
   });
-
-  console.log(fullstackProjects);
 
   const [isViewingAllProjects, setViewingAllProjects] = useState(true);
   const [isViewingAndroidProjects, setViewingAndroidProjects] = useState(false);
@@ -223,11 +222,6 @@ function UserProjectList() {
             </div>
           </div>
         </div>
-        {/* <div id="project-card-menu-icon">
-          <i className="material-icons">more_horiz</i>
-          <input type="checkbox" id="menu-checkbox"></input>
-          <div id="card-menu-box"></div>
-        </div> */}
       </div>
     );
   });
@@ -467,7 +461,7 @@ function UserProjectList() {
   }
 
   let createNewProject = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     let projObj = {
       cohort_id: cohort_id,
       project_name: projectName,
@@ -485,14 +479,14 @@ function UserProjectList() {
       body: JSON.stringify(projObj),
     }).then((response) => {
       if (response.ok) {
-        setIsLoading(false)
+        setIsLoading(false);
         handleProjectForm();
         handleToast("Project created successfully", "success", "primary");
         setTimeout(() => {
           window.location.reload();
-        },2000);
+        }, 2000);
       } else {
-        setIsLoading(false)
+        setIsLoading(false);
         return response.json().then((error) => {
           let errorMessage = error.errors[0];
           handleToast(`${errorMessage}`, "error", "primary");
@@ -501,8 +495,8 @@ function UserProjectList() {
     });
   };
 
-
-  const[ isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [isfetching, setIsFetching] = useState(true);
 
   return (
     <section id="user-project-list">
@@ -560,24 +554,36 @@ function UserProjectList() {
       </div>
       <div id="main-project-body">
         <div id="projects-body">
-          {isViewingAllProjects &&
-            (projectsList.length > 0 ? (
-              projectsList
-            ) : (
-              <h1 id="msg-alert">No projects found :)</h1>
-            ))}
-          {isViewingAndroidProjects &&
-            (androidProjectsList.length > 0 ? (
-              androidProjectsList
-            ) : (
-              <h1 id="msg-alert">No projects found :)</h1>
-            ))}
-          {isViewingFullStackProjects &&
-            (fullstackProjectsList.length > 0 ? (
-              fullstackProjectsList
-            ) : (
-              <h1 id="msg-alert">No projects found :)</h1>
-            ))}
+          {isfetching ? (
+            <div className="page-loader">
+              <div className="p-loader">
+                <div className="p-ball-1"></div>
+                <div className="p-ball-2"></div>
+                <div className="p-ball-3"></div>
+              </div>
+            </div>
+          ) : (
+            <>
+              {isViewingAllProjects &&
+                (projectsList.length > 0 ? (
+                  projectsList
+                ) : (
+                  <h1 id="msg-alert">No projects found :)</h1>
+                ))}
+              {isViewingAndroidProjects &&
+                (androidProjectsList.length > 0 ? (
+                  androidProjectsList
+                ) : (
+                  <h1 id="msg-alert">No projects found :)</h1>
+                ))}
+              {isViewingFullStackProjects &&
+                (fullstackProjectsList.length > 0 ? (
+                  fullstackProjectsList
+                ) : (
+                  <h1 id="msg-alert">No projects found :)</h1>
+                ))}
+            </>
+          )}
         </div>
       </div>
       {isProjectFormActive && (
@@ -631,7 +637,6 @@ function UserProjectList() {
               <select
                 onClick={(e) => {
                   setCategory(e.target.value);
-                  console.log(e.target.value);
                 }}
               >
                 <option value="Fullstack">Fullstack</option>
@@ -763,12 +768,12 @@ function UserProjectList() {
             >
               Create project
               {isLoading && (
-                    <div className="loader">
-                      <div className="ball-1"></div>
-                      <div className="ball-2"></div>
-                      <div className="ball-3"></div>
-                    </div>
-                  )}
+                <div className="loader">
+                  <div className="ball-1"></div>
+                  <div className="ball-2"></div>
+                  <div className="ball-3"></div>
+                </div>
+              )}
             </button>
           </form>
         </div>

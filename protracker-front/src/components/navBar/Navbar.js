@@ -17,7 +17,6 @@ function Navbar() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         setNotifications(data);
       });
   }, []);
@@ -145,7 +144,6 @@ function Navbar() {
     return notif.read === false;
   }).length;
   
-  console.log(notifications)
   let allNotificationsList;
   if (notifications) {
     allNotificationsList = notifications.map((notification) => {

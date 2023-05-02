@@ -18,7 +18,6 @@ function Sidebar() {
         Authorization: "Bearer " + token,
       },
     }).then((response) => {
-      console.log(response);
       if (response.ok) {
         setSignedOut(true);
         localStorage.clear();
@@ -26,7 +25,6 @@ function Sidebar() {
     });
   };
 
-  console.log(role);
 
   if (isSignedOut) {
     return <Redirect to="/" />;

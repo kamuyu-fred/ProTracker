@@ -17,7 +17,7 @@ function AdminDashCohorts() {
       .then((data) => {
         setCohorts(data);
         setCohortsSearch(data)
-        console.log(data);
+        setIsFetching(true)
       });
   }, []);
 
@@ -43,10 +43,13 @@ function AdminDashCohorts() {
     );
   });
 
+
+  const[isFetching, setIsFetching] = useState(false)
+
   return (
     <div>
       <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-        <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+    { isFetching ?  (<div class="mx-auto max-w-screen-xl px-4 lg:px-12">
           <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
             <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
               <div class="w-full md:w-1/2">
@@ -106,7 +109,14 @@ function AdminDashCohorts() {
               </table>
             </div>
           </div>
-        </div>
+        </div>) :
+          ( <div className="page-loader">
+              <div className="p-loader">
+                <div className="p-ball-1"></div>
+                <div className="p-ball-2"></div>
+                <div className="p-ball-3"></div>
+              </div>
+            </div>)}
       </section>
     </div>
   );

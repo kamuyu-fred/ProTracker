@@ -36,7 +36,6 @@ function EmailEntry() {
       },
       body: JSON.stringify(emailBody),
     }).then((response) => {
-      console.log(response.json());
       if (response.ok) {
         localStorage.setItem("email", email)
         setEmailSent(true);

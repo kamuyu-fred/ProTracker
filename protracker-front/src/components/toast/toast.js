@@ -66,8 +66,6 @@ function Toast() {
   const notifState = notificationState.toast_state
   const notifLevel = notificationState.level
 
-
-  console.log(notifState)
   if (notifLevel === "primary") {
     return (
       <PrimaryNotification
