@@ -208,7 +208,6 @@ function Projectdetails() {
 
   let handleAddingMember = (id) => {
 
-
     const memberObj = { id, project_id: storedProjectId };
 
     fetch(`https://protracker-5hxf.onrender.com/cohort/${cohort_id}/project/add_member`, {

@@ -12,27 +12,16 @@ class ProjectMembersController < ApplicationController
             return
         end
 
-        cohort = current_user.enrolled_cohorts.find_by(id: params[:cohort_id])
+        cohort = Cohort.find_by(id: params[:cohort_id])
 
         if !cohort
             render json: { message: 'Cohort not found' }, status: :not_found
             return
         end
 
-        cohort_members = cohort.enrolled_members
-
-        student_exists_in_cohort = cohort_members.exists?(student.id)
-
-        if !student_exists_in_cohort
-           render json: { message: 'Student does not exist in cohort' }, status: :not_found
-           return
-        end
-
         current_project = Project.find_by(id: params[:project_id])
 
         member = current_project.project_members.find_by(user_id: student.id)
-
-        
 
         if !member
             current_project.project_members.create(user: student)
