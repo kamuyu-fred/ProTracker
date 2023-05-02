@@ -3,6 +3,7 @@ import "./navbar.css";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch } from "react-redux";
 import { showNotification, hideNotification } from "../toast/toastActions";
+import logo from "./assets/protracker-final-logo.png";
 
 function Navbar() {
   let [notifications, setNotifications] = useState([]);
@@ -229,16 +230,14 @@ function Navbar() {
   return (
     <>
       <nav class="bg-white border-gray-200 dark:bg-gray-900">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a href="https://flowbite.com/" class="flex items-center">
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              class="h-8 mr-3"
-              alt="Flowbite Logo"
+        <div class="max-w-screen-xl flex justify-items-center mx-4 p-2">
+          <a href="https://flowbite.com/" class="flex items-start">
+          <img
+              src={logo}
+              class="h-12 mr-1"
+              alt="ProTracker Logo"
             />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              ProTracker
-            </span>
+            
           </a>
           <div id="my_profile">
             <div
