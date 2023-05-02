@@ -39,7 +39,7 @@ class CohortsController < ApplicationController
     #retrieve all cohort members;
     # * cleared
     def all_members
-        members = Cohort.find_by(id: params[:cohort_id].to_i).users
+        members = Users.all
         render json:  members, include: :projects, status: :ok
     end
 

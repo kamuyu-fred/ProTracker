@@ -15,13 +15,6 @@ class CohortStudentsController < ApplicationController
           return
         end
 
-        student_exists_in_the_cohort = cohort.cohort_members.exists?(user_id: student.id)
-
-        if student_exists_in_the_cohort
-          render json: { message: "Student exists in the cohort" } , status: :unprocessable_entity
-          return
-        end
-
         @cohort_student = CohortStudent.new(user_id: student.id, cohort_id: params[:cohort_id])
 
         # authorize @cohort_student

@@ -190,7 +190,7 @@ function Projectdetails() {
   const [cohortMembersReset, setCohortMembersReset] = useState([]);
 
   useEffect(() => {
-    fetch(`https://protracker-5hxf.onrender.com//cohort/${cohort_id}/cohort_members`, {
+    fetch(`https://protracker-5hxf.onrender.com/cohort/${cohort_id}/cohort_members`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,

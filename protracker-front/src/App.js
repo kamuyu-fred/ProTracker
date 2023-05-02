@@ -1,5 +1,8 @@
 import { Route, RouterProvider, Routes } from "react-router-dom";
 import "./App.css";
+import CohortList from "./components/CohortList/cohortlist";
+import Navbar from "./components/navBar/Navbar";
+import Sidebar from "./components/sidebar/Sidebar";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import { Provider } from "react-redux";
@@ -21,15 +24,13 @@ import Toast from "./components/toast/toast";
 function App() {
   let token = localStorage.getItem("jwt");
 
-
   let isAuthenticated = token ? true : false;
 
   return (
     // <Login/>
     <Provider store={store}>
-
       <div className="app">
-      <Toast/>
+        <Toast />
         <Switch>
           <Route exact path="/">
             <div id="login-page">
@@ -79,11 +80,19 @@ function App() {
             isAuthenticated={isAuthenticated}
           />
 
-          <PrivateRoute
-            path="/cohortlist"
-            component={CohortListPage}
-            isAuthenticated={isAuthenticated}
-          />
+          <Route path="/cohortlist">
+            <div id="sidebar">
+              <Sidebar />
+            </div>
+            <div id="main-body">
+              <div id="nav-row">
+                <Navbar />
+              </div>
+              <div id="body-row">
+                <CohortList />
+              </div>
+            </div>
+          </Route>
 
           <PrivateRoute
             path="/activities"
