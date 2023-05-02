@@ -27,6 +27,7 @@ function Projectdetails() {
   const cohort_id = localStorage.getItem("cohort_id");
   const storedProjectId = localStorage.getItem("projectId");
   const userId = localStorage.getItem("userId");
+  const role = localStorage.getItem("role");
 
   // redux stuff;
   const dispatch = useDispatch();
@@ -66,23 +67,27 @@ function Projectdetails() {
   const [projectOwner, setProjectOwner] = useState({});
 
   useEffect(() => {
-    fetch(`https://protracker-5hxf.onrender.com//projects/${storedProjectId}/project_details`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    })
+    fetch(
+      `https://protracker-5hxf.onrender.com//projects/${storedProjectId}/project_details`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
       .then((response) => response.json())
-      .then((data) => {;
+      .then((data) => {
         setGroupMembers(data.members);
         setProjectData(data);
-        setProjectOwner(data.user)
+        setProjectOwner(data.user);
       });
   }, []);
 
-
   let ownerName = projectOwner.username || "loading...";
-  let ownerAvatar = projectOwner.avatar_url || "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg"
+  let ownerAvatar =
+    projectOwner.avatar_url ||
+    "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725655669.jpg";
 
   // user details;
   let projectName = projectData ? projectData.project_name : "loading...";
@@ -125,8 +130,7 @@ function Projectdetails() {
     });
   }
 
-
- // refactoring member component
+  // refactoring member component
 
   const Member = ({ member, avatar_url }) => {
     return (
@@ -190,12 +194,15 @@ function Projectdetails() {
   const [cohortMembersReset, setCohortMembersReset] = useState([]);
 
   useEffect(() => {
-    fetch(`https://protracker-5hxf.onrender.com/cohort/${cohort_id}/cohort_members`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    })
+    fetch(
+      `https://protracker-5hxf.onrender.com/cohort/${cohort_id}/cohort_members`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         setCohortMembers(data);
@@ -204,32 +211,31 @@ function Projectdetails() {
       });
   }, []);
 
-
-
   let handleAddingMember = (id) => {
-
     const memberObj = { id, project_id: storedProjectId };
 
-    fetch(`https://protracker-5hxf.onrender.com/cohort/${cohort_id}/project/add_member`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      body: JSON.stringify(memberObj),
-    })
+    fetch(
+      `https://protracker-5hxf.onrender.com/cohort/${cohort_id}/project/add_member`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify(memberObj),
+      }
+    )
       .then((response) => {
         if (response.ok) {
           handleToast("Member successfully added", "success", "primary");
           setTimeout(() => {
             window.location.reload();
-          },2000);
+          }, 2000);
         } else {
           handleToast("Failed to add member", "error", "primary");
         }
       })
-      .then((data) => {
-      });
+      .then((data) => {});
   };
 
   const [cohortMemberSearchTerm, setcohortMemberSearchTerm] = useState("");
@@ -259,7 +265,7 @@ function Projectdetails() {
 
     let enrolled = member.enrolled_projects.filter((project) => {
       return project.id == storedProjectId;
-    })
+    });
 
     let cursorType = enrolled.length > 0 ? "not-allowed" : "pointer";
     let btn_state = cursorType === "not-allowed" ? true : false;
@@ -299,7 +305,7 @@ function Projectdetails() {
   const [updatedgithubLink, setGithubLink] = useState("");
 
   const handleUpdateProjectDetails = () => {
-    sePosting(true)
+    sePosting(true);
     let newProjectObj = {
       project_name: updatedprojectName || projectData.project_name,
       project_description:
@@ -316,23 +322,25 @@ function Projectdetails() {
       body: JSON.stringify(newProjectObj),
     }).then((response) => {
       if (response.ok) {
-        sePosting(false)
-        handleToast("Project details updated successfully", "success", "tertiary");
+        sePosting(false);
+        handleToast(
+          "Project details updated successfully",
+          "success",
+          "tertiary"
+        );
         setUpdatingProject(false);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
-      }
-      else{
-        sePosting(false)
+      } else {
+        sePosting(false);
         handleToast("Failed to update project", "error", "tertiary");
       }
     });
   };
 
+  const [isPosting, sePosting] = useState(false);
 
-  const[isPosting, sePosting] = useState(false)
- 
   //  deleting an existing project;
 
   const [isDeletingProject, setDeletingProject] = useState(false);
@@ -376,14 +384,16 @@ function Projectdetails() {
                   >
                     <h6>Update</h6>
                   </div>
-                  <div
-                    onClick={() => {
-                      setUpdatingProject(true);
-                      setDeletingProject(true);
-                    }}
-                  >
-                    <h6>Delete</h6>
-                  </div>
+                  {role === true && (
+                    <div
+                      onClick={() => {
+                        setUpdatingProject(true);
+                        setDeletingProject(true);
+                      }}
+                    >
+                      <h6>Delete</h6>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -408,7 +418,7 @@ function Projectdetails() {
                 <div className="technologies-cont ">{tagsList}</div>
                 <div id="project-owner-box">
                   <div id="owner-pfp">
-                    <img src={ownerAvatar} ></img>
+                    <img src={ownerAvatar}></img>
                   </div>
                   <div id="owner-details">
                     <h1>{ownerName}</h1>
@@ -585,12 +595,12 @@ function Projectdetails() {
               >
                 Create project
                 {isPosting && (
-                    <div className="loader">
-                      <div className="ball-1"></div>
-                      <div className="ball-2"></div>
-                      <div className="ball-3"></div>
-                    </div>
-                  )}
+                  <div className="loader">
+                    <div className="ball-1"></div>
+                    <div className="ball-2"></div>
+                    <div className="ball-3"></div>
+                  </div>
+                )}
               </button>
             </form>
           ) : (
