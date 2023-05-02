@@ -6,7 +6,7 @@ import Projectdetails from "./components/projectdetails/Projectdetails";
 import CommentBox from "./components/comments/CommentBox";
 import ReplyBox from "./components/comments/ReplyBox";
 import Login from "./components/Login/Login";
-import SignUp from "./components/SignUp";
+import SignUp from "./components/signup/SignUp";
 import CohortForm from "./pages/Cohort";
 import ProjectsList from "./components/ProjectsList";
 
@@ -145,17 +145,11 @@ function App() {
           </Route>
 
           <Route path="/signup">
-            <div id="sidebar">
-              <Sidebar />
-            </div>
-            <div id="main-body">
-              <div id="nav-row">
-                <Navbar />
-              </div>
+            
               <div id="body-row">
                 <SignUp />
               </div>
-            </div>
+            
           </Route>
 
         </Switch>

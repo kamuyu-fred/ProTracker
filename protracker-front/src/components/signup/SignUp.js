@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import logo from "./assets/protracker-final-logo.png"
 
 const SignUp = () => {
 
@@ -31,10 +32,19 @@ const SignUp = () => {
     };
 
   return (
-    <div>
+
+    
+    <div id="signup-form-container">
       <section class="bg-white dark:bg-gray-900">
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div class="flex flex-col items-center justify-center px-8 py-10 mx-auto md:h-screen lg:py-0">
+        <a href="http://localhost:3000/" class="flex items-start"/>
+            <img
+              src={logo}
+              class="h-20 mr-1"
+              alt="ProTracker Logo"
+            />
           
+
           <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -97,7 +107,7 @@ const SignUp = () => {
                     id="email"
                     value={email}
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="name@company.com"
+                    placeholder="name@student.moringaschool.com"
                     required=""
                   />
                 </div>
@@ -185,7 +195,7 @@ const SignUp = () => {
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account?{" "}
                   <a
-                    href="#"
+                    href="/"
                     class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Login here

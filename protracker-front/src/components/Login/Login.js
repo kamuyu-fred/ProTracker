@@ -58,11 +58,11 @@ function Login() {
   return (
     <div id="login-form-container">
       <section class="bg-white dark:bg-gray-900">
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div class="flex flex-col items-center justify-center px-8 py-10 mx-auto md:h-screen lg:py-0">
         <a href="http://localhost:3000/" class="flex items-start">
             <img
               src={logo}
-              class="h-12 mr-1"
+              class="h-20 mr-1"
               alt="ProTracker Logo"
             />
           
@@ -153,7 +153,7 @@ function Login() {
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                   Don’t have an account yet?{" "}
                   <a
-                    href="#"
+                    href="/signup"
                     class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Sign up

@@ -69,12 +69,12 @@ function Sidebar() {
       >
         <div class="h-full px-3 py-4 overflow-y-auto bg-white dark:bg-gray-800">
           <a
-            href="http://localhost:3000/"
+            href="http://localhost:3000/cohortlist"
             class="flex items-center pl-2.5 mb-5"
           >
             <img
               src= {sidebarlogo}
-              class="h-6 mr-3 sm:h-7"
+              class="h-6 mr-3 sm:h-10"
               alt="Moringa School Logo"
             />
             {/* <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">ProTracker</span> */}
@@ -82,7 +82,7 @@ function Sidebar() {
 
           {/* Sidebar Menu */}
 
-          <ul class="space-y-2 font-medium">
+          <ul class="space-y-2 font-medium text-blue-950">
             <li>
               <a
                 href="#"
@@ -98,16 +98,38 @@ function Sidebar() {
                   <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
                 </svg>
                 <NavLink exact to="/cohortlist">
-                  <span class="flex-1 ml-3 whitespace-nowrap">My Cohorts</span>
+                  <span class="flex-1 ml-3 whitespace-nowrap text-blue-950">Cohorts</span>
                 </NavLink>
               </a>
             </li>
-            <li>
+            {/* <li>
               <div id="cohorts-list">
                 <h6>SDF-FT-03-2002</h6>
                 <h6>SDF-FT-03-2002</h6>
               </div>
+            </li> */}
+
+<li>
+              <a
+                href="#"
+                class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                </svg>
+                <NavLink exact to="/projectlist">
+                  <span class="flex-1 ml-3 whitespace-nowrap text-blue-950">Projects</span>
+                </NavLink>
+              </a>
             </li>
+
+            <ul class="pt-4 mt-4 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700"></ul>
 
             {role === 'true' && (
               <li>
@@ -221,3 +243,5 @@ function Sidebar() {
 }
 
 export default Sidebar;
+
+
