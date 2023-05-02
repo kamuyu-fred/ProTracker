@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { NavLink, Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import { showNotification, hideNotification } from "../toast/toastActions";
-import "./resetPassword.css"
+import "./resetPassword.css";
 
 function EmailEntry() {
   const [email, setEmail] = useState("");
@@ -25,7 +25,7 @@ function EmailEntry() {
   };
 
   let handleSendingEmail = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     let emailBody = {
       email: email,
     };
@@ -37,18 +37,18 @@ function EmailEntry() {
       body: JSON.stringify(emailBody),
     }).then((response) => {
       if (response.ok) {
-        localStorage.setItem("email", email)
+        localStorage.setItem("email", email);
         setEmailSent(true);
-        setIsLoading(false)
+        setIsLoading(false);
         handleToast("Email sent successfully", "success", "primary");
       } else if (!response.ok) {
-        setIsLoading(false)
+        setIsLoading(false);
         handleToast("Error sending email", "error", "primary");
       }
     });
   };
 
-  const[isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   if (emailSent) {
     return <Redirect to="/newpass" />;
@@ -56,7 +56,19 @@ function EmailEntry() {
 
   return (
     <div>
-      <form id="reset-password-form" class="space-y-4 md:space-y-6" action="#">
+      <form
+        id="reset-password-form"
+        class="space-y-4 md:space-y-6 relative"
+        action="#"
+      >
+        <NavLink exact to="/">
+          <i
+            style={{ position: "absolute", top: "10px", left: "10px" }}
+            className="material-icons"
+          >
+            arrow_backwards
+          </i>
+        </NavLink>
         <h1 id="form-title">Enter email you registered with :)</h1>
         <div>
           <label
@@ -89,12 +101,12 @@ function EmailEntry() {
         >
           Send Email
           {isLoading && (
-                    <div className="loader">
-                      <div className="ball-1"></div>
-                      <div className="ball-2"></div>
-                      <div className="ball-3"></div>
-                    </div>
-                  )}
+            <div className="loader">
+              <div className="ball-1"></div>
+              <div className="ball-2"></div>
+              <div className="ball-3"></div>
+            </div>
+          )}
         </button>
       </form>
     </div>

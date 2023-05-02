@@ -31,22 +31,19 @@ function Login() {
       password,
     };
 
-    setIsLoading(true)
+    setIsLoading(true);
     fetch("https://protracker-5hxf.onrender.com/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(obj),
     }).then((response) => {
       if (response.ok) {
-        setIsLoading(false)
+        setIsLoading(false);
         handleToast(
           `Login successful.Redirecting in second...`,
           "success",
           "primary"
         );
-        setTimeout(() => {
-          setIsLoggedIn(true);
-        }, 3100);
         return response.json().then((data) => {
           let token = data.token;
           let role = data.user.admin;
@@ -54,9 +51,12 @@ function Login() {
           localStorage.setItem("jwt", token.toString());
           localStorage.setItem("admin", role.toString());
           localStorage.setItem("userId", userId.toString());
+          setTimeout(() => {
+            setIsLoggedIn(true);
+          }, 3100);
         });
       } else if (!response.ok) {
-        setIsLoading(false)
+        setIsLoading(false);
         return response.json().then((error) => {
           let notFound = error["message"];
           let invalidCredentials = error["error"];
@@ -164,7 +164,12 @@ function Login() {
                     e.preventDefault();
                     handleLogin();
                   }}
-                  style={{border: '1px solid #999', display : "flex", alignItems : 'center', justifyContent : 'center'}}
+                  style={{
+                    border: "1px solid #999",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
                   type="submit"
                   class="relative w-full text-red bg-primary-000 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
