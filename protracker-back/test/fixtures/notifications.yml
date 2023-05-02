@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  actor_id: 1
+  receiver_id: 1
+  message: MyString
+  notification_type: MyString
+  read: false
+
+two:
+  actor_id: 1
+  receiver_id: 1
+  message: MyString
+  notification_type: MyString
+  read: false

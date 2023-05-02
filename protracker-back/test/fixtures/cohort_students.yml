@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  start_date: 2023-04-18 10:42:40
+  end_date: 2023-04-18 10:42:40
+  cohort: one
+  user: one
+
+two:
+  name: MyString
+  start_date: 2023-04-18 10:42:40
+  end_date: 2023-04-18 10:42:40
+  cohort: two
+  user: two
