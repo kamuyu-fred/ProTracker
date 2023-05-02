@@ -1,11 +1,4 @@
 Moringa ProTracker
 
-This is the repository holding Moringa ProTracker.
+ProTracker is a Student Project Directory for Moringa School students to browse and allow collaboration across student cohorts past and present.
 
-The front end is hosted within protracker-front.
-
-The back end is hosted within protracker-back.
-
-In depth related documentation is hosted within their respective folders.
-
-This is a placeholder.
