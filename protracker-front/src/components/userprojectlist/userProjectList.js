@@ -55,7 +55,7 @@ function UserProjectList() {
       .then((response) => response.json())
       .then((data) => {
         setProjects(data);
-        setIsFetching(false)
+        setIsFetching(false);
       });
   }, []);
 
@@ -149,22 +149,6 @@ function UserProjectList() {
     let indicatorColor =
       project.user.online_status === "offline" ? "red" : "green";
 
-    let member =
-      role === "true" ||
-      project.members.filter((member) => member.id == userId).length > 0 ||
-      project.user.id == userId ? (
-        <NavLink
-          onClick={() => {
-            handleProjectId(project.id);
-          }}
-          to="/projectdetails"
-        >
-          <h2>View</h2>
-        </NavLink>
-      ) : (
-        <>{}</>
-      );
-
     let likes = project.student_likes.length;
 
     let liked = project.student_likes.filter((student) => {
@@ -182,7 +166,17 @@ function UserProjectList() {
         </div>
         <div className="project-info">
           <h1>{project.project_name}</h1>
-          <h6>{member}</h6>
+          <h6>
+            {" "}
+            <NavLink
+              onClick={() => {
+                handleProjectId(project.id);
+              }}
+              to="/projectdetails"
+            >
+              <h2>View</h2>
+            </NavLink>
+          </h6>
         </div>
         <div id="user-project-info">
           <div id="project-info-menu"></div>
@@ -235,34 +229,6 @@ function UserProjectList() {
     let indicatorColor =
       project.user.online_status === "offline" ? "red" : "green";
 
-    let member =
-      project.members.filter((member) => member.id == userId).length > 0 ||
-      project.user.id == userId ? (
-        <NavLink
-          onClick={() => {
-            handleProjectId(project.id);
-          }}
-          to="/projectdetails"
-        >
-          <h2>View</h2>
-        </NavLink>
-      ) : (
-        <>{}</>
-      );
-    let checkout =
-      role !== "admin" ? (
-        <></>
-      ) : (
-        <NavLink
-          onClick={() => {
-            handleProjectId(project.id);
-          }}
-          to="/projectdetails"
-        >
-          <h2>checkout</h2>
-        </NavLink>
-      );
-
     let likes = project.student_likes.length;
 
     let liked = project.student_likes.filter((student) => {
@@ -280,8 +246,17 @@ function UserProjectList() {
         </div>
         <div className="project-info">
           <h1>{project.project_name}</h1>
-          <h6>{member}</h6>
-          <h6>{checkout}</h6>
+          <h6>
+            {" "}
+            <NavLink
+              onClick={() => {
+                handleProjectId(project.id);
+              }}
+              to="/projectdetails"
+            >
+              <h2>View</h2>
+            </NavLink>
+          </h6>
         </div>
         <div id="user-project-info">
           <div id="project-info-menu"></div>
@@ -339,35 +314,6 @@ function UserProjectList() {
     let indicatorColor =
       project.user.online_status === "offline" ? "red" : "green";
 
-    let member =
-      project.members.filter((member) => member.id == userId).length > 0 ||
-      project.user.id == userId ? (
-        <NavLink
-          onClick={() => {
-            handleProjectId(project.id);
-          }}
-          to="/projectdetails"
-        >
-          <h2>View</h2>
-        </NavLink>
-      ) : (
-        <>{}</>
-      );
-
-    let checkout =
-      role !== "admin" ? (
-        <></>
-      ) : (
-        <NavLink
-          onClick={() => {
-            handleProjectId(project.id);
-          }}
-          to="/projectdetails"
-        >
-          <h2>checkout</h2>
-        </NavLink>
-      );
-
     let likes = project.student_likes.length;
 
     let liked = project.student_likes.filter((student) => {
@@ -385,8 +331,17 @@ function UserProjectList() {
         </div>
         <div className="project-info">
           <h1>{project.project_name}</h1>
-          <h6>{member}</h6>
-          <h6>{checkout}</h6>
+          <h6>
+            {" "}
+            <NavLink
+              onClick={() => {
+                handleProjectId(project.id);
+              }}
+              to="/projectdetails"
+            >
+              <h2>View</h2>
+            </NavLink>
+          </h6>
         </div>
         <div id="user-project-info">
           <div id="project-info-menu"></div>
