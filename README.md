@@ -2,7 +2,7 @@
 
 ProTracker is a Student Project Directory for Moringa School students to browse and allow collaboration across student cohorts past and present.
 
-Deployment Link : pro-tracker.vercel.app
+Deployment Link : https://pro-tracker.vercel.app
 
 For more in-depth documentation of the back-end architecture : https://github.com/kamuyu-fred/ProTracker/blob/main/protracker-back/README.md
 ### Project MVPs
