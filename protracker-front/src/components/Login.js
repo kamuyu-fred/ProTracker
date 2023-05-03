@@ -74,7 +74,7 @@ function Login() {
 
   if (isLoggedIn) {
     return <Redirect to="/cohortlist" />;
-    window.location.reload()
+    window.location.reload(false)
   }
 
   return (
@@ -85,7 +85,7 @@ function Login() {
             href="#"
             class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
           >
-            <img class="flex h-12 items-center pl-2.5 mb-3" src={logo} alt="logo"/>
+            <img class="flex h-12 items-center pl-2.5 mb-3  " src={logo} alt="logo"/>
            
           </a>
           <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">

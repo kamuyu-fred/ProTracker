@@ -42,8 +42,9 @@ The following were the technologies and tools used for the project
 - User can comment on other projects (stretch goal)
 - User can switch and set avatars. (stretch goal)
 - User can like projects.(stretch goal)
-- User achievements based on user milestones. (stretch goals).
+- User achievements based on user milestones. (stretch goals)
 - User can see if other users are online or not. (stretch goal)
+- User Notification system. (Stretch goal)
 
 
 ### Admin Dashboard Features
