@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink, Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import { useDispatch } from "react-redux";
 import { showNotification, hideNotification } from "./toast/toastActions";
+import logo from "../assets/protracker-final-logo.png"
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState("");
@@ -71,14 +72,14 @@ const SignUp = () => {
 
   return (
     <div>
-      <section class="bg-gray-50 dark:bg-gray-900">
+      <section class="bg-white dark:bg-gray-900">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <a
+        <a
             href="#"
             class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
           >
-            {/* <img class="w-8 h-8 mr-2" src="https://moringaschool.com/wp-content/themes/moringa/public/images/logo.png" alt="logo"/> */}
-            ProTracker
+            <img class="flex h-12 items-center pl-2.5 mb-3  " src={logo} alt="logo"/>
+           
           </a>
           <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -146,7 +147,7 @@ const SignUp = () => {
                     id="email"
                     value={email}
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="name@company.com"
+                    placeholder="name@moringaschool.com"
                     required=""
                   />
                 </div>

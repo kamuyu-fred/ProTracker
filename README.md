@@ -2,6 +2,9 @@
 
 ProTracker is a Student Project Directory for Moringa School students to browse and allow collaboration across student cohorts past and present.
 
+Deployment Link : https://pro-tracker.vercel.app
+
+For more in-depth documentation of the back-end architecture : https://github.com/kamuyu-fred/ProTracker/blob/main/protracker-back/README.md
 ### Project MVPs
 
 
@@ -34,15 +37,17 @@ The following were the technologies and tools used for the project
 
 ## Project Features
 
-### User features
+### User Features
 - User can add Project and members to Projects
 - User can comment on other projects (stretch goal)
 - User can switch and set avatars. (stretch goal)
 - User can like projects.(stretch goal)
-- User achievements (stretch goals).
+- User achievements based on user milestones. (stretch goals)
+- User can see if other users are online or not. (stretch goal)
+- User Notification system. (Stretch goal)
 
 
-### Admin Features
+### Admin Dashboard Features
 
 - Admin can create and delete projects, cohorts and users.
 - Admin can view all user activities (stretch goal).
@@ -52,10 +57,9 @@ The following were the technologies and tools used for the project
 
 ## Project Authors
 
-- Fred Kamuyu
-- Jeff Maina
-- Paul Mihango
-- Elly Kipchumba
-- Jamil Saleh
-- Abel Rutto
+- [Fred Kamuyu](https://github.com/kamuyu-fred)
+- [Jeff Maina](https://github.com/jeffy2k)
+- [Paul Mihango](https://github.com/pmihango)
+- [Elly Kipchumba](https://github.com/kipchumba-ket)
+- [Abel Rutto] (https://github.com/AbelRutto)
 
